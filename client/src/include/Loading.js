@@ -11,7 +11,6 @@ function Loading() {
                     
                     </div>
                 </div>
-                    
                 <span>Loading. . .</span>
             </div>
         </div>
