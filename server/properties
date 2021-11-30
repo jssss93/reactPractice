@@ -1,0 +1,18 @@
+
+mongoURI    = mongodb+srv://cjs:T2PZIQDHSPBLPzIL@cluster0.jx8xx.mongodb.net/test?retryWrites=true
+
+
+
+
+
+
+#---------서버용--------------#
+mongo-db.ip = 192.168.10.122
+#mongo-db.ip = 172.16.0.3
+mongo-db.port = 27017
+
+kakao.ID = 35ecd6ab60c5b6517ddb7813ae9e69dc
+
+ELS_host = http://127.16.0.1:9200/
+#docker port = >3001 , local port = > 3000
+node_port = 3001

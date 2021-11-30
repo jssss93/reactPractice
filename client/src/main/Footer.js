@@ -12,7 +12,7 @@ function Footer() {
   const { tel, email,message } = inputs; // 비구조화 할당을 통해 값 추출
 
   const setValue = (e) =>{
-    const { value, name ,message } = e.target; // 우선 e.target 에서 name 과 value 를 추출
+    const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
     // alert(value)
     setInputs({
       ...inputs, // 기존의 input 객체를 복사한 뒤
@@ -21,7 +21,23 @@ function Footer() {
   };
 
   const sendMail = (e) => {
-    $("#tel").focus();
+    if($("#tel").val()===""){
+      alert("연락처를 입력해주세요")
+      $("#tel").focus();
+      return false;
+    }
+
+    if($("#email").val()===""){
+      alert("이메일을 입력해주세요");
+      $("#email").focus();
+      return false;
+    }
+
+    if($("#message").val()===""){
+      alert("내용을 입력해주세요");
+      $("#message").focus();
+      return false;
+    }
     console.log(inputs)
 
     $.ajax({

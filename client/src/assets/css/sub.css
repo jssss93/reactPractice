@@ -1,0 +1,125 @@
+.ui-datepicker-year ,.ui-datepicker-month{height:35px;}
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {top:5px;}
+.ui-datepicker-trigger {margin: 0px 0px -7px 7px !important;}
+.react-datepicker__navigation-icon--next {
+    margin-top: 30px;
+    margin-left: 4px;
+}
+.react-datepicker__navigation-icon--previous {
+    margin-top: 30px;
+    margin-right: 4px;
+}
+
+.datepic_el{
+    width:35%;
+    float:left;
+}
+.datepic_bet{
+    float:left;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size:20px;
+}
+
+
+table th{text-align: center !important;cursor:pointer;}
+table td{text-align: center !important;}
+.datepic_el{
+    width:35%;
+}
+.search_btn_li{
+    width:100%;
+}
+.cate_div{
+    width:100%;
+}
+.display_none{
+    display: none;
+}
+/* .apartImg{
+    src:"../images/apartMain.jpg";
+} */
+
+.page_wrap {
+	text-align:center;
+	font-size:0;
+ }
+.page_nation {
+	display:inline-block;
+}
+.page_nation .none {
+	display:none;
+}
+.page_nation a {
+	display:block;
+	margin:0 3px;
+	float:left;
+	border:1px solid #e6e6e6;
+	width:28px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	background-color:#fff;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
+}
+.page_nation .arrow {
+	border:1px solid #ccc;
+}
+.page_nation .pprev {
+	background:#f8f8f8 url('/img/page_pprev.png') no-repeat center center;
+	margin-left:0;
+}
+.page_nation .prev {
+	background:#f8f8f8 url('/img/page_prev.png') no-repeat center center;
+	margin-right:7px;
+}
+.page_nation .next {
+	background:#f8f8f8 url('/img/page_next.png') no-repeat center center;
+	margin-left:7px;
+}
+.page_nation .nnext {
+	background:#f8f8f8 url('/img/page_nnext.png') no-repeat center center;
+	margin-right:0;
+}
+.page_nation a.active {
+	background-color:#42454c;
+	color:#fff;
+	border:1px solid #42454c;
+}
+
+.table_left{
+	float: left;width:50%;
+}
+.table_right{
+	float: right;width:50%;    text-align: right;
+}
+
+.table_limit{
+	width: 75px; height: 33px;
+}
+.table_class{
+	margin-top: 100px;
+}
+.table_row{
+	float: right;margin: 0 0 -9px 0;
+}
+.table_samll_td{
+	text-align: left !important;
+}
+.table_samll_td span{
+	font-weight: 700;
+}
+.myChart_tr{
+	display: none;
+}
+.myChart_email{
+	width:100%;
+}
+.myChart_div{
+	max-height: 500px;
+}
+.myChart{
+	width:65vw; height:40vh;
+}

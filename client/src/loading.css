@@ -1,0 +1,61 @@
+@keyframes ldio-ow7acjar329 {
+    0% { transform: rotate(0) }
+    100% { transform: rotate(360deg) }
+  }
+  .ldio-ow7acjar329 div { box-sizing: border-box!important }
+  .ldio-ow7acjar329 > div {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    top: 14px;
+    left: 14px;
+    border-radius: 50%;
+    border: 8px solid #000;
+    border-color: #1e245b transparent #1e245b transparent;
+    animation: ldio-ow7acjar329 1s linear infinite;
+  }
+  .ldio-ow7acjar329 > div:nth-child(2) { border-color: transparent }
+  .ldio-ow7acjar329 > div:nth-child(2) div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(45deg);
+  }
+  .ldio-ow7acjar329 > div:nth-child(2) div:before, .ldio-ow7acjar329 > div:nth-child(2) div:after { 
+    content: "";
+    display: block;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: -8px;
+    left: 24px;
+    background: #1e245b;
+    border-radius: 50%;
+    box-shadow: 0 64px 0 0 #1e245b;
+  }
+  .ldio-ow7acjar329 > div:nth-child(2) div:after { 
+    left: -8px;
+    top: 24px;
+    box-shadow: 64px 0 0 0 #1e245b;
+  }
+  .loadingio-spinner-dual-ring-9cvfyzm989d {
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+    overflow: hidden;
+    /* background: #ffffff; */
+  }
+  .ldio-ow7acjar329 {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(0.64);
+    backface-visibility: hidden;
+    transform-origin: 0 0; /* see note above */
+  }
+  .ldio-ow7acjar329 div { box-sizing: content-box; }
+  
+  /* 로딩 */
+  .loading_bx { left: 0; top: 0; right: 0; bottom: 0; background-color:rgba(0, 0, 0, 0.5); position: fixed;z-index: 1;display: block;}
+.loading { position: absolute; top: 50% ; left: 50%;  z-index: 9999999; width: 240px; height: 100px; transform: translate(-50%,-50%); text-align: center;;}
+.loading span { text-align: center; width: 100%; justify-content: center; display: block; color: #ffffff; font-weight: 500; background-color:transparent; padding: 3px 10px; border-radius: 30px; }
