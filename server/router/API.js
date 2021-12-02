@@ -38,11 +38,11 @@ router.get('/apart/getMainAddr',function(req,res){
     
 });
 router.post('/apart/getMidAddr',function(req,res){
-    console.log(req.body.cate)
+    // console.log(req.body.cate)
     AddrModel.find({"시도명":req.body.cate,"시군구명":{$ne:""},"읍면동명":""},{"시군구명":1,"지역코드":{ $substr: [ "$법정동코드", 0, 5 ] }},   function(err, addrs){    
         if(err) return res.status(500).json({error: err});
         if(addrs.length>0){
-            //console.log(addrs)
+            console.log(addrs)
             res.send(addrs);
         }else{
             console.log('addr not found1')
@@ -52,7 +52,6 @@ router.post('/apart/getMidAddr',function(req,res){
 });
 
 router.post('/apart/getSubAddr',function(req,res){
-
     AddrModel.aggregate([
         { $match : {"시군구명":req.body.cate,"읍면동명":{$ne:""},"동리명":{$ne:""}} },
         { $group: {_id: "$동리명",동리명: {$first: "$동리명"},법정동코드: {$first: "$법정동코드"}} },
@@ -64,7 +63,6 @@ router.post('/apart/getSubAddr',function(req,res){
     
         if(err) return res.status(500).json({error: err});
         if(addrs.length>0){
-            //console.log(addrs)
             res.send(addrs);
         }else{
             console.log('addr not found1')

@@ -10,8 +10,10 @@ import Banner from './main/Banner';
 // import SectionFour from './main/SectionFour';
 
 import Footer from './main/Footer';
-import ApiMain from './api/ApiMain';
+import ApiMainClass from './api/ApiMainClass';
+import ApiMainFunction from './api/ApiMainFunction';
 import { Route } from 'react-router-dom';
+import Users from './Users';
 
 
 
@@ -21,9 +23,10 @@ function App() {
     <Header color='white' cursor='none' />
       {/* <Route path="" component={Banner} exact/> */}
       {/* <Route path="/apart" component={ApiMain} /> */}
+      {/* <Users/> */}
+      <ApiMainFunction/>
       
-      
-      <ApiMain />
+      {/* <ApiMainClass /> */}
       {/* <Banner /> 
       
       <SectionOne />

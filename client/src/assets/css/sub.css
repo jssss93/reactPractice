@@ -119,6 +119,7 @@ table td{text-align: center !important;}
 }
 .myChart_div{
 	max-height: 500px;
+	/* max-width:500px; */
 }
 .myChart{
 	width:65vw; height:40vh;
