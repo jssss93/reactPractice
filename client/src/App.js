@@ -14,13 +14,18 @@ import ApiMainClass from './api/ApiMainClass';
 import ApiMainFunction from './api/ApiMainFunction';
 import { Route } from 'react-router-dom';
 import Users from './Users';
-
+import Test1 from './test/Test1';
 
 
 function App() {
+
+
   return (
     <>
-    <Header color='white' cursor='none' />
+    {/* <Test1/> */}
+
+    
+    {/* <Header color='white' cursor='none' /> */}
       {/* <Route path="" component={Banner} exact/> */}
       {/* <Route path="/apart" component={ApiMain} /> */}
       {/* <Users/> */}
@@ -34,7 +39,7 @@ function App() {
       <SectionThree />
       <SectionFour /> */}
 
-      <Footer />
+      {/* <Footer /> */}
     </>
 
   );

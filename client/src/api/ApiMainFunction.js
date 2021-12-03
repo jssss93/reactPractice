@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import DatePickerComponent from '../include/DatePickerComponent';
-// import Loading from "../include/Loading";
 import $ from 'jquery';
 import axios from 'axios';
 import ApartMainTableFunction from './ApartMainTableFunction';
 
 
 function ApiMainFunction() {
-
+  console.log('ApiMainFunction')
   const [inputs, setInputs] = useState({
     MainAddrs:[],
     MidAddrs:[],
@@ -23,7 +22,8 @@ function ApiMainFunction() {
     sortAlign:'',
     아파트:'',
     법정동:'',
-    page:1
+    page:1,
+    keyword:''
   });
 
   const {
@@ -41,7 +41,8 @@ function ApiMainFunction() {
     sortAlign,
     아파트,
     법정동,
-    page
+    page,
+    keyword
   } = inputs;
 
   const onChange = e => {
@@ -50,6 +51,14 @@ function ApiMainFunction() {
         [e.target.name]: e.target.value
     });
   };
+  useEffect(async() => {
+    // console.log('useEffect')
+    await fetchMainAddr();
+  }, []);
+
+
+
+
   const fetchMainAddr = async (e) => {
     try {
       const response = await axios.get(
@@ -61,14 +70,11 @@ function ApiMainFunction() {
         MainAddrs:response.data //해당하는 name,value 값을 맞춰서 업데이트처리.
       });
       
-      // dispatch({ type: 'SUCCESS',div:"main" , data: response.data });
     } catch (e) {
-      // dispatch({ type: 'ERROR', error: e });
     }
   };
 
   const fetchMidAddr = async () => {
-    // dispatch({ type: 'LOADING'  });
     try {
       const response = await axios.post(
         'http://localhost:8000/api/apart/getMidAddr',
@@ -76,18 +82,16 @@ function ApiMainFunction() {
       );
       setInputs({
         ...inputs,
+        SubAddrs:[],
         MidAddrs:response.data,
         MainAddrCode : $("#main_cate option:selected").text()
       });
-      // dispatch({ type: 'SUCCESS',div:"mid" , data: response.data });
     } catch (e) {
-      // dispatch({ type: 'ERROR', error: e });
     }
   };
 
 
   const fetchSubAddr = async () => {
-    // dispatch({ type: 'LOADING'  });
     try {
       const response = await axios.post(
         'http://localhost:8000/api/apart/getSubAddr',
@@ -95,68 +99,81 @@ function ApiMainFunction() {
       );
       setInputs({
         ...inputs,
-        SubAddrs:response.data,
-        MidAddrCode : $("#mid_cate option:selected").text()
+        SubAddrs:response.data
+        ,MidAddrCode : $("#mid_cate option:selected").text()
+        ,page : 1
       });
-      // dispatch({ type: 'SUCCESS',div:"mid" , data: response.data });
     } catch (e) {
-      // dispatch({ type: 'ERROR', error: e });
     }
   };
   const selectSubAddr = async () => {
     setInputs({
-      ...inputs,
-      SubAddrCode : $("#sub_cate option:selected").text()
+      ...inputs
+      ,SubAddrCode : $("#sub_cate option:selected").text()
+      ,page : 1
     });
   };
 
   const selectLimit = async () => {
     setInputs({
-      ...inputs,
-      limit : $("#limit option:selected").text()
+      ...inputs
+      ,limit : $("#limit option:selected").text()
+      ,page : 1
     });
   };
   
   
   const setParentStartDate = async (startDate) => {
     setInputs({
-      ...inputs,
-      startDate : startDate
+      ...inputs
+      ,startDate : startDate
+      ,page : 1
     });
   };
 
   const setParentEndDate = async (endDate) => {
     setInputs({
-      ...inputs,
-      endDate : endDate
+      ...inputs
+      ,endDate : endDate
+      ,page : 1
     });
   };
   const setAlignColumn = async (sortAlign,sortColumn) => {
     setInputs({
-      ...inputs,
-      sortAlign : sortAlign,
-      sortColumn : sortColumn
+      ...inputs
+      ,sortAlign : sortAlign
+      ,sortColumn : sortColumn
+      ,page : 1
     });
   };
   
   const setPage = async (page) => {
-    alert('1')
     setInputs({
       ...inputs,
       page : page
     });
   }
 
-  useEffect(() => {
-    fetchMainAddr();
-  }, []);
+  const getSearchAPIData = async () => {
+    setInputs({
+      ...inputs,
+      keyword : serachKeyword
+    });
+  }
+  var serachKeyword='';
+  const keywordChange = async (keyword) =>{
+    serachKeyword=keyword;
+  }
 
+  const keywordPress = async(e) =>{
+    if(e.key=='Enter'){
+      getSearchAPIData();
+    }
+  }
 
 
   return (
     <>
-<script src="js/chartJS.min.js"></script>
-<script src="js/utils.js"></script>
     	<div className="subpage">
   <input type='hidden' id='imgDown'/>
   <input type='hidden' id='href'/>
@@ -179,25 +196,25 @@ function ApiMainFunction() {
                     <div className='addr'>
                       <select name="main_cate" id="main_cate" onChange={fetchMidAddr}>
                         <option value="">- 시도 -</option>
-                        {MainAddrs.map(MainAddr => (
+{MainAddrs.map(MainAddr => (
                           <option key={MainAddr.지역코드} value={MainAddr.지역코드}>{MainAddr.시도명}</option>
-                        ))}
+))}
                       </select>
                     </div>
                     <div className='addr'>
                       <select name="mid_cate" id="mid_cate" onChange={fetchSubAddr}>
                         <option value="">- 시군구 -</option>
-                        {MidAddrs.map(MidAddr => (
+{MidAddrs.map(MidAddr => (
                           <option key={MidAddr.지역코드} value={MidAddr.지역코드}>{MidAddr.시군구명}</option>
-                        ))}
+))}
                       </select>
                     </div>
                     <div className='addr'>
                       <select name="sub_cate" id="sub_cate" onChange={selectSubAddr}> 
                         <option value="">- 동면읍 -</option>
-                        {SubAddrs.map(SubAddr => (
+{SubAddrs.map(SubAddr => (
                           <option key={SubAddr.동리명} value={SubAddr.동리명}>{SubAddr.동리명}</option>
-                        ))}
+))}
                       </select>
                     </div>
                     <DatePickerComponent
@@ -206,16 +223,16 @@ function ApiMainFunction() {
                       // setInputs={setInputs}
                       setParentStartDate={setParentStartDate}
                       setParentEndDate={setParentEndDate}
-              
                     />
                     <div className='keyword_area'>
                       {/* <input type="text" className='keyword' name="keyword" id="keyword"  placeholder="ApartMent Name" onclick='autoComplete();' onkeyup='autoComplete();' /> */}
+                      <input type="text" className='keyword' name="keyword" id="keyword" onChange={keywordChange} onKeyPress={keywordPress} placeholder="ApartMent Name" />
                       <input className='display_none' type="text" name="none" id="none" placeholder="Name" />
                     </div>
                     <div className='btn_div'>
                       <ul className="actions">
                         <li className='search_btn_li' >
-                          {/* <input type="button" className='search_btn' id='search' onclick='getSearchAPIData();' value="Search" /> */}
+                          <input type="button" className='search_btn' id='search' onClick={getSearchAPIData} value="Search" />
                         </li>
                       </ul>
                     </div>
@@ -237,9 +254,9 @@ function ApiMainFunction() {
                     목록수 : 
                     <select className='table_limit' id = 'limit' onChange={selectLimit}>
 {limits.map(limit => (
-                      <option value={limit}>{limit}</option>
+                      <option key={limit} value={limit}>{limit}</option>
 ))}
-                    </select>
+                    </select> 
                     </div>
                     <ApartMainTableFunction 
                       MidAddrCode={MidAddrCode} 
@@ -250,6 +267,7 @@ function ApiMainFunction() {
                       limit={limit}
                       setAlignColumn={setAlignColumn}
                       page={page}
+                      keyword = {keyword}
                       setPage={setPage}
                     />
                   </div>

@@ -518,9 +518,32 @@ router.post('/apart/getAPIData',async function(req,res){
     var count = await APIModel.count(query);
     maxPage = Math.ceil(count/limit);
 
+    var idToString = { "$toString": "$_id" }
+    
 
-    //추출컬럼
-    var project = {"년":1,"월":1,"일":1,"층":1,"법정동":1,"아파트":1,"전용면적":1,"거래금액":1};
+    // $function:
+    // {
+        // body: function(거래금액) {
+        // return (거래금액+"").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // },
+        // args: [ "$거래금액" ],
+        // lang: "js"
+    // }
+    
+
+    //3자리 콤마 정규식(몽고디비사용)
+    var func = {        
+        body: 'function(거래금액) { return (거래금액+"").replace(/\B(?=(\d{3})+(?!\d))/g, ",");}',
+        args: '[ "$거래금액" ]',
+        lang: "js"
+    }
+
+    var project = {
+        "_id": idToString ,
+        //atlas 미지원
+        // "$function":func,
+        // "test":
+        "년":1,"월":1,"일":1,"층":1,"법정동":1,"아파트":1,"전용면적":1,"거래금액":1,"chartFlag":"off"};
 
     //정렬
     var sort={};
@@ -539,6 +562,10 @@ router.post('/apart/getAPIData',async function(req,res){
     sort[sortColumn + ''] = sortAlign;
 
     console.log(query)
+
+
+  
+
 
     APIModel.find(query, project,  function(err, addrs){    
        

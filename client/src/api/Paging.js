@@ -21,11 +21,15 @@ import Pagination from "react-js-pagination";
 
 // export default Paging;
 
-const Paging = ({page, count, setPage}) => { 
+const Paging = ({page, count,limit, setPage}) => { 
+        // const [page, setPage] = useState(1); 
+    // const handlePageChange = (page) => {
+        // setPage(page); 
+    // }; 
     return ( 
         <Pagination 
             activePage={page} 
-            itemsCountPerPage={5} 
+            itemsCountPerPage={limit} 
             totalItemsCount={count} 
             pageRangeDisplayed={5} 
             prevPageText={"‹"} 

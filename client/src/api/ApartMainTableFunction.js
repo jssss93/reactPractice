@@ -1,15 +1,13 @@
-import React ,{useState,useEffect} from 'react';
+import React  from 'react';
 import Loading from "../include/Loading";
 import $ from 'jquery';
 import axios from 'axios';
 import useAsync from '../useAsync';
-import { Line } from "react-chartjs-2";
-import ChartLine from './ChartLine';
+// import { Line } from "react-chartjs-2";
+// import ChartLine from './ChartLine';
 import Paging from './Paging';
-
-// useAsync 에서는 Promise 의 결과를 바로 data 에 담기 때문에,
-// 요청을 한 이후 response 에서 data 추출하여 반환하는 함수를 따로 만들었습니다.
-
+import TableData from './TableDatas';
+import common_ from '../include/common/common_js';
 
 
 function setPrms(page,sortColumn){
@@ -60,17 +58,27 @@ async function getDatas(page) {
     'http://localhost:8000/api/apart/getAPIData',
     prms
   );
-  console.log(response.data)
   return response.data;
 }
 
 
 
 
+
 function ApiMainTableFunction(props) {
- 
-  const [state, refetch] = useAsync(getDatas(props.page), 
-    [props.MidAddrCode,props.SubAddrCode,props.startDate,props.endDate,props.limit]
+  // Q. 커스텀훅은 props. 값들도 변경을 감지함?
+  // useAsync 에서는 Promise 의 결과를 바로 data 에 담기 때문에,
+  // 요청을 한 이후 response 에서 data 추출하여 반환하는 함수를 따로 만들었습니다.
+  const [state, refetch] = useAsync(props.page,getDatas, 
+    [
+      props.MidAddrCode,
+      props.SubAddrCode,
+      props.startDate,
+      props.endDate,
+      props.limit,
+      props.page,
+      props.keyword
+    ]
   );
 
   const { loading, data: datas, error } = state; // state.data 를 datas 키워드로 조회
@@ -82,24 +90,9 @@ function ApiMainTableFunction(props) {
   }
 
 
-
-
-    // const cjsFunc = async (아파트,법정동) => {
-    //   alert(아파트+법정동)
-    // }
-  // props.setTotCnt(datas.length)
-  
-  // useEffect(() => {
-  //   props.setAlignColumn(sortAlign,sortColumn)
-  // }, [ sortColumn])
-      //자식state 가 바뀌면 부모 state 바뀌게,
-    //   useEffect(() => {
-        
-    // }, [startDate])
-
   return (
     <>
-      <div className='table_left' >Total : {datas.length}  </div>
+      <div className='table_left' >Total : {common_.addComma(datas.length)} 건  </div>
         <table className='table_className' >
           <thead>
             <tr className='table_basic'>
@@ -110,7 +103,7 @@ function ApiMainTableFunction(props) {
               <th>거래금액</th>
             </tr>
           </thead>
-          <tbody id='tbody'>
+          
             {/* <% if(addrs === null || addrs.length === 0){ %>
               <tr>
                 <td colSpan=5> There is no data to show :( </td>
@@ -123,63 +116,19 @@ function ApiMainTableFunction(props) {
               <% var comma = addComma(addr.거래금액)%>
               <% var size = calSize(addr.전용면적)%>
               <% var sizeM2 = fix(addr.전용면적,2)%> */}
-{
 
-datas.datas.map(data => (
-  <>
-            <tr className='table_basic'>
-              <td>{data.년}.{data.월}.{data.일} </td>
-              <td>{data.법정동}</td>
-              <td>
-                <div className='table_row' >{data.아파트} {data.층}
-                  <a id='myChart_<%=idx%>'   className="special icon fa-search" title="차트보기"></a>
-                  {/* '<%=addr.아파트%>','<%=addr.법정동%>','<%=idx%>') */}
-                </div>
-              </td>
-              <td >
-                <div className='table_row'>{data.전용면적}</div>
-              </td>
-              <td> 
-                <div className='table_row'>{data.거래금액} ₩</div>
-              </td>
-            </tr>
 
-            <tr className='table_small' >
-              <td className='table_samll_td' colSpan={5} >
-                <span >거래일 : </span> {data.년}.{data.월}.{data.일}<br/>
-                <span >아파트명 : </span> {data.아파트} {data.층} -  {data.법정동}
-                {/* <a id='myChart_<%=idx%>' onClick="mkChart('<%=addr.아파트%>','<%=addr.법정동%>','<%=idx%>')" className=" special icon fa-search" title="차트보기"></a> */}
-                <br/>
-                <span >전용면적 : </span> {data.전용면적}<br/>
-                  <span >거래금액 : </span>
-                <span>{data.거래금액} ₩</span>
-              </td>
-            </tr>
+        <TableData datas={datas.datas}/>    
 
-            <tr className='myChart_tr' >
-              <td colSpan={5}  >
-                <div className='myChart_email' >
-                  {/* <a  onClick="sendDataEmail('<%=idx%>');">send E-Mail</a> */}
-                  <a>send E-Mail</a>
-                </div>
-                <div className='myChart_div'  >
-                  {/* <div  class="myChart" > */}
-                    {/* <ChartLine 
-                      아파트={data.아파트}
-                      법정동 = {data.법정동}
-                    /> */}
-                  {/* </div> */}
-                </div>
-              </td>
-            </tr>
-            </>
-))}
-            
-
-<button onClick={refetch}>다시 불러오기</button>
-          </tbody>
+{/* <button onClick={refetch}>다시 불러오기</button> */}
+          
         </table>
-        <Paging page={props.page} count={datas.length} setPage={props.setPage}/>
+        <Paging 
+          page={props.page} 
+          limit={props.limit} 
+          count={datas.length} 
+          setPage={props.setPage}
+        />
      
     </>
   );

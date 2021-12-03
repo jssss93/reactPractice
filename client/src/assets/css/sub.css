@@ -112,7 +112,7 @@ table td{text-align: center !important;}
 	font-weight: 700;
 }
 .myChart_tr{
-	display: none;
+	/* display: none; */
 }
 .myChart_email{
 	width:100%;
@@ -123,4 +123,12 @@ table td{text-align: center !important;}
 }
 .myChart{
 	width:65vw; height:40vh;
+}
+
+·myChart_div canvas{
+	max-height: 300px;
+}
+#tb_sapce{
+	color:black;
+	font-weight:600;
 }

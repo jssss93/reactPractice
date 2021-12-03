@@ -25,8 +25,7 @@ function reducer(state, action) {
   }
 }
 
-function useAsync(page,callback, deps = []) {
-  // alert('1')
+function useAsync(props,callback, deps = []) {
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
     data: null,
@@ -36,7 +35,7 @@ function useAsync(page,callback, deps = []) {
   const fetchData = async () => {
     dispatch({ type: 'LOADING' });
     try {
-      const data = await callback(page);
+      const data = await callback(props);
       dispatch({ type: 'SUCCESS', data });
     } catch (e) {
       dispatch({ type: 'ERROR', error: e });
@@ -44,7 +43,22 @@ function useAsync(page,callback, deps = []) {
   };
 
   useEffect(() => {
-    fetchData();
+    if(props.chartFlag=='on'){
+      fetchData();
+    }else{
+      var data =  
+        {
+            labels: [],
+            datasets: [{
+              label: 'Loading',
+              data: [],
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+            }]
+          }
+      dispatch({ type: 'SUCCESS', data });
+    }
     // eslint 설정을 다음 줄에서만 비활성화
     // eslint-disable-next-line
   }, deps);
