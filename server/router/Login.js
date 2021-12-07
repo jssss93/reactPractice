@@ -6,13 +6,6 @@ var UserModel = require('../model/UserModel');
 const PropertiesReader  = require('properties-reader');
 const properties        = PropertiesReader('./properties');
 
-router.get('/loginView',function(req,res){
-    res.render("login/loginView",{"ss_user":req.user,"node_port":properties.get('node_port')});
-})
-
-router.get('/joinView', function(req, res, next) {
-    res.render("login/joinView",{"ss_user":req.user});
-});
 
 router.post("/doJoin", async function(req,res,next){
     var message = "99";
@@ -62,19 +55,21 @@ router.post('/doLogin',  (req, res, next) => {
 });
 
 
-router.route('/doLogout').get(                      
-    function (req, res) {
-        req.logout();
-        req.session.save(function(){
-            res.redirect('/');
-        });
-    }
-)
+// router.route('/doLogout').get(                      
+//     function (req, res) {
+//         req.logout();
+//         req.session.save(function(){
+//             res.redirect('/');
+//         });
+//     }
+// )
 
 //ID 중복 확인
 router.post("/idDupleCnt", async function(req,res,next){
-    var query = { user_id : req.body.id };
+    
+    var query = { user_id : req.body.id+'' };
     var count = await UserModel.count(query);
+    console.log(new Date() +':: '+req.body.id+",,"+count);
     res.send(''+count);
 })
 
@@ -87,13 +82,44 @@ router.post("/emailDupleCnt", async function(req,res,next){
 })
 
 // 메인 페이지
-router.get('/', function(req, res, next) {
-    res.send('환영합니다~');
-});
+// router.get('/', function(req, res, next) {
+//     res.send('환영합니다~');
+// });
 
 // 로그인 GET
-router.get('/login', function(req, res, next) {
-    res.render("user/login");
+router.post('/kakaoLogin', async function(req, res, next) {
+    try {
+        console.log(req.body.user_id)
+        console.log("카카오스트렛지2")
+        const exUser = await UserModel.findOne({"user_id":req.body.user_id,"social_div":"kakao"});
+        if (exUser) {
+            //회원이면
+            console.log("회원")
+            res.send('0')
+        } else {
+            console.log("비회원")
+          res.send('1')
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    
+});
+
+router.post('/kakaoJoin', function(req, res, next) {
+    try {
+        console.log("카카오회원가입")
+        var userModel = new UserModel();
+        userModel.reg_date = new Date();
+        userModel.user_id = req.body.user_id;
+        userModel.social_div = 'kakao';
+        userModel.email = req.body.email;
+        userModel.save();
+        res.send('0')
+      } catch (error) {
+        console.error(error);
+      }
+    
 });
 
 //KAKAO LOGIN

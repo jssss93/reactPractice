@@ -4,7 +4,7 @@ import $ from 'jquery';
 import axios from 'axios';
 import ApartMainTableFunction from './ApartMainTableFunction';
 
-
+var serachKeyword='';
 function ApiMainFunction() {
   console.log('ApiMainFunction')
   const [inputs, setInputs] = useState({
@@ -51,9 +51,12 @@ function ApiMainFunction() {
         [e.target.name]: e.target.value
     });
   };
-  useEffect(async() => {
-    // console.log('useEffect')
-    await fetchMainAddr();
+  //router 사용시 useEffect 에서 async,await 문 사용 금지
+  // useEffect(async() => {
+  //   await fetchMainAddr();
+  // }, []);
+  useEffect(() => {
+    fetchMainAddr();
   }, []);
 
 
@@ -160,9 +163,9 @@ function ApiMainFunction() {
       keyword : serachKeyword
     });
   }
-  var serachKeyword='';
-  const keywordChange = async (keyword) =>{
-    serachKeyword=keyword;
+  
+  const keywordChange = async (e) =>{
+    serachKeyword=e.target.value;
   }
 
   const keywordPress = async(e) =>{
@@ -170,6 +173,12 @@ function ApiMainFunction() {
       getSearchAPIData();
     }
   }
+  const onCheckEnter = (e) => {
+    if(e.key === 'Enter') {
+      getSearchAPIData()
+    }
+}
+// l
 
 
   return (
@@ -191,7 +200,7 @@ function ApiMainFunction() {
                   <h2>아파트 가격 확인하기</h2>
                   <br/>
                 </header>
-                <form method="post" action="#">
+                <form method="post" action="#" onKeyPress={onCheckEnter}>
                   <div className='cate_div' >
                     <div className='addr'>
                       <select name="main_cate" id="main_cate" onChange={fetchMidAddr}>

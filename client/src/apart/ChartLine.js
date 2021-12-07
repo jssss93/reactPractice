@@ -37,24 +37,24 @@ const getDatas = async (props) => {
       datasets: [
         {
         label: '평균거래금액',
-        backgroundColor: '#b71C1C',
-        borderColor: '#b71C1C',
+        backgroundColor: '#FF6384',
+        borderColor: '#FF6384',
         data: dataAVGArr,
         fill: false,
         tension: 0.1
         },
         {
         label: '최소거래금액',
-        backgroundColor: '#1565C0',
-        borderColor: '#1565C0',
+        backgroundColor: '#36A2EB',
+        borderColor: '#36A2EB',
         data: dataMINArr,
         fill: false,
         tension: 0.1
         },
         {
         label: '최대거래금액',
-        backgroundColor: '#FF7F50',
-        borderColor: '#FF7F50',
+        backgroundColor: '#FF9F40',
+        borderColor: '#FF9F40',
         data: dataMAXArr,
         fill: false,
         tension: 0.1

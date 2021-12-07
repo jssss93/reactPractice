@@ -7,7 +7,7 @@ module.exports.addComma = function(str){
     var	input		= "";
     var	arrInput	= new Array();
 
-    if (typeof(str) == "object")
+    if (typeof(str) === "object")
     {
         input	= String(str.value);
     }
@@ -16,7 +16,7 @@ module.exports.addComma = function(str){
         input	= String(str);
     }
 
-    if (isNaN(input) == true)
+    if (isNaN(input) === true)
     {
         alert("숫자가아닙니다");
 
@@ -29,18 +29,18 @@ module.exports.addComma = function(str){
     for (var i = 1; i <= index; i++)
     {
         result += input.substr(i - 1, 1);
-        if (i != index && (index - i) % 3 == 0)
+        if (i !== index && (index - i) % 3 === 0)
         {
         result += ",";
         }
     }
 
-    if (arrInput.length == 2)
+    if (arrInput.length === 2)
     {
         result	+= "." + arrInput[1];
     }
 
-    if (typeof(str) == "object")
+    if (typeof(str) === "object")
     {
         str.value	= result;
     }
@@ -53,16 +53,17 @@ module.exports.addComma = function(str){
 module.exports.getDate = function(date){
     var yyyy = date.getFullYear();
     var mm = date.getMonth()+1;
+    var dd = '';
     if(mm<10){
         mm='0'+mm;
     }
-    if(mm==13){
+    if(mm===13){
         mm='01';
     }
     if(dd<10){
         dd='0'+dd;
     }
-    var dd = date.getDate();
+    dd = date.getDate();
 
     return yyyy+'.'+mm+'.'+dd;
 }
@@ -76,22 +77,6 @@ module.exports.changeMillion = function(value){
     return ((value / 100000000).toFixed(1)).toLocaleString("ko-KR") + "억";
 }
 
-module.exports.getDate = function(date){
-    var yyyy = date.getFullYear();
-    var mm = date.getMonth()+1;
-    if(mm<10){
-        mm='0'+mm;
-    }
-    if(mm==13){
-        mm='01';
-    }
-    if(dd<10){
-        dd='0'+dd;
-    }
-    var dd = date.getDate();
-    
-    return yyyy+'.'+mm+'.'+dd;
-}
 
 module.exports.addDotToDate = function(str){
     return str.slice(0,4) + '.' + str.slice(4, 6) + '.' + str.slice(6,8)
@@ -113,7 +98,7 @@ module.exports.getDate = function(date){
     if(mm<10){
       mm='0'+mm;
     }
-    if(mm==13){
+    if(mm===13){
       mm='01';
     }
     if(dd<10){

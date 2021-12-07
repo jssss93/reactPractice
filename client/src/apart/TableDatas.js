@@ -1,10 +1,13 @@
 import React ,{useState,useEffect} from 'react';
-import $ from 'jquery';
-import axios from 'axios';
+// import $ from 'jquery';
+// import axios from 'axios';
 import ChartLine from './ChartLine';
 import common_ from '../include/common/common_js';
-
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faChartLine } from "@fortawesome/free-solid-svg-icons";
+import DataPriceColor from './DataPriceColor';
+import DataPriceColorSmall from './DataPriceColorSmall';
 
 function TableDatas(props) {
   const [datas, setDatas] = useState(props.datas);
@@ -42,7 +45,10 @@ datas.map(data => (
                     id='myChart_<%=idx%>' 
                     // onClick={showChart}
                     onClick={() => showChart(data._id)}  
-                    className="special icon fa-search" title="차트보기"></a>
+                    className="fontAwesome_a"
+                    title="차트보기">
+                        <FontAwesomeIcon icon={faChartLine} className="search" />
+                    </a>
                   {/* '<%=addr.아파트%>','<%=addr.법정동%>','<%=idx%>') */}
                 </div>
               </td>
@@ -50,7 +56,8 @@ datas.map(data => (
                 <div className='table_row'>{data.전용면적}</div>
               </td>
               <td> 
-                <div className='table_row'>{data.거래금액} ₩</div>
+                  <DataPriceColor style={''} price={data.거래금액} />
+                {/* <div className='table_row'>{data.거래금액} ₩</div> */}
               </td>
             </tr>
 
@@ -61,14 +68,16 @@ datas.map(data => (
                 <a id='myChart_<%=idx%>' 
                   onClick={() => showChart(data._id)}  
                   // className="special icon fa-search"
-                  className="fas fa-chart-line"
-                
-                  title="차트보기"></a>
+                  className="fontAwesome_a"
+                  title="차트보기"> 
+                    <FontAwesomeIcon icon={faChartLine} className="search" />
+                  </a>
                 {/* <a id='myChart_<%=idx%>' onClick="mkChart('<%=addr.아파트%>','<%=addr.법정동%>','<%=idx%>')" className=" special icon fa-search" title="차트보기"></a> */}
                 <br/>
                 <span >전용면적 : </span> {common_.fix(data.전용면적,2)}m³ ({common_.calSize(data.전용면적)}평)<br/>
                   <span >거래금액 : </span>
-                <span>{common_.addComma(data.거래금액)} ₩</span>
+                  <DataPriceColorSmall style={''} price={data.거래금액} />
+                {/* <span>{common_.addComma(data.거래금액)} ₩</span> */}
               </td>
             </tr>
 

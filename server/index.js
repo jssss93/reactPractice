@@ -9,9 +9,9 @@ var LogModel            = require('./model/logModel');
 const PropertiesReader  = require('properties-reader');
 const properties        = PropertiesReader('./properties');
 const session           = require('express-session');
-// const passport          = require('passport');
-// const passportConfig    = require('./passport');
-// passportConfig();
+const passport          = require('passport');
+const passportConfig    = require('./passport');
+passportConfig();
 
 
 const cors = require('cors');
@@ -50,8 +50,8 @@ app.use(session({
 		maxAge: 24000 * 60 * 60 // 쿠키 유효기간 24시간
 	}
 }));
-// app.use(passport.initialize());
-// app.use(passport.session());  
+app.use(passport.initialize());
+app.use(passport.session());  
 
 
 //Interceptor 설정.

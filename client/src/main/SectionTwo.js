@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
+
 
 function SectionTwo(props) {
   return (
@@ -17,7 +19,11 @@ function SectionTwo(props) {
 						EJS
 					</p>
 					<ul className="actions">
-						<li><a href="/api/apart/main" className="button alt">View More</a></li>
+						<li>
+							<Link to="/apart">
+								<a href="/api/apart/main" className="button alt">View More</a>
+							</Link>
+						</li>
 					</ul>
 				</div>
 				<div>

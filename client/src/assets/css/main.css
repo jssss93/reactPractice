@@ -4278,6 +4278,7 @@
 	.loginDiv{
 		text-align: center;
 		width:100%;
+		margin-top:50px;height:120px;
 	}
 	.loginDiv p{
 		margin:0 0 0 0;
@@ -4301,6 +4302,9 @@
 	.loginDivEl_input input{
 		float:left;
 		width:80%;
+	}
+	.login_btns{
+		width:200px;
 	}
 	
 	@media screen and (min-width: 980px) {

@@ -111,9 +111,9 @@ table td{text-align: center !important;}
 .table_samll_td span{
 	font-weight: 700;
 }
-.myChart_tr{
-	/* display: none; */
-}
+/* .myChart_tr{
+	display: none;
+} */
 .myChart_email{
 	width:100%;
 }
@@ -128,7 +128,29 @@ table td{text-align: center !important;}
 ·myChart_div canvas{
 	max-height: 300px;
 }
+
 #tb_sapce{
 	color:black;
 	font-weight:600;
+}
+
+.fontAwesome_a{
+	margin-left:10px;
+}
+
+.p_white{
+	color:white;
+	height:0px;
+}
+.p_white a{
+	color:white;
+	text-decoration:none;
+}
+
+.chk_error{
+	color:red;
+}
+
+.chk_pass{
+	color:green;display:none;
 }
