@@ -154,3 +154,8 @@ table td{text-align: center !important;}
 .chk_pass{
 	color:green;display:none;
 }
+
+.black_anchor{
+	text-decoration: none;
+    color: black !important;
+}

@@ -43,7 +43,7 @@ function useAsync(props,callback, deps = []) {
   };
 
   useEffect(() => {
-    if(props.chartFlag=='on'){
+    if(props.chartFlag==='on'){
       fetchData();
     }else{
       var data =  

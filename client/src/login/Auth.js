@@ -42,7 +42,7 @@ const Auth = () => {
 
   useEffect(() => {
     getToken();
-  }, []);
+  });
 
   return (
     <div>

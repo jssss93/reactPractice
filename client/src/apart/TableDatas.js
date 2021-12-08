@@ -1,4 +1,4 @@
-import React ,{useState,useEffect} from 'react';
+import React ,{useState} from 'react';
 // import $ from 'jquery';
 // import axios from 'axios';
 import ChartLine from './ChartLine';
@@ -16,12 +16,12 @@ function TableDatas(props) {
   //   chartFlag,
   // } = datas;
 
-  const onChange = e => {
-    setDatas({
-        ...datas,
-        [e.target.name]: e.target.value
-    });
-  };
+  // const onChange = e => {
+  //   setDatas({
+  //       ...datas,
+  //       [e.target.name]: e.target.value
+  //   });
+  // };
   const showChart = id => {
     setDatas(
       datas.map(data =>

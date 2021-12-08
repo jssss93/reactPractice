@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 function SectionTwo(props) {
@@ -21,7 +21,7 @@ function SectionTwo(props) {
 					<ul className="actions">
 						<li>
 							<Link to="/apart">
-								<a href="/api/apart/main" className="button alt">View More</a>
+								<div href="/api/apart/main" className="button alt">View More</div>
 							</Link>
 						</li>
 					</ul>
@@ -37,7 +37,7 @@ function SectionTwo(props) {
 						EJS
 					</p>
 					<ul className="actions">
-						<li><a href="/house/house/main" className="button alt">View More</a></li>
+						<li><div href="/house/house/main" className="button alt">View More</div></li>
 					</ul>
 				</div>
 				<div>
@@ -46,7 +46,7 @@ function SectionTwo(props) {
 					</header>
 					<p>Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula.</p>
 					<ul className="actions">
-						<li><a href="/api/main" className="button alt">Learn More</a></li>
+						<li><div href="/api/main" className="button alt">Learn More</div></li>
 					</ul>
 				</div>
 			</div>

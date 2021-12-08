@@ -30,27 +30,29 @@ function ApiMainFunction() {
     MainAddrs,
     MidAddrs,
     SubAddrs,
-    MainAddrCode,
+    // MainAddrCode,
     MidAddrCode,
     SubAddrCode,
     startDate,
     endDate,
     limits,
     limit,
-    sortColumn,
-    sortAlign,
-    아파트,
-    법정동,
+    // sortColumn,
+    // sortAlign,
+    // 아파트,
+    // 법정동,
     page,
     keyword
   } = inputs;
 
-  const onChange = e => {
-    setInputs({
-        ...inputs,
-        [e.target.name]: e.target.value
-    });
-  };
+  // const onChange = e => {
+  //   setInputs({
+  //       ...inputs,
+  //       [e.target.name]: e.target.value
+  //   });
+  // };
+
+  
   //router 사용시 useEffect 에서 async,await 문 사용 금지
   // useEffect(async() => {
   //   await fetchMainAddr();

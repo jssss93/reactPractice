@@ -1,7 +1,7 @@
 import React ,{useState}from 'react';
 // import $ from 'jquery';
 
-import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 function HeaderLoginArea(props) {

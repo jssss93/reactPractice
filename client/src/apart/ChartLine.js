@@ -1,7 +1,7 @@
 import React  from 'react';
 import $ from 'jquery';
 import { Line } from 'react-chartjs-2'
-import { Chart as ChartJS } from 'chart.js/auto' //챠트에 꼭 필요
+import { Chart } from 'chart.js/auto' //챠트에 꼭 필요
 // import { Chart }            from 'react-chartjs-2' 
 import axios from 'axios';
 import useAsyncChart from '../useAsyncChart';

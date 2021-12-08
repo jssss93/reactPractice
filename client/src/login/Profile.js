@@ -32,7 +32,8 @@ const Profile = () => {
           sessionStorage.setItem('email',data.kakao_account.email);
           sessionStorage.setItem('user_div','kakao');
           alert("로그인되었습니다")
-          history.replace("/");
+          document.location.href = '/';
+          // history.replace("/");
         }else if(res.data=='1'){
           await confirmJoin();
 
@@ -83,7 +84,8 @@ const Profile = () => {
       sessionStorage.setItem('user_id',data.id);
       sessionStorage.setItem('email',data.kakao_account.email);
       alert("회원가입 및 로그인되었습니다");
-      history.replace("/");
+      document.location.href = '/';
+      // history.replace("/");
     }else{
       //회원가입취소
       alert('취소되었습니다.')

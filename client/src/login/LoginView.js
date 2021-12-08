@@ -1,16 +1,16 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import axios from 'axios';
 
 import Auth from './Auth';
 import { KAKAO_AUTH_URL } from "../assets/KakaoOAuth";
-import KakaoLogin from './KakaoLogin';
+// import KakaoLogin from './KakaoLogin';
+import { useHistory } from "react-router-dom";
 // import $ from 'jquery';
 
 // import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 
-function LoginView(props) {
-
+function LoginView() {
     const [inputId, setInputId] = useState('')
     const [inputPw, setInputPw] = useState('')
     const inputIdRef = useRef();
@@ -30,16 +30,19 @@ function LoginView(props) {
           onClickLogin()
         }
     }
+
+    const history = useHistory();
+
 	// login 버튼 클릭 이벤트
     const onClickLogin = async () => {
         
-        if(inputId==""){
+        if(inputId===""){
             alert("ID를 올바르게 입력해주세요")
             inputIdRef.current.focus();
             return false;
         }
 
-        if(inputPw==""){
+        if(inputPw===""){
             alert("비밀번호를 올바르게 입력해주세요")
             inputPwRef.current.focus();
             return false;
@@ -51,71 +54,30 @@ function LoginView(props) {
         );
         console.log(response.data)
 
-        if(response.data=="99"){
+        if(response.data==="99"){
+            setInputId('');
+            setInputPw('');
             alert('계정이 존재하지 않습니다')
 
-        }else if(response.data=='1'){
+        }else if(response.data==='1'){
             alert('로그인')
             sessionStorage.setItem('user_id', inputId)//정보저장
+           
+            // history.replace("/");
             document.location.href = '/';
 
-        }else if(response.data=='98'){
+        }else if(response.data==='98'){
             alert("비밀번호가 일치하지 않습니다.")	
-            setInputId('');
+            setInputPw('');
 
-        }else if(response.data=='97'){
+        }else if(response.data==='97'){
             alert("에러발생");	
         }
 
-        // $.ajax({
-        //     url: "/login/doLogin",
-        //     type: "POST",
-        //     cache: false,
-        //     dataType: "json",
-        //     data: {
-        //             "id" : $("#id").val(),
-        //             "pw":$("#pw").val()
-        //         },
-        //     success: function(data){
-                
-        //         if(data=="99"){
-        //             alert('계정이 존재하지 않습니다')
-        //         }else if(data=='1'){
-        //             location.href = '/api/main';
-        //         }else if(data=='98'){
-        //             alert("비밀번호가 일치하지 않습니다.")	
-        //         }else if(data=='97'){
-        //             alert("에러발생");	
-        //         }
-        //                         },
-        //     error: function (request, status, error){
-        //         var msg = "ERROR : " + request.status + "<br>"
-        //         msg += + "내용 : " + request.responseText + "<br>" + error;
-        //         console.log(msg);
-        //     }
-        // });
-
     }
- 
-	// 페이지 렌더링 후 가장 처음 호출되는 함수
-    // useEffect(() => {
-    //     axios.get('/user_inform/login')
-    //     .then(res => console.log(res))
-    //     .catch()
-    // },
-    // // 페이지 호출 후 처음 한번만 호출될 수 있도록 [] 추가
-    // [])
-
-//   const menuToggle = (e) => {
-//     e.preventDefault();
-//     if($("#menu").attr('className') === 'visible'){
-//       $("#menu").attr('className','');
-//     }else{
-//       $("#menu").attr('className','visible');
-//     } 
-//   };
-
-
+    // useEffect((props) => {
+        
+    //   }, [loginChk]);
   return (
     <>
     {/* <script defer src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
@@ -165,16 +127,10 @@ function LoginView(props) {
 
                                         {/* <KakaoLoginBtn/> */}
                                         <div href='/' className="login_btns button alt small" onClick={onClickLogin}>Login</div>
-                                        <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1>
+                                        {/* <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1> */}
                                         
                                         
-                                        <div href='/' className="login_btns button alt small"  >KAKAO LOGIN</div>
-                                        {/* <KaKaoBtn href={KAKAO_AUTH_URL}>
-	<img src={kakaologo}></img>
-	<span>카카오계정 로그인</span>
-</KaKaoBtn> */}
-{/* <KakaoLoginWith/> */}
-{/* <Auth/> */}
+                                        <div className="login_btns button alt small"  ><a className='black_anchor' href={KAKAO_AUTH_URL}>KAKAO LOGIN</a></div>
                                         <div href='/' className="login_btns button alt small" >Join Page</div>
                                     </li>
                                 </ul>

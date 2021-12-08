@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import axios from 'axios';
 import $ from 'jquery';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +13,7 @@ var pwCheckFlag = false;
 var pw2CheckFlag = false;
 var emailCheckFlag = false;
 
-function JoinView(props) {
+function JoinView() {
 
     const [inputId, setInputId] = useState('')
     const [inputPw, setInputPw] = useState('')
@@ -239,7 +239,7 @@ function JoinView(props) {
                             <div className='loginDivEl'>
                                 <div className='loginDivEl_title'>* PW Check : </div>
                                 <div className='loginDivEl_input'>
-                                    <input type="password" name="pw2" id="pw2" value="" placeholder="" value={inputPw2} onChange={handleInputPw2}/>
+                                    <input type="password" name="pw2" id="pw2" value="" placeholder="" value={inputPw2} onChange={handleInputPw2} ref={inputPw2Ref}/>
                                     <FontAwesomeIcon icon={faCheck} className="chk_pass" id='pw2CheckIcon' />
                                     {/* <i id='pw2CheckIcon' style='color:green;display:none;' className="fas fa-check"></i> */}
                                 </div>
@@ -250,7 +250,7 @@ function JoinView(props) {
                             <div className='loginDivEl'>
                                 <div className='loginDivEl_title'>* E-mail : </div>
                                 <div className='loginDivEl_input'>
-                                    <input type='text' name="email" id="email" value="" placeholder="" value={inputEmail} onChange={handleInputEmail}/>
+                                    <input type='text' name="email" id="email" value="" placeholder="" value={inputEmail} onChange={handleInputEmail} ref={inputEmailRef}/>
                                     <FontAwesomeIcon icon={faCheck} className="chk_pass" id='emailCheckIcon' />
                                     {/* <i id='emailCheckIcon' style='color:green;display:none;' className="fas fa-check"></i> */}
                                     
@@ -269,8 +269,8 @@ function JoinView(props) {
                                         <a  className="login_btns button alt small" onclick='loginWithKakao();'>KAKAO LOGIN</a>
                                         <a  className="login_btns button alt small" onclick='openJoin();'>Join Page</a> */}
                                         <div href='/' className="login_btns button alt small" onClick={onClickJoin}>JOIN</div>
-                                        
-                                        <div href='/' className="login_btns button alt small" >KAKAO LOGIN</div>
+                                        <div className="login_btns button alt small"  ><a className='black_anchor' href={KAKAO_AUTH_URL}>KAKAO LOGIN</a></div>
+                                        {/* <div href='/' className="login_btns button alt small" >KAKAO LOGIN</div> */}
                                         <div href='/' className="login_btns button alt small" >LOGIN Page</div>
                                     </li>
                                 </ul>

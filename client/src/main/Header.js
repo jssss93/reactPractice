@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 
-import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 import HeaderLoginArea from './HeaderLoginArea';
 
 
@@ -23,7 +23,7 @@ function Header(props) {
       <div className="logo">
       
         <Link to="/" onClick={closeMenuToggle}>
-        <a href="/api/main">내맘대로 <span>by CJS</span></a>
+          내맘대로 <span>by CJS</span>
         </Link>
       </div>
       <a href="#menu" className="toggle" onClick={menuToggle}><span>Menu</span></a>
