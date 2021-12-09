@@ -5,6 +5,8 @@ import Auth from './Auth';
 import { KAKAO_AUTH_URL } from "../assets/KakaoOAuth";
 // import KakaoLogin from './KakaoLogin';
 import { useHistory } from "react-router-dom";
+import { properties } from '../include/properties';
+
 // import $ from 'jquery';
 
 // import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
@@ -130,7 +132,7 @@ function LoginView() {
                                         {/* <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1> */}
                                         
                                         
-                                        <div className="login_btns button alt small"  ><a className='black_anchor' href={KAKAO_AUTH_URL}>KAKAO LOGIN</a></div>
+                                        <div className="login_btns button alt small"  ><a className='black_anchor' href={properties.KAKAO_AUTH_URL}>KAKAO LOGIN</a></div>
                                         <div href='/' className="login_btns button alt small" >Join Page</div>
                                     </li>
                                 </ul>

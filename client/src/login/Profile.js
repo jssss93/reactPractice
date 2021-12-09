@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { properties } from '../include/properties';
+
 var data;
 const Profile = () => {
   // alert('프로파일')
@@ -23,7 +25,7 @@ const Profile = () => {
 
       try{
         const res = await axios.post(
-          "http://localhost:8000/login/kakaoLogin",
+          properties.CALLBACK_URL_SERVER,
           {user_id:data.id,email:data.kakao_account.email}
         );
         if(res.data=='0'){

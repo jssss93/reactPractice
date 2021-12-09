@@ -10,6 +10,11 @@
     margin-right: 4px;
 }
 
+.datepic_el_sel{
+	float:left;
+	width:20%;
+}
+
 .datepic_el{
     width:35%;
     float:left;
@@ -24,9 +29,6 @@
 
 table th{text-align: center !important;cursor:pointer;}
 table td{text-align: center !important;}
-.datepic_el{
-    width:35%;
-}
 .search_btn_li{
     width:100%;
 }
@@ -158,4 +160,57 @@ table td{text-align: center !important;}
 .black_anchor{
 	text-decoration: none;
     color: black !important;
+}
+
+.register_div{
+	float:left;
+	width:100%;
+	color: black;
+    font-size: 18px;
+}
+
+.register_row{
+	width:90%;
+}
+.register_left_div{
+	float:left;
+	text-align: center;
+	width:10%;
+}
+
+.register_right_div{
+	float:left;
+	width:90%;
+}
+
+.register_right_div_editor{
+	float:left;
+	width:90%;
+	margin-bottom:10px;
+}
+
+.btn_area{
+	padding-bottom:20px;
+}
+.input_select_10{
+	width:10%;
+}
+
+.input_select_30{
+	width:30%;
+}
+.input__15{
+	float:left;
+	width:15%;
+}
+.input__20{
+	float:left;
+	width:20%;
+}
+.input__70{
+	float:left;
+	width:70%;
+}
+.ck-editor__editable:not(.ck-editor__nested-editable) {
+    min-height: 200px;
 }

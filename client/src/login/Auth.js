@@ -3,12 +3,14 @@ import { useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 import { useHistory } from "react-router-dom";
+import { properties } from '../include/properties';
+
 
 const Auth = () => {
       
-  const REST_API_KEY = "78443c734e669a70abfbeacdb46da2d0";
-  const REDIRECT_URI = "http://localhost:3000/login/doKakaoLogin_callback";
-  const CLIENT_SECRET = "yzpHmvT7EYmKE8ChbtdNHrsgta11lZNn";
+  const REST_API_KEY = properties.REST_API_KEY;
+  const REDIRECT_URI = properties.REDIRECT_URI;
+  const CLIENT_SECRET = properties.CLIENT_SECRET;
 
   // calllback으로 받은 인가코드
   const code = new URL(window.location.href).searchParams.get("code");

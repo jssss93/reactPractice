@@ -14,9 +14,9 @@ import NotFound from "./include/NotFound";
 import Home from "./Home";
 import Auth from './login/Auth';
 import Profile from './login/Profile';
-
-
-
+import DevLog from './devlog/DevLogMain';
+import DevLogRegister from './devlog/DevLogRegister';
+import DevLogDetail from './devlog/DevLogDetail';
 function App() {
 
   const [isLogin, setIsLogin] = useState(false)
@@ -45,7 +45,9 @@ function App() {
           <Route path="/joinView" component={JoinView} />
           <Route path="/loginView" component={LoginView} />
           <Route path="/profile" component={Profile } />
-
+          <Route exact path="/devLog" component={DevLog } />
+          <Route path="/devLog/register" component={DevLogRegister } />
+          <Route path="/devLog/detail" component={DevLogDetail} />
           <Route path="/login/doKakaoLogin_callback">
             <Auth />
           </Route> 

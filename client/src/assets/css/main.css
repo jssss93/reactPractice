@@ -4257,6 +4257,11 @@
 		margin-bottom: 10px;
 		width:100%;
 	}
+	.keyword_readonly{
+		margin-bottom: 10px;
+		width:100%;
+		background-color: #8a8585 !important;
+	}
 	.search_btn{
 		width:100%;
 	}
