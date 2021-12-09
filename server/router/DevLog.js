@@ -141,7 +141,7 @@ router.post('/getData',async function(req,res){
         sortAlign = req.body.sortAlign;
     }
     sort[sortColumn + ''] = sortAlign;
-
+    console.log(sort)
 
     //5. 페이징
     var page = Math.max(1, parseInt(req.body.page));
@@ -231,7 +231,7 @@ router.post('/update',async function(req,res){
         update_date : new Date()
     }
 
-    if(req.body.success_check=='Y' && req.body.success_date==''){
+    if(req.body.success_check=='Y' && (req.body.success_date==''|| req.body.success_date==null)){
         success_date=new Date();
         prms.success_date = success_date;
     }
@@ -242,7 +242,8 @@ router.post('/update',async function(req,res){
 
     console.log(req.body.seq)
     console.log(prms)
-    DevLogModel.updateOne({seq:req.body.seq}, 
+    DevLogModel.updateOne(
+        {seq:req.body.seq}, 
         {
             $set: prms
         },  function(err, datas){    
@@ -250,7 +251,7 @@ router.post('/update',async function(req,res){
         res.send(result)
     })
 });
-router.post('/devLog/delete',async function(req,res){
+router.post('/delete',async function(req,res){
     var result="0";
     DevLogModel.deleteOne({seq:req.body.seq}, {},  function(err, datas){    
         if(err==null){

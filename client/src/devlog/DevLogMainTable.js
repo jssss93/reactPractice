@@ -58,7 +58,7 @@ function setPrms(props,sortColumn){
 }
 
 async function getDatas(props) {
-  var prms =  await setPrms(props,'거래일')
+  var prms =  await setPrms(props,'reg_date')
   console.log(prms)
   const response = await axios.post(
     'http://localhost:8000/devlog/getData',

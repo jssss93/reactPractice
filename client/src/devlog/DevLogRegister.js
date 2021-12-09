@@ -87,18 +87,19 @@ function DevLogRegister() {
     }
 
 
-    alert('pass')
+    // alert('pass')
     // alert(boardContents.descr)
     // title: boardContents.title,
       // descr: boardContents.descr
-    // axios.post('http://localhost:8000/devLog/insert', {
-    //   title         : boardContents.title,
-    //   descr         : boardContents.descr,
-    //   success_check : boardContents.success_check,
-    //   success_expect_date : boardContents.success_expect_date
-    // }).then(()=>{
-    //   alert('등록 완료!');
-    // })
+    axios.post('http://localhost:8000/devLog/insert', {
+      title         : boardContents.title,
+      descr         : boardContents.descr,
+      success_check : boardContents.success_check,
+      success_expect_date : boardContents.success_expect_date
+    }).then(()=>{
+      alert('등록 완료!');
+      window.document.location='/devLog'
+    })
 
   };
 
@@ -160,7 +161,7 @@ function DevLogRegister() {
                       <CKEditor
                         // ref={descrRef}
                         editor={ClassicEditor}
-                        data="input data"
+                        data=""
                         // onReady={editor => {
                         //   // You can store the "editor" and use when it is needed.
                         //   console.log('Editor is ready to use!', editor);

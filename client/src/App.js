@@ -47,7 +47,9 @@ function App() {
           <Route path="/profile" component={Profile } />
           <Route exact path="/devLog" component={DevLog } />
           <Route path="/devLog/register" component={DevLogRegister } />
-          <Route path="/devLog/detail" component={DevLogDetail} />
+          <Route path="/devLog/detail/:prm" component={DevLogDetail} />
+
+          
           <Route path="/login/doKakaoLogin_callback">
             <Auth />
           </Route> 

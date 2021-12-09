@@ -20,7 +20,7 @@ function TableDatas(props) {
 datas.map(data => (
           <tbody key={data._id} id={data._id}  >
             <tr  className='table_basic'>
-              <td><Link to="/devLog/detail/9"  >{data.title}</Link> </td>
+              <td><Link to={`/devLog/detail/${data.seq}`} >{data.title}</Link> </td>
               <td>{data.reg_date}</td>
               <td>{data.success_check}</td>
               <td>{data.success_expect_date}</td>

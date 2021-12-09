@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useRef } from 'react';
 import DatePickerComponent from '../include/DatePickerComponent';
-
+import { useParams } from "react-router-dom";
 import $ from 'jquery';
 import axios from 'axios';
 import DevLogMainTable from './DevLogMainTable';
@@ -12,6 +12,9 @@ import DatePickerComponentOne from '../include/DatePickerComponentOne';
 
 function DevLogDetail() {
   console.log('DevLogDetail')
+  const useParmas = useParams();
+  console.log(useParmas)
+  const [editorData, setEditorData] = useState('');
   const [viewContent, setViewContent] = useState({
     title:'',
     descr:'',
@@ -30,9 +33,9 @@ function DevLogDetail() {
   // const[viewContent,setViewContent] = useState([]);
 
   useEffect(()=>{
-    axios.get('http://localhost:8000/devLog/detail/30').then((response)=>{
+    axios.get('http://localhost:8000/devLog/detail/'+useParmas.prm).then((response)=>{
       
-      setViewContent(response.data);
+    setViewContent(response.data);
     console.log("데이터조회후")
     console.log(response.data)
     console.log(viewContent)
@@ -81,16 +84,30 @@ function DevLogDetail() {
     }
   }
 
+  const deleteData = async() =>{
+    axios.post('http://localhost:8000/devLog/delete', {
+      seq                 : viewContent.seq
+    }).then((response)=>{
+      if(response.data=='1'){
+        alert(response.data+'삭제 완료!');
+        window.document.location='/devLog'
+      }else{
+        alert('error')
+      }
+     
+    })
+  }
   const updateData = async () => {
     console.log(viewContent)
-    return;
+    console.log(editorData)
+    // return;
     if(viewContent.title===''){
       titleRef.current.focus();
       alert("제목을 입력해주세요")
       return false;
     }
 
-    if(viewContent.descr===''){
+    if(editorData===''){
       // CKEDITOR.instances.editor.focus();
       // descrRef.current.focus();
       alert("내용을 입력해주세요")
@@ -105,12 +122,17 @@ function DevLogDetail() {
       seq                 : viewContent.seq,
       success_date        : viewContent.success_date,
       title               : viewContent.title,
-      descr               : viewContent.descr,
+      descr               : editorData,
       success_check       : viewContent.success_check,
       success_expect_date : viewContent.success_expect_date
-    }).then(()=>{
-      console.log('asdasd')
-      alert('저장 완료!');
+    }).then((response)=>{
+
+      if(response.data=='1'){
+        alert(response.data+'저장 완료!');
+        window.document.location='/devLog'
+      }else{
+        alert('error')
+      }
       
     })
 
@@ -180,15 +202,16 @@ function DevLogDetail() {
                           // console.log('Editor is ready to use!', editor);
                         // }}
                         onChange={(event, editor) => {
-                          alert('체인지')
+                          // alert('체인지')
                           const data = editor.getData();
                           // setDescr(data)
                           // console.log({ event, editor, data });
                           console.log(viewContent)
-                          setViewContent({
-                            ...viewContent,
-                            title: 'test'
-                          });
+                          setEditorData(data)
+                          // setViewContent({
+                          //   ...viewContent,
+                          //   title: 'test'
+                          // });
                           console.log(viewContent)
                         }}
                         // onBlur={(event, editor) => {
@@ -272,6 +295,9 @@ function DevLogDetail() {
                 <div className='btn_area'>
                   <div className='btn_div'>
                     <ul className="actions">
+                      <li className='search_btn_li' >
+                        <input type="button" className='search_btn' id='search' onClick={deleteData} value="삭제" />
+                      </li>
                       <li className='search_btn_li' >
                         {/* <Link to="/devLog/register" > */}
                         <input type="button" className='search_btn' id='search' onClick={updateData} value="저장" />
