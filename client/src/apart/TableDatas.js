@@ -40,7 +40,7 @@ datas.map(data => (
               <td>{data.년}.{data.월}.{data.일} </td>
               <td>{data.법정동}</td>
               <td>
-                <div className='table_row' >{data.아파트} {data.층}
+                <div className='table_row' >{data.아파트} ({data.층}F)
                   <a 
                     id='myChart_<%=idx%>' 
                     // onClick={showChart}
@@ -64,7 +64,7 @@ datas.map(data => (
             <tr className='table_small' >
               <td className='table_samll_td' colSpan={5} >
                 <span >거래일 : </span> {data.년}.{data.월}.{data.일}<br/> 
-                <span >아파트명 : </span> {data.아파트} {data.층} -  {data.법정동}
+                <span >아파트명 : </span> {data.아파트} ({data.층}F) -  {data.법정동}
                 <a id='myChart_<%=idx%>' 
                   onClick={() => showChart(data._id)}  
                   // className="special icon fa-search"

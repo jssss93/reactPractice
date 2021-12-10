@@ -9,20 +9,21 @@ import ReactHtmlParser from 'react-html-parser';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DatePickerComponentOne from '../include/DatePickerComponentOne';
-
+import InputFiles from './InputFiles';
 function DevLogDetail() {
   console.log('DevLogDetail')
   const useParmas = useParams();
-  console.log(useParmas)
+  // console.log(useParmas)
   const [editorData, setEditorData] = useState('');
   const [viewContent, setViewContent] = useState({
     title:'',
     descr:'',
     success_check:'N',
-    success_expect_date:new Date(),
+    success_expect_date:'',
     reg_date:'',
     success_date:'',
-    update_date:''
+    update_date:'',
+    file_list: new Array()
   });
 
   
@@ -34,11 +35,13 @@ function DevLogDetail() {
 
   useEffect(()=>{
     axios.get('http://localhost:8000/devLog/detail/'+useParmas.prm).then((response)=>{
-      
+    // console.log('effect')
+    // console.log(response.data)
     setViewContent(response.data);
-    console.log("데이터조회후")
-    console.log(response.data)
-    console.log(viewContent)
+    // console.log("데이터조회후")
+    // console.log(response.data)
+    // console.log('조회후')
+    // console.log(viewContent)
     })
   },[])
 
@@ -68,16 +71,6 @@ function DevLogDetail() {
   } = viewContent;
 
 
-
-  
-  //router 사용시 useEffect 에서 async,await 문 사용 금지
-  // useEffect(async() => {
-  //   await fetchMainAddr();
-  // }, []);
-
-
-
-
   const onCheckEnter = (e) => {
     if(e.key === 'Enter') {
       // getSearchAPIData()
@@ -85,60 +78,93 @@ function DevLogDetail() {
   }
 
   const deleteData = async() =>{
+    if (window.confirm("삭제하시겠습니까?")) {
     axios.post('http://localhost:8000/devLog/delete', {
       seq                 : viewContent.seq
     }).then((response)=>{
       if(response.data=='1'){
-        alert(response.data+'삭제 완료!');
+        alert('삭제 완료!');
         window.document.location='/devLog'
       }else{
         alert('error')
       }
      
     })
-  }
+    }  }
   const updateData = async () => {
-    console.log(viewContent)
-    console.log(editorData)
+    // console.log(viewContent)
+    // console.log(editorData)
     // return;
-    if(viewContent.title===''){
-      titleRef.current.focus();
-      alert("제목을 입력해주세요")
-      return false;
-    }
-
-    if(editorData===''){
-      // CKEDITOR.instances.editor.focus();
-      // descrRef.current.focus();
-      alert("내용을 입력해주세요")
-      return false;
-    }
-
-
-    // alert(boardContents.descr)
-    // title: boardContents.title,
-      // descr: boardContents.descr
-    axios.post('http://localhost:8000/devLog/update', {
-      seq                 : viewContent.seq,
-      success_date        : viewContent.success_date,
-      title               : viewContent.title,
-      descr               : editorData,
-      success_check       : viewContent.success_check,
-      success_expect_date : viewContent.success_expect_date
-    }).then((response)=>{
-
-      if(response.data=='1'){
-        alert(response.data+'저장 완료!');
-        window.document.location='/devLog'
-      }else{
-        alert('error')
+    if (window.confirm("수정하시겠습니까?")) {
+      if(viewContent.title===''){
+        titleRef.current.focus();
+        alert("제목을 입력해주세요")
+        return false;
       }
-      
-    })
+
+      if(editorData===''){
+        // CKEDITOR.instances.editor.focus();
+        // descrRef.current.focus();
+        alert("내용을 입력해주세요")
+        return false;
+      }
+
+
+      // alert(boardContents.descr)
+      // title: boardContents.title,
+        // descr: boardContents.descr
+    const formData = new FormData();
+    formData.append("seq", viewContent.seq);
+    formData.append("files", selectedFile[0]);
+    formData.append("title", viewContent.title);
+    formData.append("descr", editorData);
+    formData.append("success_check", viewContent.success_check);
+    formData.append("success_expect_date", viewContent.success_expect_date);
+
+      axios.post('http://localhost:8000/devLog/update',formData
+      //  {
+      //   seq                 : viewContent.seq,
+      //   success_date        : viewContent.success_date,
+      //   title               : viewContent.title,
+      //   descr               : editorData,
+      //   success_check       : viewContent.success_check,
+      //   success_expect_date : viewContent.success_expect_date
+      // }
+      ).then((response)=>{
+
+        if(response.data=='1'){
+          alert('수정 완료!');
+          window.document.location='/devLog'
+        }else{
+          alert('error')
+        }
+        
+      })
+    }
 
   };
 
-// l
+  
+  const [selectedFile, setSelectedFile] = useState([]);
+  // onChange역할
+  const handleFileChange = (event) => {
+    var selectedFileBefore = selectedFile;
+    var newFile = event.target.files[0];
+    console.timeLog("추가전,")
+    console.log(selectedFile)
+    selectedFileBefore.push(newFile);
+
+    setSelectedFile(selectedFileBefore);
+    console.timeLog("추가후,")
+    console.log(selectedFile)
+  };
+ 
+  const[file_cnt,setFileCnt] = useState(1);
+
+  const filedown = (file_seq) =>{
+    document.location.href='http://localhost:8000/devLog/downloadFile?seq='+viewContent.seq+'&file_seq='+file_seq;
+  };
+
 
 
   return (
@@ -194,7 +220,6 @@ function DevLogDetail() {
                       </div>
                       <div className='register_right_div_editor' >
                       <CKEditor
-                        // ref={descrRef}
                         editor={ClassicEditor}
                         data={viewContent.descr}
                         // onReady={editor => {
@@ -221,7 +246,37 @@ function DevLogDetail() {
                         //   console.log('Focus.', editor);
                         // }}
                       />
-                        {/* <input type="text" className='keyword' onChange={getValue} name='descr' placeholder="Subject" /> */}
+                      </div>
+                    </div>
+                    <div className='register_row'>
+                      <div className='register_left_div' >
+                        파일:
+                      </div>
+                      <div className='register_right_div_editor' >
+                      {
+                      viewContent.file_list.length>0 
+                      ?
+                      viewContent.file_list.map(file => (
+                        <>
+                        <a 
+                          // href = 'http://localhost:8000/devLog/downloadFile?seq='
+                          onClick={() => filedown(file.file_seq)}  
+                        >{file.org_name}</a>
+                        <InputFiles 
+                          file_cnt={file_cnt}
+                          handleFileChange={handleFileChange}
+                        />
+                        <br/>
+                        {/* {file.file_seq} / {file.org_name} / {file.phy_name} / {file.dir}    */}
+                        </>
+                      ))
+                      :
+                      <InputFiles 
+                          file_cnt={file_cnt}
+                          handleFileChange={handleFileChange}
+                        />
+                    } 
+
                       </div>
                     </div>
                     <div className='register_row'>
@@ -229,10 +284,12 @@ function DevLogDetail() {
                         완료여부:
                       </div>
                       <div className='register_right_div_editor' >
-                        <select value={viewContent.success_check} className='input_select_10' onChange={getValue} name='success_check'>
-                          <option value='N'>N</option>
-                          <option value='Y'>Y</option>
-                        </select>
+                        <div className='select_cjs_wrap'>
+                          <select value={viewContent.success_check} className='input_select_10' onChange={getValue} name='success_check'>
+                            <option value='N'>N</option>
+                            <option value='Y'>Y</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div className='register_row'>
@@ -240,11 +297,17 @@ function DevLogDetail() {
                         완료예정일:
                       </div>
                       <div className='register_right_div' >
+                        {viewContent.success_expect_date==''?
+                        <></>
+                        :
+                        
                         <DatePickerComponentOne
-                          date={success_expect_date}
+                          
+                          date={new Date(viewContent.success_expect_date)}
                           // setInputs={setInputs}
                           setDate={setDate}
                         />
+                  }
                       </div>
                     </div>
                     

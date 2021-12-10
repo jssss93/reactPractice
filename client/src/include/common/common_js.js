@@ -91,7 +91,8 @@ module.exports.sleep = function(ms){
     })
 }
 
-module.exports.getDate = function(date){
+module.exports.getParseDate = function(dateStr){
+    var date = new Date(dateStr);
     var yyyy = date.getFullYear();
     var mm = date.getMonth()+1;
     var dd = date.getDate();
@@ -106,7 +107,22 @@ module.exports.getDate = function(date){
     }
     return yyyy+'.'+mm+'.'+dd
 }
-
+module.exports.getParseDateHHMMSS = function(dateStr){
+    var date = new Date(dateStr);
+    var yyyy = date.getFullYear();
+    var mm = date.getMonth()+1;
+    var dd = date.getDate();
+    if(mm<10){
+      mm='0'+mm;
+    }
+    if(mm===13){
+      mm='01';
+    }
+    if(dd<10){
+      dd='0'+dd;
+    }
+    return yyyy+'.'+mm+'.'+dd +' '+ date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+}
 module.exports.calSize = function(size){
     return (size/3.3).toFixed(0);
 }

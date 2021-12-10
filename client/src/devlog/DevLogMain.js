@@ -186,13 +186,14 @@ function DevLogMain() {
             <div className="box">
               <div className="image fit">
 
-                <img className='apartImg' src="/images/devLogImg.jpg" alt="" height="200px;" />
+                <img className='apartImg' src="/images/memo.jpg" alt="" height="200px;" />
               </div>
               <div className="content">
                 <header className="align-center">
                   <h2>개발로그</h2>
                   <br/>
                 </header>
+                
                 <form method="post" action="#" onKeyPress={onCheckEnter}>
                   <div className='cate_div' >
                     <DatePickerComponent
@@ -203,28 +204,32 @@ function DevLogMain() {
                       setParentStartDate={setParentStartDate}
                       setParentEndDate={setParentEndDate}
                     />
-                    <div className='keyword_area'>
-                      <div className='input__15'>
-                      <select onChange={selectSCond2}>
-                        <option value='1'>제목</option>
-                        <option value='2'>내용</option>
-                      </select>
+                    <div className='datepic'>
+                      <div className='datepic_el_sel'>
+                        <div className='select_cjs_wrap'>
+                          <select onChange={selectSCond2}>
+                            <option value='1'>제목</option>
+                            <option value='2'>내용</option>
+                          </select>
+                        </div>
                       </div>
                       <div className='input__70'>
                         <input type="text" className='keyword' name="s_keyword"  onChange={keywordChange} onKeyPress={keywordPress} placeholder="Searching By Text" />
                         <input className='display_none' type="text" name="none" id="none" placeholder="Name" />
                       </div>
                     </div>
-                    <div className='keyword_area'>
-                      <div className='input__15'>
-                        완료구분 : 
+                    <div className='datepic'>
+                      <div className='datepic_el_sel_txt'>
+                        <span>완료구분 : </span>
                       </div>
-                      <div className='input__15'>
-                      <select onChange={selectSCond1}>
-                        <option value='0'>전체</option>
-                        <option value='Y'>Y</option>
-                        <option value='N'>N</option>
-                      </select>
+                      <div className='input__20'>
+                        <div className='select_cjs_wrap'>
+                          <select onChange={selectSCond1}>
+                            <option value='0'>전체</option>
+                            <option value='Y'>Y</option>
+                            <option value='N'>N</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div className='btn_div'>

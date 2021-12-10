@@ -18,7 +18,8 @@ var devLogSchema = new Schema({
     success_expect_date : {type: Date, default: Date.now()},
     reg_date    : {type: Date, default: Date.now()},
     success_date : Date,
-    update_date : Date
+    update_date : Date,
+    file_list : Array
 },
 { 
     collection: 'dev_log',versionKey: false 

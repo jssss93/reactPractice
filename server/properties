@@ -3,7 +3,7 @@ mongoURI    = mongodb+srv://cjs:T2PZIQDHSPBLPzIL@cluster0.jx8xx.mongodb.net/test
 
 
 
-
+file_path   = upload_folder
 
 
 #---------서버용--------------#

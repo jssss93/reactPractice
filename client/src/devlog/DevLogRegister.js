@@ -9,6 +9,7 @@ import ReactHtmlParser from 'react-html-parser';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DatePickerComponentOne from '../include/DatePickerComponentOne';
+import InputFiles from './InputFiles';
 
 function DevLogRegister() {
   console.log('ApiMainFunction')
@@ -28,11 +29,12 @@ function DevLogRegister() {
 
   const[viewContent,setViewContent] = useState([]);
 
-  useEffect(()=>{
-    axios.get('http://localhost:8000/devLog/register').then((response)=>{
-      setViewContent(response.data);
-    })
-  },[viewContent])
+  // useEffect(()=>{
+  //   axios.get('http://localhost:8000/devLog/register').then((response)=>{
+  //     setViewContent(response.data);
+  //   })
+  // },[viewContent])
+
   function setDate(date){
     setBoardContents({
       ...boardContents,
@@ -72,38 +74,112 @@ function DevLogRegister() {
   }
 
   const insertData = async () => {
-    console.log(boardContents)
-    if(boardContents.title===''){
-      titleRef.current.focus();
-      alert("제목을 입력해주세요")
-      return false;
+    if (window.confirm("등록하시겠습니까?")) {
+      console.log(boardContents)
+      if(boardContents.title===''){
+        titleRef.current.focus();
+        alert("제목을 입력해주세요")
+        return false;
+      }
+
+      if(boardContents.descr===''){
+        // CKEDITOR.instances.editor.focus();
+        // descrRef.current.focus();
+        alert("내용을 입력해주세요")
+        return false;
+      }
+
+
+    console.log(selectedFile)
+    const formData = new FormData();
+    
+    formData.append("files", selectedFile[0]);
+    formData.append("title", boardContents.title);
+    formData.append("descr", boardContents.descr);
+    formData.append("success_check", boardContents.success_check);
+    formData.append("success_expect_date", boardContents.success_expect_date);
+    console.log(formData)
+    // await axios.post('http://localhost:8000/devLog/insertFile', formData)
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    // });
+
+      // alert('pass')
+      // alert(boardContents.descr)
+      // title: boardContents.title,
+        // descr: boardContents.descr
+      axios.post('http://localhost:8000/devLog/insert', 
+      formData
+      // { 
+        // title         : boardContents.title,
+        // descr         : boardContents.descr,
+        // success_check : boardContents.success_check,
+        // success_expect_date : boardContents.success_expect_date
+      // }
+      ).then(()=>{
+        alert('등록 완료!');
+        window.document.location='/devLog'
+      })
     }
-
-    if(boardContents.descr===''){
-      // CKEDITOR.instances.editor.focus();
-      // descrRef.current.focus();
-      alert("내용을 입력해주세요")
-      return false;
-    }
-
-
-    // alert('pass')
-    // alert(boardContents.descr)
-    // title: boardContents.title,
-      // descr: boardContents.descr
-    axios.post('http://localhost:8000/devLog/insert', {
-      title         : boardContents.title,
-      descr         : boardContents.descr,
-      success_check : boardContents.success_check,
-      success_expect_date : boardContents.success_expect_date
-    }).then(()=>{
-      alert('등록 완료!');
-      window.document.location='/devLog'
-    })
-
   };
+  
 
-// l
+  const [selectedFile, setSelectedFile] = useState([]);
+  // onChange역할
+  const handleFileChange = (event) => {
+    var selectedFileBefore = selectedFile;
+    var newFile = event.target.files[0];
+    console.timeLog("추가전,")
+    console.log(selectedFile)
+    selectedFileBefore.push(newFile);
+
+    setSelectedFile(selectedFileBefore);
+    console.timeLog("추가후,")
+    console.log(selectedFile)
+  };
+ 
+  const[file_cnt,setFileCnt] = useState(1);
+  const API_URL = "http://localhost:8000/devLog/editorImageUpload";
+  const UPLOAD_ENDPOINT = "upload_files";
+  function uploadAdapter(loader) {
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          const body = new FormData();
+          loader.file.then((file) => {
+            
+            body.append("files", file);
+            fetch(`${API_URL}`, {
+              method: "post",
+              body: body
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                console.log(res)
+                resolve({
+                  default: `http://localhost:8000/${res.filename}`
+                });
+              })
+              .catch((err) => {
+                console.log(err)
+                reject(err);
+              });
+          });
+        });
+      }
+    };
+  }
+  function uploadPlugin(editor) {
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+      return uploadAdapter(loader);
+    };
+  }
+
+
+
 
 
   return (
@@ -159,6 +235,9 @@ function DevLogRegister() {
                       </div>
                       <div className='register_right_div_editor' >
                       <CKEditor
+                        config={{
+                          extraPlugins: [uploadPlugin]
+                        }}
                         // ref={descrRef}
                         editor={ClassicEditor}
                         data=""
@@ -184,6 +263,23 @@ function DevLogRegister() {
                         {/* <input type="text" className='keyword' onChange={getValue} name='descr' placeholder="Subject" /> */}
                       </div>
                     </div>
+
+                    <div className='register_row'>
+                      <div className='register_left_div' >
+                        첨부파일:
+                      </div>
+                      <div className='register_right_div' >
+                        <InputFiles 
+                          file_cnt={file_cnt}
+                          handleFileChange={handleFileChange}
+                        />
+                        {/* <input type="file" onChange={handleFileChange} /> */}
+                        {/* <span onClick={handleFileUpload}>업로드</span> */}
+                      </div>
+                    </div>
+
+                   
+
                     <div className='register_row'>
                       <div className='register_left_div' >
                         완료여부:

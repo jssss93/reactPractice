@@ -12,7 +12,7 @@ const session           = require('express-session');
 const passport          = require('passport');
 const passportConfig    = require('./passport');
 passportConfig();
-
+app.use(express.static('upload_folder/dev_log'));
 
 const cors = require('cors');
 const PORT = process.env.port || 8000;

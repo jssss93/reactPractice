@@ -14,7 +14,6 @@ registerLocale("ko", ko) // 한국어적용
 
 const DatePickerComponentOne = (props) => {
     const [Date, setDate] = useState(props.date);//초기값 6달 전
-    const [endDate, setEndDate] = useState(props.endDate);
 
     const CustomInputDate = ({ value, onClick }) => (
         <input type='text' className='datepic_el datepicker' id='start_dt' readOnly onClick={onClick} value={value}/>
@@ -34,7 +33,7 @@ const DatePickerComponentOne = (props) => {
                 dateFormat="yyyy.MM.dd"
                 selected={Date}
                 // maxDate={endDate}
-                minDate={Date}
+                // minDate={Date}
                 onChange={date => setDate(date)}
                 customInput={<CustomInputDate />}
             />

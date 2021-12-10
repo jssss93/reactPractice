@@ -49,11 +49,13 @@ const DatePickerComponent = (props) => {
     return (
         <div className='datepic'>
             <div className='datepic_el_sel'>
-                <select onChange={handleFruit} name='s_cond'>
-                    <option value='1'>등록일</option>
-                    <option value='2'>완료예정일</option>
-                    <option value='3'>완료일</option>
-                </select>
+                <div className='select_cjs_wrap'>
+                    <select onChange={handleFruit} name='s_cond'>
+                        <option value='1'>등록일</option>
+                        <option value='2'>완료예정일</option>
+                        <option value='3'>완료일</option>
+                    </select>
+                </div>
             </div>
             <div className='datepic_el'>
             <DatePicker
@@ -74,7 +76,7 @@ const DatePickerComponent = (props) => {
                 dateFormat="yyyy.MM.dd"
                 selected={endDate}
                 minDate={startDate}
-                maxDate={new Date()}
+                // maxDate={new Date()}
                 onChange={date => setEndDate(date)}
                 customInput={<CustomInputEnd />}
             />
