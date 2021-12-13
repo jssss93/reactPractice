@@ -41,8 +41,16 @@
 
 table th{text-align: center !important;cursor:pointer;}
 table td{text-align: center !important;}
+
 .search_btn_li{
     width:100%;
+}
+.actions_bottom{
+	width:15%;
+	float:right;
+}
+.search_btn_li_bottom{
+	width:100%;
 }
 .cate_div{
     width:100%;

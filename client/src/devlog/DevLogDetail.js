@@ -76,21 +76,36 @@ function DevLogDetail() {
       // getSearchAPIData()
     }
   }
-
+  const moveList = async() =>{
+    // if (window.confirm("삭제하시겠습니까?")) {
+      // axios.post('http://localhost:8000/devLog/delete', {
+      //   seq                 : viewContent.seq
+      // }).then((response)=>{
+      //   if(response.data=='1'){
+      //     alert('삭제 완료!');
+          window.document.location='/devLog'
+      //   }else{
+      //     alert('error')
+      //   }
+      
+      // })
+    // }  
+  }
   const deleteData = async() =>{
     if (window.confirm("삭제하시겠습니까?")) {
-    axios.post('http://localhost:8000/devLog/delete', {
-      seq                 : viewContent.seq
-    }).then((response)=>{
-      if(response.data=='1'){
-        alert('삭제 완료!');
-        window.document.location='/devLog'
-      }else{
-        alert('error')
-      }
-     
-    })
-    }  }
+      axios.post('http://localhost:8000/devLog/delete', {
+        seq                 : viewContent.seq
+      }).then((response)=>{
+        if(response.data=='1'){
+          alert('삭제 완료!');
+          window.document.location='/devLog'
+        }else{
+          alert('error')
+        }
+      
+      })
+    }  
+  }
   const updateData = async () => {
     // console.log(viewContent)
     // console.log(editorData)
@@ -356,18 +371,25 @@ function DevLogDetail() {
                 </form>
                 <hr />
                 <div className='btn_area'>
-                  <div className='btn_div'>
-                    <ul className="actions">
-                      <li className='search_btn_li' >
-                        <input type="button" className='search_btn' id='search' onClick={deleteData} value="삭제" />
-                      </li>
-                      <li className='search_btn_li' >
-                        {/* <Link to="/devLog/register" > */}
+                  {/* <div className='btn_div'> */}
+                    <ul className="actions_bottom">
+                      <li className='search_btn_li_bottom' >
                         <input type="button" className='search_btn' id='search' onClick={updateData} value="저장" />
-                        {/* </Link> */}
                       </li>
                     </ul>
-                  </div>
+                    <ul className="actions_bottom">
+                      <li className='search_btn_li_bottom' >
+                        <input type="button" className='search_btn' id='search' onClick={deleteData} value="삭제" />
+                      </li>
+                    </ul>
+                    <ul className="actions_bottom">
+                      <li className='search_btn_li_bottom' >
+                        <input type="button" className='search_btn' id='search' onClick={moveList} value="목록" />
+                      </li>
+                    </ul>
+                    
+                    
+                  {/* </div> */}
                 </div>
 
               </div>
