@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { KAKAO_AUTH_URL } from "../assets/KakaoOAuth";
+import { Link } from "react-router-dom";
 // import '../assets/js/kakao.js';
 // import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
@@ -205,7 +206,7 @@ function JoinView() {
                 </div>
                 <div className="content">
                     <header className="align-center">
-                        <h2>로그인</h2>
+                        <h2>회원가입</h2>
                         <br/>
                     </header>
                     <form method="post" action="#" onKeyPress={onCheckEnter}>
@@ -261,17 +262,19 @@ function JoinView() {
 
 
                         {/* <div className='loginDiv' style='margin-top:50px;height:120px;'> */}
-                        <div className='loginDiv' >
+                        <div className='loginBtnDiv' >
                             <div className='loginDivEl'>
                                 <ul className="actions big">
                                     <li>
                                         {/* <a  className="login_btns button alt small" onclick='doLogin();'>Login</a>
                                         <a  className="login_btns button alt small" onclick='loginWithKakao();'>KAKAO LOGIN</a>
                                         <a  className="login_btns button alt small" onclick='openJoin();'>Join Page</a> */}
-                                        <div href='/' className="login_btns button alt small" onClick={onClickJoin}>JOIN</div>
-                                        <div className="login_btns button alt small"  ><a className='black_anchor' href={KAKAO_AUTH_URL}>KAKAO LOGIN</a></div>
+                                        <div className="login_btns button alt small" onClick={onClickJoin}>JOIN</div>
+                                        <div className="login_btns button alt small"  ><a className='black_anchor' href={KAKAO_AUTH_URL}>KAKAO JOIN</a></div>
                                         {/* <div href='/' className="login_btns button alt small" >KAKAO LOGIN</div> */}
-                                        <div href='/' className="login_btns button alt small" >LOGIN Page</div>
+                                        <Link to="/loginView" >
+                                        <div className="login_btns button alt small" >LOGIN Page</div>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>

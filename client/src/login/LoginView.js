@@ -6,7 +6,7 @@ import { KAKAO_AUTH_URL } from "../assets/KakaoOAuth";
 // import KakaoLogin from './KakaoLogin';
 import { useHistory } from "react-router-dom";
 import { properties } from '../include/properties';
-
+import { Link } from "react-router-dom";
 // import $ from 'jquery';
 
 // import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
@@ -119,7 +119,7 @@ function LoginView() {
                             {/* <p id='pwCheckLabel' style='color:red'></p> */}
                         </div>
                         {/* <div className='loginDiv' style='margin-top:50px;height:120px;'> */}
-                        <div className='loginDiv' >
+                        <div className='loginBtnDiv' >
                             <div className='loginDivEl'>
                                 <ul className="actions big">
                                     <li>
@@ -128,12 +128,14 @@ function LoginView() {
                                         <a  className="login_btns button alt small" onclick='openJoin();'>Join Page</a> */}
 
                                         {/* <KakaoLoginBtn/> */}
-                                        <div href='/' className="login_btns button alt small" onClick={onClickLogin}>Login</div>
+                                        <div  className="login_btns button alt small" onClick={onClickLogin}>Login</div>
                                         {/* <h1><a href={KAKAO_AUTH_URL}>Kakao Login</a></h1> */}
                                         
                                         
                                         <div className="login_btns button alt small"  ><a className='black_anchor' href={properties.KAKAO_AUTH_URL}>KAKAO LOGIN</a></div>
-                                        <div href='/' className="login_btns button alt small" >Join Page</div>
+                                        <Link to="/joinView" >
+                                            <div className="login_btns button alt small" >Join Page</div>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>

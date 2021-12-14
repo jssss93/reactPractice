@@ -167,8 +167,9 @@ router.post('/insert',upload.any(),async function(req,res){
     var devLogModel = new DevLogModel();
     var file_list = [];
     var fileCnt = 0;
+    console.log(req.body.files)
     for(var i=0;i<req.files.length;i++){
-        // console.log(req.files[i])
+        console.log(req.files[i])
         var file = {};
         file.file_seq   = (fileCnt+1);
         if(req.files.length>2){

@@ -250,3 +250,7 @@ table td{text-align: center !important;}
    background:url('./img/arrow_black.gif') no-repeat 94% 50%/15px auto;
  
  }
+
+ .fileDiv{
+	margin-bottom:10px;
+ }

@@ -74,6 +74,8 @@ function DevLogRegister() {
   }
 
   const insertData = async () => {
+    console.log(selectedFile)
+    // return false;
     if (window.confirm("등록하시겠습니까?")) {
       console.log(boardContents)
       if(boardContents.title===''){
@@ -90,38 +92,23 @@ function DevLogRegister() {
       }
 
 
-    console.log(selectedFile)
-    const formData = new FormData();
     
-    formData.append("files", selectedFile[0]);
+    const formData = new FormData();
+    if(selectedFile.length>0){
+      for(var i=0;i<selectedFile.length;i++){
+        formData.append("file"+i, selectedFile[i]);
+      }
+    }
+    // formData.append("files", selectedFile[0]);
     formData.append("title", boardContents.title);
     formData.append("descr", boardContents.descr);
     formData.append("success_check", boardContents.success_check);
     formData.append("success_expect_date", boardContents.success_expect_date);
     console.log(formData)
-    // await axios.post('http://localhost:8000/devLog/insertFile', formData)
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    // });
-
-      // alert('pass')
-      // alert(boardContents.descr)
-      // title: boardContents.title,
-        // descr: boardContents.descr
-      axios.post('http://localhost:8000/devLog/insert', 
-      formData
-      // { 
-        // title         : boardContents.title,
-        // descr         : boardContents.descr,
-        // success_check : boardContents.success_check,
-        // success_expect_date : boardContents.success_expect_date
-      // }
+    await axios.post('http://localhost:8000/devLog/insert',formData
       ).then(()=>{
         alert('등록 완료!');
-        window.document.location='/devLog'
+        // window.document.location='/devLog'
       })
     }
   };
@@ -130,15 +117,52 @@ function DevLogRegister() {
   const [selectedFile, setSelectedFile] = useState([]);
   // onChange역할
   const handleFileChange = (event) => {
+    var seq = event.target.name.split('_')[1]
+
+
+    console.log(seq)
+    console.log('기존 파일')
+    console.log(selectedFileBefore)
+    console.log()
+
     var selectedFileBefore = selectedFile;
     var newFile = event.target.files[0];
-    console.timeLog("추가전,")
-    console.log(selectedFile)
-    selectedFileBefore.push(newFile);
+    if(newFile===undefined){
+      // alert("취소")
+      setSelectedFile(selectedFileBefore.filter(File => File.seq !== seq));
+      console.log('취소후')
+      console.log(selectedFileBefore.filter(File => File.seq !== seq))
+    }else{
+      var updateFlag = false;
+      selectedFileBefore.map(File =>
+        // console.log(File)
+        File.seq === seq ? updateFlag=true : ''
+      )
+      //1. 수정
+      if(updateFlag){
+        console.log(seq)
+        selectedFileBefore = selectedFileBefore.filter(File => File.seq !== seq)
+        console.log('수정!!!!!!!!!!(삭제)')
+      }
+      console.log('등록!!!!!!!!')
+      //1. 수정, 2. 등록
+      newFile.seq = seq; 
+      selectedFileBefore.push(newFile);
+      
+      setSelectedFile(selectedFileBefore);
 
-    setSelectedFile(selectedFileBefore);
-    console.timeLog("추가후,")
-    console.log(selectedFile)
+      console.log('결과-------------')
+      console.log(selectedFileBefore)
+    }
+  };
+
+  const handleFileRemove = (seq) => {
+    
+    var selectedFileBefore = selectedFile;
+    setSelectedFile(selectedFileBefore.filter(File => File.seq !== (seq+'')));
+    console.log(seq)
+    console.log("삭제---------------")
+    console.log(selectedFileBefore.filter(File => File.seq !== (seq+'')))
   };
  
   const[file_cnt,setFileCnt] = useState(1);
@@ -268,10 +292,11 @@ function DevLogRegister() {
                       <div className='register_left_div' >
                         첨부파일:
                       </div>
-                      <div className='register_right_div' >
+                      <div className='register_right_div_editor' >
                         <InputFiles 
-                          file_cnt={file_cnt}
+                          file_cnt={0}
                           handleFileChange={handleFileChange}
+                          handleFileRemove={handleFileRemove}
                         />
                         {/* <input type="file" onChange={handleFileChange} /> */}
                         {/* <span onClick={handleFileUpload}>업로드</span> */}

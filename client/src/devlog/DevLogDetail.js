@@ -9,7 +9,7 @@ import ReactHtmlParser from 'react-html-parser';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DatePickerComponentOne from '../include/DatePickerComponentOne';
-import InputFiles from './InputFiles';
+import InputFilesDetail from './InputFilesDetail';
 function DevLogDetail() {
   console.log('DevLogDetail')
   const useParmas = useParams();
@@ -51,6 +51,14 @@ function DevLogDetail() {
       descr:data
     })
   }
+
+  function setFileList(data){
+    setViewContent({
+      ...viewContent,
+      file_list:data
+    })
+  }
+
 
   function setDate(date){
     setViewContent({
@@ -163,15 +171,52 @@ function DevLogDetail() {
   const [selectedFile, setSelectedFile] = useState([]);
   // onChange역할
   const handleFileChange = (event) => {
+    var seq = event.target.name.split('_')[1]
+
+
+    console.log(seq)
+    console.log('기존 파일')
+    console.log(selectedFileBefore)
+    console.log()
+
     var selectedFileBefore = selectedFile;
     var newFile = event.target.files[0];
-    console.timeLog("추가전,")
-    console.log(selectedFile)
-    selectedFileBefore.push(newFile);
+    if(newFile===undefined){
+      // alert("취소")
+      setSelectedFile(selectedFileBefore.filter(File => File.seq !== seq));
+      console.log('취소후')
+      console.log(selectedFileBefore.filter(File => File.seq !== seq))
+    }else{
+      var updateFlag = false;
+      selectedFileBefore.map(File =>
+        // console.log(File)
+        File.seq === seq ? updateFlag=true : ''
+      )
+      //1. 수정
+      if(updateFlag){
+        console.log(seq)
+        selectedFileBefore = selectedFileBefore.filter(File => File.seq !== seq)
+        console.log('수정!!!!!!!!!!(삭제)')
+      }
+      console.log('등록!!!!!!!!')
+      //1. 수정, 2. 등록
+      newFile.seq = seq; 
+      selectedFileBefore.push(newFile);
+      
+      setSelectedFile(selectedFileBefore);
 
-    setSelectedFile(selectedFileBefore);
-    console.timeLog("추가후,")
-    console.log(selectedFile)
+      console.log('결과-------------')
+      console.log(selectedFileBefore)
+    }
+  };
+
+  const handleFileRemove = (seq) => {
+    
+    var selectedFileBefore = selectedFile;
+    setSelectedFile(selectedFileBefore.filter(File => File.seq !== (seq+'')));
+    console.log(seq)
+    console.log("삭제---------------")
+    console.log(selectedFileBefore.filter(File => File.seq !== (seq+'')))
   };
  
   const[file_cnt,setFileCnt] = useState(1);
@@ -265,33 +310,34 @@ function DevLogDetail() {
                     </div>
                     <div className='register_row'>
                       <div className='register_left_div' >
-                        파일:
+                      첨부파일:
                       </div>
                       <div className='register_right_div_editor' >
-                      {
+                      {/* {
                       viewContent.file_list.length>0 
                       ?
                       viewContent.file_list.map(file => (
                         <>
                         <a 
-                          // href = 'http://localhost:8000/devLog/downloadFile?seq='
                           onClick={() => filedown(file.file_seq)}  
                         >{file.org_name}</a>
-                        <InputFiles 
+                        <br/>
+                        <InputFilesDetail 
                           file_cnt={file_cnt}
                           handleFileChange={handleFileChange}
                         />
-                        <br/>
-                        {/* {file.file_seq} / {file.org_name} / {file.phy_name} / {file.dir}    */}
                         </>
                       ))
                       :
-                      <InputFiles 
-                          file_cnt={file_cnt}
+                      '' */}
+                     
+                      <InputFilesDetail 
+                          file_list={viewContent.file_list}
                           handleFileChange={handleFileChange}
+                          handleFileRemove={handleFileRemove}
+                          filedown = {filedown}
+                          setFileList = {setFileList}
                         />
-                    } 
-
                       </div>
                     </div>
                     <div className='register_row'>
