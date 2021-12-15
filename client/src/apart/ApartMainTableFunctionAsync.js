@@ -11,6 +11,10 @@ import Paging from './Paging';
 // 요청을 한 이후 response 에서 data 추출하여 반환하는 함수를 따로 만들었습니다.
 
 
+var domain="http://116.121.141.52";
+var port="8000";
+var url = domain+":"+port;
+
 
 function setPrms(page,sortColumn){
   var prms = {};
@@ -57,7 +61,7 @@ function setPrms(page,sortColumn){
 async function getDatas() {
   var prms =  await setPrms(1,'거래일')
   const response = await axios.post(
-    'http://localhost:8000/api/apart/getAPIData',
+    url+'/api/apart/getAPIData',
     prms
   );
   console.log(response.data)

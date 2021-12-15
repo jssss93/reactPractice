@@ -11,6 +11,10 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DatePickerComponentOne from '../include/DatePickerComponentOne';
 import InputFiles from './InputFiles';
 
+var domain="http://116.121.141.52";
+var port="8000";
+var url = domain+":"+port;
+
 function DevLogRegister() {
   console.log('ApiMainFunction')
   const [boardContents, setBoardContents] = useState({
@@ -105,7 +109,7 @@ function DevLogRegister() {
     formData.append("success_check", boardContents.success_check);
     formData.append("success_expect_date", boardContents.success_expect_date);
     console.log(formData)
-    await axios.post('http://localhost:8000/devLog/insert',formData
+    await axios.post(url+'/devLog/insert',formData
       ).then(()=>{
         alert('등록 완료!');
         window.document.location='/devLog'
@@ -166,7 +170,7 @@ function DevLogRegister() {
   };
  
   const[file_cnt,setFileCnt] = useState(1);
-  const API_URL = "http://localhost:8000/devLog/editorImageUpload";
+  const API_URL = url+"/devLog/editorImageUpload";
   const UPLOAD_ENDPOINT = "upload_files";
   function uploadAdapter(loader) {
     return {
@@ -184,7 +188,7 @@ function DevLogRegister() {
               .then((res) => {
                 console.log(res)
                 resolve({
-                  default: `http://localhost:8000/${res.filename}`
+                  default: url+`/${res.filename}`
                 });
               })
               .catch((err) => {

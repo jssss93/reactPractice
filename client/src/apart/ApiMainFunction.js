@@ -4,6 +4,10 @@ import $ from 'jquery';
 import axios from 'axios';
 import ApartMainTableFunction from './ApartMainTableFunction';
 
+var domain="http://116.121.141.52";
+var port="8000";
+var url = domain+":"+port;
+
 var serachKeyword='';
 function ApiMainFunction() {
   console.log('ApiMainFunction')
@@ -67,7 +71,7 @@ function ApiMainFunction() {
   const fetchMainAddr = async (e) => {
     try {
       const response = await axios.get(
-        'http://localhost:8000/api/apart/getMainAddr'
+        url+'/api/apart/getMainAddr'
       );
 
       setInputs({ //사용자지정 setState 를 setInputs 로 위에서 지정.
@@ -82,7 +86,7 @@ function ApiMainFunction() {
   const fetchMidAddr = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/apart/getMidAddr',
+        url+'/api/apart/getMidAddr',
         {cate:$("#main_cate option:selected").text()}
       );
       setInputs({
@@ -99,7 +103,7 @@ function ApiMainFunction() {
   const fetchSubAddr = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/apart/getSubAddr',
+        url+'/api/apart/getSubAddr',
         {cate:$("#mid_cate option:selected").text()}
       );
       setInputs({

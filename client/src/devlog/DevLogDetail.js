@@ -11,6 +11,11 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DatePickerComponentOne from '../include/DatePickerComponentOne';
 import InputFilesDetail from './InputFilesDetail';
 import common_ from '../include/common/common_js';
+
+var domain="http://116.121.141.52";
+var port="8000";
+var url = domain+":"+port;
+
 function DevLogDetail() {
   console.log('DevLogDetail')
   const useParmas = useParams();
@@ -98,7 +103,7 @@ function DevLogDetail() {
   }
   const deleteData = async() =>{
     if (window.confirm("삭제하시겠습니까?")) {
-      axios.post('http://localhost:8000/devLog/delete', {
+      axios.post(url+'/devLog/delete', {
         seq                 : viewContent.seq
       }).then((response)=>{
         if(response.data=='1'){
@@ -151,7 +156,7 @@ function DevLogDetail() {
     formData.append("success_check", viewContent.success_check);
     formData.append("success_expect_date", viewContent.success_expect_date);
 
-    await axios.post('http://localhost:8000/devLog/update',formData
+    await axios.post(url+'/devLog/update',formData
       //  {
       //   seq                 : viewContent.seq,
       //   success_date        : viewContent.success_date,
@@ -229,7 +234,7 @@ function DevLogDetail() {
   const[file_cnt,setFileCnt] = useState(1);
 
   const filedown = (file_seq) =>{
-    document.location.href='http://localhost:8000/devLog/downloadFile?seq='+viewContent.seq+'&file_seq='+file_seq;
+    document.location.href=url+'/devLog/downloadFile?seq='+viewContent.seq+'&file_seq='+file_seq;
   };
 
 

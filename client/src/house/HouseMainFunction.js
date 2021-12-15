@@ -4,6 +4,10 @@ import $ from 'jquery';
 import axios from 'axios';
 import HouseMainTableFunction from './HouseMainTableFunction';
 
+var domain="http://116.121.141.52";
+var port="8000";
+var url = domain+":"+port;
+
 var serachKeyword='';
 function HouseMainFunction() {
   console.log('HouseMainFunction')
@@ -67,7 +71,7 @@ function HouseMainFunction() {
   const fetchMainAddr = async (e) => {
     try {
       const response = await axios.get(
-        'http://localhost:8000/house/getMainAddr'
+        url+'/house/getMainAddr'
       );
 
       setInputs({ //사용자지정 setState 를 setInputs 로 위에서 지정.
@@ -82,7 +86,7 @@ function HouseMainFunction() {
   const fetchMidAddr = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/house/getMidAddr',
+        url+'/house/getMidAddr',
         {cate:$("#main_cate option:selected").text()}
       );
       setInputs({
@@ -99,7 +103,7 @@ function HouseMainFunction() {
   const fetchSubAddr = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/house/getSubAddr',
+        url+'/house/getSubAddr',
         {cate:$("#mid_cate option:selected").text()}
       );
       setInputs({

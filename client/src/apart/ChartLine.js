@@ -7,12 +7,14 @@ import axios from 'axios';
 import useAsyncChart from '../useAsyncChart';
 import Loading from '../include/Loading';
 
-
+var domain="http://116.121.141.52";
+var port="8000";
+var url = domain+":"+port;
 
 const getDatas = async (props) => {
   try {
     const response = await axios.post(
-      'http://localhost:8000/api/apart/getChartData',
+      url+'/api/apart/getChartData',
       {아파트:props.아파트,법정동:props.법정동,start_dt : $("#start_dt").val(),end_dt : $("#end_dt").val()}
     );
     var labelArr = [];

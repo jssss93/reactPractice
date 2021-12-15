@@ -10,7 +10,9 @@ import TableData from './TableDatas';
 import common_ from '../include/common/common_js';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
-
+var domain="http://116.121.141.52";
+var port="8000";
+var url = domain+":"+port;
 
 function DevLogMainTable(props) {
 
@@ -76,7 +78,7 @@ function DevLogMainTable(props) {
     var prms =  await setPrms(props)
     console.log(prms)
     const response = await axios.post(
-      'http://localhost:8000/devlog/getData',
+      url+'/devlog/getData',
       prms
     );
     console.log(response.data)

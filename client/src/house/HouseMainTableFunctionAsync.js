@@ -57,7 +57,7 @@ function setPrms(page,sortColumn){
 async function getDatas() {
   var prms =  await setPrms(1,'거래일')
   const response = await axios.post(
-    'http://localhost:8000/api/apart/getAPIData',
+    url+'/api/apart/getAPIData',
     prms
   );
   console.log(response.data)
