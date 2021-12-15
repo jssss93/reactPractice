@@ -13,12 +13,12 @@ function SectionOne(props) {
             <div className="content">
               <header className="align-center">
                 <h2>Upgrade Plan</h2>
-                <p>2021.03.19</p>
+                <p>2020.xx.xx</p>
               </header>
               <hr />
-              <p>1. 로그인,회원가입기능(카카오연동)</p>
-              <p>2. 마이페이지 추가</p>
-              <p>3. 하이브리드앱(Cordova) 추가</p>
+              <p>1. ~~~블라블라</p>
+              <p>2. 블라블라~~~~</p>
+              <p>3. ~~~추가연동</p>
               
             </div>
           </div>

@@ -31,6 +31,12 @@
     width:31%;
     float:left;
 }
+
+.datepic_el_board{
+    width:30%;
+    float:left;
+}
+
 .datepic_bet{
     float:left;
     margin-left: 10px;
@@ -53,6 +59,7 @@ table td{text-align: center !important;}
 	width:100%;
 }
 .cate_div{
+	height:50px;
     width:100%;
 }
 .display_none{
@@ -191,6 +198,7 @@ table td{text-align: center !important;}
 
 .register_row{
 	width:90%;
+
 }
 .register_left_div{
 	float:left;
@@ -203,11 +211,25 @@ table td{text-align: center !important;}
 	width:90%;
 }
 
+.register_right_div_date{
+	float:left;
+	width:40%;
+}
+
+.register_right_div_file{
+	float:left;
+	width:50%;
+	margin-bottom:10px;
+}
+
 .register_right_div_editor{
 	float:left;
 	width:90%;
 	margin-bottom:10px;
 }
+
+
+
 
 .btn_area{
 	padding-bottom:20px;
@@ -218,6 +240,10 @@ table td{text-align: center !important;}
 
 .input_select_30{
 	width:30%;
+}
+.input_file{
+	float:left;
+	width:80%;
 }
 .input__15{
 	float:left;
@@ -244,13 +270,69 @@ table td{text-align: center !important;}
 }
 
 .select_cjs_wrap {
+	
 	/* width:300px; */
 	/* height: 28px; */
    /* border:1px solid #ccc; */
    background:url('./img/arrow_black.gif') no-repeat 94% 50%/15px auto;
  
  }
-
+ .select_cjs_custom{
+	width:10%;
+	background:url('./img/arrow_black.gif') no-repeat 94% 50%/15px auto;
+ }
  .fileDiv{
+	width:45%;
 	margin-bottom:10px;
  }
+
+ .fontAwesome_custom{
+	 margin-left:10px;
+	 cursor:pointer;
+ }
+
+
+
+ @media screen and (max-width: 1024px) {
+	.register_left_div{
+		width:20%;
+	}
+	
+	.register_right_div{
+		width:80%;
+	}
+	
+	.register_right_div_editor{
+		width:80%;
+	}
+	.register_right_div_date{
+		width:50%;
+	}
+
+}
+
+@media screen and (max-width: 750px) {
+	.register_left_div{
+		width:25%;
+	}
+	
+	.register_right_div{
+		width:75%;
+	}
+	
+	.register_right_div_editor{
+		width:75%;
+	}
+	.select_cjs_custom{
+		width:30%;
+	}
+	.datepic_el_board{
+		width:50%;
+	}
+	.register_right_div_date{
+		width:80%;
+	}
+	.fileDiv{
+		width:100%;
+	}
+}

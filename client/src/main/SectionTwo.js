@@ -15,13 +15,13 @@ function SectionTwo(props) {
 					<p>
 						Node JS(14.16v) - Express<br/>
 						MongoDB(4.4.4v) - Mongoose <br/>
-						OPENAPI<br />
-						EJS
+						OPEN_API<br />
+						EJS -{'>'} React
 					</p>
 					<ul className="actions">
 						<li>
 							<Link to="/apart">
-								<div href="/api/apart/main" className="button alt">View More</div>
+								<div className="button alt">View More</div>
 							</Link>
 						</li>
 					</ul>
@@ -33,20 +33,33 @@ function SectionTwo(props) {
 					<p>
 						Node JS(14.16v) - Express<br/>
 						MongoDB(4.4.4v) - Mongoose <br/>
-						OPENAPI<br/>
-						EJS
+						OPEN_API<br/>
+						EJS -{'>'} React
 					</p>
 					<ul className="actions">
-						<li><div href="/house/house/main" className="button alt">View More</div></li>
+						<li>
+							<Link to="/house">
+								<div className="button alt">View More</div>
+							</Link>
+						</li>
 					</ul>
 				</div>
 				<div>
 					<header>
-						<h3>Sed Magna</h3>
+						<h3>개발 로그 확인하기</h3>
 					</header>
-					<p>Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula.</p>
+					<p>
+						Node JS(14.16v) - Express<br/>
+						MongoDB(4.4.4v) - Mongoose <br/>
+						Custom<br/>
+						React
+					</p>
 					<ul className="actions">
-						<li><div href="/api/main" className="button alt">Learn More</div></li>
+						<li>
+							<Link to="/devLog">
+								<div className="button alt">View More</div>
+							</Link>
+						</li>
 					</ul>
 				</div>
 			</div>

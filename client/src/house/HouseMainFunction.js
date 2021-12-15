@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import DatePickerComponent from '../include/DatePickerComponent';
 import $ from 'jquery';
 import axios from 'axios';
-import ApartMainTableFunction from './ApartMainTableFunction';
+import HouseMainTableFunction from './HouseMainTableFunction';
 
 var serachKeyword='';
-function ApiMainFunction() {
-  console.log('ApiMainFunction')
+function HouseMainFunction() {
+  console.log('HouseMainFunction')
   const [inputs, setInputs] = useState({
     MainAddrs:[],
     MidAddrs:[],
@@ -67,7 +67,7 @@ function ApiMainFunction() {
   const fetchMainAddr = async (e) => {
     try {
       const response = await axios.get(
-        'http://localhost:8000/api/apart/getMainAddr'
+        'http://localhost:8000/house/getMainAddr'
       );
 
       setInputs({ //사용자지정 setState 를 setInputs 로 위에서 지정.
@@ -82,7 +82,7 @@ function ApiMainFunction() {
   const fetchMidAddr = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/apart/getMidAddr',
+        'http://localhost:8000/house/getMidAddr',
         {cate:$("#main_cate option:selected").text()}
       );
       setInputs({
@@ -99,7 +99,7 @@ function ApiMainFunction() {
   const fetchSubAddr = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/apart/getSubAddr',
+        'http://localhost:8000/house/getSubAddr',
         {cate:$("#mid_cate option:selected").text()}
       );
       setInputs({
@@ -196,11 +196,11 @@ function ApiMainFunction() {
             <div className="box">
               <div className="image fit">
 
-                <img className='apartImg' src="images/apartMain.jpg" alt="" height="200px;" />
+                <img className='apartImg' src="images/house.jpg" alt="" height="200px;" />
               </div>
               <div className="content">
                 <header className="align-center">
-                  <h2>아파트 가격 확인하기</h2>
+                  <h2>건물 가격 확인하기</h2>
                   <br/>
                 </header>
                 <form method="post" action="#" onKeyPress={onCheckEnter}>
@@ -236,11 +236,10 @@ function ApiMainFunction() {
                       setParentStartDate={setParentStartDate}
                       setParentEndDate={setParentEndDate}
                     />
-                    <div className='keyword_area'>
-                      {/* <input type="text" className='keyword' name="keyword" id="keyword"  placeholder="ApartMent Name" onclick='autoComplete();' onkeyup='autoComplete();' /> */}
-                      <input type="text" className='keyword' name="keyword" id="keyword" onChange={keywordChange} onKeyPress={keywordPress} placeholder="ApartMent Name" />
+                    {/* <div className='keyword_area'>
+                      <input type="text" className='keyword' name="keyword" id="keyword" onChange={keywordChange} onKeyPress={keywordPress} placeholder="Input Search Keyword" />
                       <input className='display_none' type="text" name="none" id="none" placeholder="Name" />
-                    </div>
+                    </div> */}
                     <div className='btn_div'>
                       <ul className="actions">
                         <li className='search_btn_li' >
@@ -270,7 +269,7 @@ function ApiMainFunction() {
 ))}
                     </select> 
                     </div>
-                    <ApartMainTableFunction 
+                    <HouseMainTableFunction 
                       MidAddrCode={MidAddrCode} 
                       SubAddrCode={SubAddrCode}
                       startDate={startDate}
@@ -296,4 +295,4 @@ function ApiMainFunction() {
   
 }
 
-export default ApiMainFunction;
+export default HouseMainFunction;

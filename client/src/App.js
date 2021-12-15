@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {  Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import ScrollToTop from './include/ScrollToTop';
 
 import './assets/css/main.css';
 import './assets/css/sub.css';
@@ -8,6 +9,7 @@ import Header from './main/Header';
 import Footer from './main/Footer';
 // import ApiMainClass from './apart/ApiMainClass';
 import ApiMainFunction from './apart/ApiMainFunction';
+import HouseMainFunction from './house/HouseMainFunction';
 import LoginView from './login/LoginView';
 import JoinView from './login/JoinView';
 import NotFound from "./include/NotFound";
@@ -35,12 +37,14 @@ function App() {
 
   return (
     <Router >
+      <ScrollToTop>
       {/* Links */}
       <Header isLogin={isLogin} color='white' cursor='none' />
       <main>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/apart" component={ApiMainFunction} />
+          <Route path="/house" component={HouseMainFunction} />
           <Route path="/loginView" component={LoginView} />
           <Route path="/joinView" component={JoinView} />
           <Route path="/loginView" component={LoginView} />
@@ -61,6 +65,7 @@ function App() {
         </Switch>
       </main>  
       <Footer />
+      </ScrollToTop>
     </Router>
 
   );

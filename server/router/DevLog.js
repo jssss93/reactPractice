@@ -74,10 +74,18 @@ router.post('/getData',async function(req,res){
         }
     }
 
+    function parseStartDt(date){
+        return new Date(date.getFullYear(),date.getMonth(),date.getDate(),0,0,0);
+    }
+    function parseEndDt(date){
+        return new Date(date.getFullYear(),date.getMonth(),date.getDate(),23,59,59);
+    }
     //2.날짜검색
     var subquery2={};
-    subquery2.$gte = new Date(start_dt.replace(/\./gi, '-')+"T00:00:00.000Z")
-    subquery2.$lte = new Date(end_dt.replace(/\./gi, '-')+"T23:59:59.000Z")
+    // subquery2.$gte = new Date(start_dt.replace(/\./gi, '-')+"T00:00:00.000Z")
+    subquery2.$gte = parseStartDt(new Date(start_dt))
+    subquery2.$lte = parseEndDt(new Date(end_dt))
+    // subquery2.$lte = new Date(end_dt.replace(/\./gi, '-')+"T23:59:59.000Z")
     if(s_cond_date=='1'){
         query.reg_date = subquery2;
     }else if(s_cond_date=='2'){
@@ -110,9 +118,12 @@ router.post('/getData',async function(req,res){
         sortColumn = req.body.sortColumn;
         sortAlign = req.body.sortAlign;
     }
-    sort.success_check=1
+    if(sortColumn=='reg_date'){
+        sort.success_check=1
+    }
+    
     sort[sortColumn + ''] = sortAlign;
-    // console.log(sort)
+    console.log(sort)
 
     //5. 페이징
     var page = Math.max(1, parseInt(req.body.page));
@@ -166,19 +177,13 @@ router.post('/insertFile',upload.any(), function(req,res){
 router.post('/insert',upload.any(),async function(req,res){
     var devLogModel = new DevLogModel();
     var file_list = [];
-    var fileCnt = 0;
-    console.log(req.body.files)
+    // var fileCnt = 0;
+    // console.log(req.body.files)
+    // console.log(req.files)
     for(var i=0;i<req.files.length;i++){
         console.log(req.files[i])
         var file = {};
-        file.file_seq   = (fileCnt+1);
-        if(req.files.length>2){
-            file.file_title = req.body.file_title[fileCnt];
-            file.file_descr = req.body.file_descr[fileCnt];
-        }else{
-            file.file_title = req.body.file_title;
-            file.file_descr = req.body.file_descr;
-        }
+        file.file_seq  = (i+1);
         file.org_name  = req.files[i].originalname;
         file.phy_name  = req.files[i].filename;
         file.dir       = req.files[i].destination.replace('public','');
@@ -264,27 +269,40 @@ router.post('/update',upload.any(),async function(req,res){
     }
 
     var file_list = [];
-    var fileCnt = 0;
+
+    console.log('req.body.beforeFileData===>>>')
+    // console.log(req.body.beforeFileData)
+    var bef_files = JSON.parse(req.body.beforeFileData);
+    console.log(bef_files);
+    // return;
+    for(var i=0;i<bef_files.length;i++){
+
+        var file = {};
+        file.file_seq  = (i+1);
+        file.org_name  = bef_files[i].org_name;
+        file.phy_name  = bef_files[i].phy_name;
+        file.dir       = bef_files[i].dir;
+
+        file_list.push(file); 
+    }
+
+    console.log('req.files===>>>')
+    console.log(req.body.files)
+    console.log(req.files)
+    // console.log(req)
+    
     for(var i=0;i<req.files.length;i++){
         // console.log(req.files[i])
         var file = {};
-        file.file_seq   = (fileCnt+1);
-        if(req.files.length>2){
-            file.file_title = req.body.file_title[fileCnt];
-            file.file_descr = req.body.file_descr[fileCnt];
-        }else{
-            file.file_title = req.body.file_title;
-            file.file_descr = req.body.file_descr;
-        }
+        file.file_seq  = (bef_files.length+i+1);
         file.org_name  = req.files[i].originalname;
         file.phy_name  = req.files[i].filename;
         file.dir       = req.files[i].destination.replace('public','');
             
         file_list.push(file); 
-        fileCnt++;
         
     }
-    if(req.files.length>0){
+    if(req.files.length>0 || bef_files.length>0){
         prms.file_list = file_list;
     }
     console.log(prms)

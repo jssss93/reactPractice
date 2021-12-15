@@ -108,6 +108,11 @@ module.exports.getParseDate = function(dateStr){
     return yyyy+'.'+mm+'.'+dd
 }
 module.exports.getParseDateHHMMSS = function(dateStr){
+
+    if(dateStr===undefined || dateStr===null || dateStr==='' ){
+        return '';
+    }
+
     var date = new Date(dateStr);
     var yyyy = date.getFullYear();
     var mm = date.getMonth()+1;

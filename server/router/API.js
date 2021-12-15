@@ -503,8 +503,28 @@ router.post('/apart/getAPIData',async function(req,res){
     var end_dt = req.body.end_dt;
     var subquery2={};
 
-    subquery2.$gte = (start_dt+"").replace(/\./gi, "");
-    subquery2.$lte = (end_dt+"").replace(/\./gi, "");
+
+    function getDate(date){
+        var yyyy = date.getFullYear();
+        var mm = date.getMonth()+1;
+        var dd = '';
+        if(mm<10){
+            mm='0'+mm;
+        }
+        if(mm===13){
+            mm='01';
+        }
+        if(dd<10){
+            dd='0'+dd;
+        }
+        dd = date.getDate();
+    
+        return yyyy+''+mm+''+dd;
+    }
+
+
+    subquery2.$gte = getDate(new Date(start_dt)).replace(/\./gi, "");
+    subquery2.$lte = getDate(new Date(end_dt)).replace(/\./gi, "");
     query.거래일 = subquery2;
 
     var page = Math.max(1, parseInt(req.body.page));

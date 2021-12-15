@@ -108,7 +108,7 @@ function DevLogRegister() {
     await axios.post('http://localhost:8000/devLog/insert',formData
       ).then(()=>{
         alert('등록 완료!');
-        // window.document.location='/devLog'
+        window.document.location='/devLog'
       })
     }
   };
@@ -196,6 +196,10 @@ function DevLogRegister() {
       }
     };
   }
+  const moveList = async() =>{
+    window.document.location='/devLog'
+  }
+
   function uploadPlugin(editor) {
     editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
       return uploadAdapter(loader);
@@ -310,10 +314,12 @@ function DevLogRegister() {
                         완료여부:
                       </div>
                       <div className='register_right_div_editor' >
-                        <select className='input_select_10' onChange={getValue} name='success_check'>
-                          <option value='N'>N</option>
-                          <option value='Y'>Y</option>
-                        </select>
+                        <div className='select_cjs_custom'>
+                          <select className='' onChange={getValue} name='success_check'>
+                            <option value='N'>N</option>
+                            <option value='Y'>Y</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div className='register_row'>
@@ -334,7 +340,9 @@ function DevLogRegister() {
                         등록일:
                       </div>
                       <div className='register_right_div' >
-                        <input type="text" className='keyword_readonly' readOnly/>
+                        <div className='register_right_div_date'>
+                          <input type="text" className='keyword_readonly' readOnly/>
+                        </div>
                       </div>
                     </div>
                     <div className='register_row'>
@@ -342,7 +350,9 @@ function DevLogRegister() {
                         수정일:
                       </div>
                       <div className='register_right_div' >
-                        <input type="text" className='keyword_readonly' readOnly />
+                        <div className='register_right_div_date'>
+                          <input type="text" className='keyword_readonly' readOnly />
+                        </div>
                       </div>
                     </div>
                     <div className='register_row'>
@@ -350,7 +360,9 @@ function DevLogRegister() {
                         완료일:
                       </div>
                       <div className='register_right_div' >
-                        <input type="text" className='keyword_readonly' readOnly  />
+                        <div className='register_right_div_date'>
+                          <input type="text" className='keyword_readonly' readOnly  />
+                        </div>
                       </div>
                     </div>
 
@@ -374,15 +386,18 @@ function DevLogRegister() {
                 </form>
                 <hr />
                 <div className='btn_area'>
-                  <div className='btn_div'>
-                    <ul className="actions">
-                      <li className='search_btn_li' >
+                    <ul className="actions_bottom">
+                      <li className='search_btn_li_bottom' >
                         <Link to="/devLog/register" >
                         <input type="button" className='search_btn' id='search' onClick={insertData} value="등록" />
                         </Link>
                       </li>
                     </ul>
-                  </div>
+                    <ul className="actions_bottom">
+                      <li className='search_btn_li_bottom' >
+                        <input type="button" className='search_btn' id='search' onClick={moveList} value="목록" />
+                      </li>
+                    </ul>
                 </div>
 
               </div>

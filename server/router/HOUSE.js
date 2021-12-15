@@ -17,11 +17,11 @@ const properties        = PropertiesReader('./properties');
 
 
 
-router.get('/house/main',function(req,res){
-    res.render('house/houseMain', {"ss_user":req.user,"data_init_date":data_init_date});
-})
+// router.get('/house/main',function(req,res){
+//     res.render('house/houseMain', {"ss_user":req.user,"data_init_date":data_init_date});
+// })
 
-router.get('/house/getMainAddr',function(req,res){
+router.get('/getMainAddr',function(req,res){
     AddrModel.aggregate([
         { $match : {$and:[{"시군구명":"","읍면동명":"","시도명":{$nin:["동해출장소","북부출장소","제주특별자치도"],$not:/직할시/}}]} },
         { $group: {_id: "$시도명",시도명: {$first: "$시도명"},법정동코드: {$first: "$법정동코드"}} },
@@ -41,7 +41,7 @@ router.get('/house/getMainAddr',function(req,res){
     });
     
 });
-router.post('/house/getMidAddr',function(req,res){
+router.post('/getMidAddr',function(req,res){
     AddrModel.find({"시도명":req.body.cate,"시군구명":{$ne:""},"읍면동명":""},{"시군구명":1,"지역코드":{ $substr: [ "$법정동코드", 0, 5 ] }},   function(err, addrs){    
         if(err) return res.status(500).json({error: err});
         if(addrs.length>0){
@@ -54,7 +54,7 @@ router.post('/house/getMidAddr',function(req,res){
     
 });
 
-router.post('/house/getSubAddr',function(req,res){
+router.post('/getSubAddr',function(req,res){
 
     AddrModel.aggregate([
         { $match : {"시군구명":req.body.cate,"읍면동명":{$ne:""},"동리명":{$ne:""}} },
@@ -472,7 +472,7 @@ function callELSTotCnt(req,url,params){
    
 //     });
 // }
-router.post('/house/gethouseData',async function(req,res){
+router.post('/getHouseData',async function(req,res){
     var query={};
     var query2 ={};
     var subQuery="";
@@ -508,8 +508,27 @@ router.post('/house/gethouseData',async function(req,res){
     var end_dt = req.body.end_dt;
     var subquery2={};
 
-    subquery2.$gte = (start_dt+"").replace(/\./gi, "");
-    subquery2.$lte = (end_dt+"").replace(/\./gi, "");
+    function getDate(date){
+        var yyyy = date.getFullYear();
+        var mm = date.getMonth()+1;
+        var dd = '';
+        if(mm<10){
+            mm='0'+mm;
+        }
+        if(mm===13){
+            mm='01';
+        }
+        if(dd<10){
+            dd='0'+dd;
+        }
+        dd = date.getDate();
+    
+        return yyyy+''+mm+''+dd;
+    }
+
+
+    subquery2.$gte = getDate(new Date(start_dt)).replace(/\./gi, "");
+    subquery2.$lte = getDate(new Date(end_dt)).replace(/\./gi, "");
     query.거래일 = subquery2;
 
     var page = Math.max(1, parseInt(req.body.page));
@@ -523,9 +542,11 @@ router.post('/house/gethouseData',async function(req,res){
     var count = await houseModel.count(query);
     maxPage = Math.ceil(count/limit);
 
-
+    var idToString = { "$toString": "$_id" }
     //추출컬럼
-    var project = {"년":1,"월":1,"일":1,"층":1,"법정동":1,"주택유형":1,"연면적":1,"거래금액":1};
+    var project = {
+        "_id": idToString ,
+        "년":1,"월":1,"일":1,"층":1,"법정동":1,"주택유형":1,"연면적":1,"거래금액":1,"chartFlag":"off"};
 
     //정렬
     var sort={};
@@ -555,18 +576,18 @@ router.post('/house/gethouseData',async function(req,res){
             console.log('data not found')
             addrs = [];
         }
-        res.render('house/table', {
-            addrs:addrs,
-            currentPage:page,
-            maxPage:maxPage,
-            limit:limit,
-            totCnt : count,
-            sortColumn : sortColumn,
-            sortAlign : sortAlign
-            // searchType:req.query.searchType,
-            // searchText:req.query.searchText
-          });
-        // res.send(addrs);
+        // res.render('house/table', {
+        //     addrs:addrs,
+        //     currentPage:page,
+        //     maxPage:maxPage,
+        //     limit:limit,
+        //     totCnt : count,
+        //     sortColumn : sortColumn,
+        //     sortAlign : sortAlign
+        //     // searchType:req.query.searchType,
+        //     // searchText:req.query.searchText
+        //   });
+        res.send({datas:addrs,length:count});
     }).sort(sort).skip(skip).limit(limit);
     
 });

@@ -7,19 +7,20 @@ function TableDatas(props) {
   const [datas, setDatas] = useState(props.datas);
  
   const ssucess_update = async(seq) => {
+    if (window.confirm("완료처리하시겠습니까?")) {
+      try {
+        const response = await axios.post('http://localhost:8000/devLog/success_update',{seq:seq});
+        console.log(response.data)
+        if(response.data===1){
+          alert("완료 처리 되었습니다.")
+          document.location.href='/devLog';
+        }else{
+          alert("error")
+        }
+        
+      } catch (e) {
 
-    try {
-      const response = await axios.post('http://localhost:8000/devLog/success_update',{seq:seq});
-      console.log(response.data)
-      if(response.data===1){
-        alert("완료 처리 되었습니다.")
-        document.location.href='/devLog';
-      }else{
-        alert("error")
       }
-      
-    } catch (e) {
-
     }
 
   };

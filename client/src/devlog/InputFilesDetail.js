@@ -26,9 +26,16 @@ function InputFiles(props) {
     props.handleFileRemove(seq);
   };
   const onFilesRemove = file_seq => {
+    
+    var file_list = props.file_list;
+    console.log(file_list)
+    console.log(file_seq)
+    file_list = file_list.filter(file => file.file_seq !== file_seq)
+    console.log(file_list)
+    props.handleBeforeFileChange(file_list);
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
     // = user.id 가 id 인 것을 제거함
-    alert(file_seq)
+    // alert(file_seq)
     props.setFileList(props.file_list.filter(file => file.file_seq !== file_seq));
     //db수정 추가.
     // props.handleFileRemove(seq);
@@ -48,7 +55,7 @@ function InputFiles(props) {
           <span
             onClick={() => onFilesRemove(file_list[i].file_seq)}  
           >
-            <FontAwesomeIcon style={{color: '#ad1818b3'}} icon={faTrashAlt} className="search" />
+            <FontAwesomeIcon style={{color: '#ad1818b3'}} icon={faTrashAlt} className="fontAwesome_custom" />
             
             {/* <i class="far fa-trash-alt"></i> */}
             
@@ -64,21 +71,21 @@ function InputFiles(props) {
       if(i==files.length-1){
         result.push(
           <div className='fileDiv' key={files[i].seq}>
-            <input type='file' name={`file_${files[i].seq}`} onChange={props.handleFileChange} />
+            <input className='input_file' type='file' name={`file_${files[i].seq}`} onChange={props.handleFileChange} />
             <span onClick={fileAdd}>
-              <FontAwesomeIcon  size='lg' style={{color: 'green'}} icon={faPlusSquare} className="search" />
+              <FontAwesomeIcon  size='lg' style={{color: 'green'}} icon={faPlusSquare} className="fontAwesome_custom" />
             </span>
           </div>
         );
       }else{
         result.push(
           <div className='fileDiv' key={files[i].seq}>
-            <input type='file' name={`file_${files[i].seq}`} onChange={props.handleFileChange} /> 
+            <input className='input_file' type='file' name={`file_${files[i].seq}`} onChange={props.handleFileChange} /> 
             
             <span
               onClick={() => onRemove(files[i].seq)}  
             >
-              <FontAwesomeIcon size='lg' style={{color: '#ad1818b3'}} icon={faTrashAlt} className="search" />
+              <FontAwesomeIcon size='lg' style={{color: '#ad1818b3'}} icon={faTrashAlt} className="fontAwesome_custom" />
             </span>
           </div>
         );
@@ -88,9 +95,9 @@ function InputFiles(props) {
   }else{
     result.push(
       <div className='fileDiv' key={0}>
-        <input type='file' name={`file_0`} onChange={props.handleFileChange} /> 
+        <input className='input_file' type='file' name={`file_0`} onChange={props.handleFileChange} /> 
         <span onClick={fileAdd}>
-          <FontAwesomeIcon style={{color: 'green'}} icon={faPlusSquare} className="search" />
+          <FontAwesomeIcon style={{color: 'green'}} icon={faPlusSquare} className="fontAwesome_custom" />
         </span>
       </div>
     );

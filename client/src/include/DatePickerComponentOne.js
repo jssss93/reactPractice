@@ -27,7 +27,7 @@ const DatePickerComponentOne = (props) => {
     
     return (
         <div className='datepic'>
-            <div className='datepic_el'>
+            <div className='datepic_el_board'>
             <DatePicker
                 locale={ko}
                 dateFormat="yyyy.MM.dd"

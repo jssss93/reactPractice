@@ -1,4 +1,6 @@
 import React, { useEffect, useState,useRef } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 function InputFiles(props) {
 
@@ -30,18 +32,22 @@ function InputFiles(props) {
       if(i==files.length-1){
         result.push(
           <div className='fileDiv' key={files[i].seq}>
-            <input type='file' name={`file_${files[i].seq}`} onChange={props.handleFileChange} />
-            <span onClick={fileAdd}>add</span>
+            <input className='input_file' type='file' name={`file_${files[i].seq}`} onChange={props.handleFileChange} />
+            <span onClick={fileAdd}>
+            <FontAwesomeIcon  size='lg' style={{color: 'green'}} icon={faPlusSquare} className="fontAwesome_custom" />
+            </span>
           </div>
         );
       }else{
         result.push(
           <div className='fileDiv' key={files[i].seq}>
-            <input type='file' name={`file_${files[i].seq}`} onChange={props.handleFileChange} /> 
+            <input className='input_file' type='file' name={`file_${files[i].seq}`} onChange={props.handleFileChange} /> 
             
             <span
               onClick={() => onRemove(files[i].seq)}  
-            >remove</span>
+            >
+              <FontAwesomeIcon style={{color: '#ad1818b3'}} icon={faTrashAlt} className="fontAwesome_custom" />
+            </span>
           </div>
         );
       }
@@ -50,8 +56,10 @@ function InputFiles(props) {
   }else{
     result.push(
       <div className='fileDiv' key={0}>
-        <input type='file' name={`file_0`} onChange={props.handleFileChange} /> 
-        <span onClick={fileAdd}>add</span>
+        <input className='input_file' type='file' name={`file_0`} onChange={props.handleFileChange} /> 
+        <span onClick={fileAdd}>
+          <FontAwesomeIcon  size='lg' style={{color: 'green'}} icon={faPlusSquare} className="fontAwesome_custom" />
+        </span>
       </div>
     );
   }

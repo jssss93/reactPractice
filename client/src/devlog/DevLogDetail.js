@@ -10,6 +10,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DatePickerComponentOne from '../include/DatePickerComponentOne';
 import InputFilesDetail from './InputFilesDetail';
+import common_ from '../include/common/common_js';
 function DevLogDetail() {
   console.log('DevLogDetail')
   const useParmas = useParams();
@@ -26,6 +27,7 @@ function DevLogDetail() {
     file_list: new Array()
   });
 
+  const [beforeFileData, setBeforeFileData] = useState([]);
   
   const titleRef = useRef();
   // const descrRef = useRef();
@@ -38,6 +40,7 @@ function DevLogDetail() {
     // console.log('effect')
     // console.log(response.data)
     setViewContent(response.data);
+    setBeforeFileData(response.data.file_list);
     // console.log("데이터조회후")
     // console.log(response.data)
     // console.log('조회후')
@@ -66,6 +69,12 @@ function DevLogDetail() {
       success_expect_date: date
     })
   }
+
+  const handleBeforeFileChange = (file_list) => {
+    console.log('file_list')
+    console.log(file_list)
+    setBeforeFileData(file_list)
+  };
   const getValue = e => {
     const { name, value } = e.target;
     setViewContent({
@@ -85,19 +94,7 @@ function DevLogDetail() {
     }
   }
   const moveList = async() =>{
-    // if (window.confirm("삭제하시겠습니까?")) {
-      // axios.post('http://localhost:8000/devLog/delete', {
-      //   seq                 : viewContent.seq
-      // }).then((response)=>{
-      //   if(response.data=='1'){
-      //     alert('삭제 완료!');
-          window.document.location='/devLog'
-      //   }else{
-      //     alert('error')
-      //   }
-      
-      // })
-    // }  
+    window.document.location='/devLog'
   }
   const deleteData = async() =>{
     if (window.confirm("삭제하시겠습니까?")) {
@@ -133,18 +130,28 @@ function DevLogDetail() {
       }
 
 
-      // alert(boardContents.descr)
-      // title: boardContents.title,
-        // descr: boardContents.descr
     const formData = new FormData();
+
+    // console.log(beforeFileData)
+    // console.log(JSON.stringify(beforeFileData))
+    // console.log(selectedFile)
+      // return;
+
+    if(selectedFile.length>0){
+      for(var i=0;i<selectedFile.length;i++){
+        formData.append("file"+i, selectedFile[i]);
+      }
+    }
+
     formData.append("seq", viewContent.seq);
-    formData.append("files", selectedFile[0]);
+    formData.append("beforeFileData", JSON.stringify(beforeFileData));
+    // formData.append("files", selectedFile);
     formData.append("title", viewContent.title);
     formData.append("descr", editorData);
     formData.append("success_check", viewContent.success_check);
     formData.append("success_expect_date", viewContent.success_expect_date);
 
-      axios.post('http://localhost:8000/devLog/update',formData
+    await axios.post('http://localhost:8000/devLog/update',formData
       //  {
       //   seq                 : viewContent.seq,
       //   success_date        : viewContent.success_date,
@@ -335,6 +342,7 @@ function DevLogDetail() {
                           file_list={viewContent.file_list}
                           handleFileChange={handleFileChange}
                           handleFileRemove={handleFileRemove}
+                          handleBeforeFileChange={handleBeforeFileChange}
                           filedown = {filedown}
                           setFileList = {setFileList}
                         />
@@ -345,8 +353,8 @@ function DevLogDetail() {
                         완료여부:
                       </div>
                       <div className='register_right_div_editor' >
-                        <div className='select_cjs_wrap'>
-                          <select value={viewContent.success_check} className='input_select_10' onChange={getValue} name='success_check'>
+                        <div className='select_cjs_custom'>
+                          <select value={viewContent.success_check}  onChange={getValue} name='success_check'>
                             <option value='N'>N</option>
                             <option value='Y'>Y</option>
                           </select>
@@ -377,7 +385,9 @@ function DevLogDetail() {
                         등록일:
                       </div>
                       <div className='register_right_div' >
-                        <input type="text" value={viewContent.reg_date} className='keyword_readonly' readOnly/>
+                        <div className='register_right_div_date'>
+                          <input type="text" value={common_.getParseDateHHMMSS(viewContent.reg_date)} className='keyword_readonly' readOnly/>
+                        </div>
                       </div>
                     </div>
                     <div className='register_row'>
@@ -385,7 +395,9 @@ function DevLogDetail() {
                         수정일:
                       </div>
                       <div className='register_right_div' >
-                        <input type="text" value={viewContent.update_date} className='keyword_readonly' readOnly />
+                        <div className='register_right_div_date'>
+                          <input type="text" value={common_.getParseDateHHMMSS(viewContent.update_date)} className='keyword_readonly' readOnly />
+                        </div>
                       </div>
                     </div>
                     <div className='register_row'>
@@ -393,7 +405,9 @@ function DevLogDetail() {
                         완료일:
                       </div>
                       <div className='register_right_div' >
-                        <input type="text" value={viewContent.success_date} className='keyword_readonly' readOnly  />
+                        <div className='register_right_div_date'>
+                          <input type="text" value={common_.getParseDateHHMMSS(viewContent.success_date)} className='keyword_readonly' readOnly  />
+                        </div>
                       </div>
                     </div>
 
