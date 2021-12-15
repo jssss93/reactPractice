@@ -17,7 +17,7 @@ var url = domain+":"+port;
 function DevLogMainTable(props) {
 
   const [sortCoulmn, setSortColumn] = useState('reg_date');
-  const [sortAlign, setSortAlign] = useState('1');
+  const [sortAlign, setSortAlign] = useState('-1');
   function setSort(sortCoulmnPrm){
     if(sortCoulmn===sortCoulmnPrm){
       if(sortAlign==='1'){

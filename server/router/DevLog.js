@@ -120,7 +120,7 @@ router.post('/getData',async function(req,res){
     }
     if(sortColumn=='reg_date'){
         sort.success_check=1;
-        sort.success_date=-1;
+        // sort.success_date=-1;
     }
     
     sort[sortColumn + ''] = sortAlign;

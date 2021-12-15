@@ -41,7 +41,7 @@ function DevLogDetail() {
   // const[viewContent,setViewContent] = useState([]);
 
   useEffect(()=>{
-    axios.get('http://localhost:8000/devLog/detail/'+useParmas.prm).then((response)=>{
+    axios.get(url+'/devLog/detail/'+useParmas.prm).then((response)=>{
     // console.log('effect')
     // console.log(response.data)
     setViewContent(response.data);
