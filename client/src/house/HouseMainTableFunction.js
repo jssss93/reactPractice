@@ -8,7 +8,7 @@ import useAsync from '../useAsync';
 import Paging from './Paging';
 import TableData from './TableDatas';
 import common_ from '../include/common/common_js';
-
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 function ApiMainTableFunction(props) {
   console.log('ApiMainTableFunction')
   console.log(props)
@@ -113,7 +113,22 @@ function ApiMainTableFunction(props) {
   return (
     <>
       <div className='table_left' >Total : {common_.addComma(datas.length)} 건  </div>
-        <table className='table_className' >
+      <ReactHTMLTableToExcel
+            // id: ReactHTMLTableToExcel 컴포넌트의 ID
+            id="tableToExcelBtn"
+            // className : button의 className
+            className="download-table-xls-button"
+            // table : Mapping할 table Element의 id
+            table="data-table"
+            // filename : 엑셀 파일 명칭
+            filename="tableName"
+            // sheet : 엑셀 sheet의 명칭
+            sheet="tableSheet"
+            // buttonText : 버튼 이름
+            buttonText="엑셀 다운로드"
+            
+      />
+        <table id='data-table' className='table_className' >
           <thead>
             <tr className='table_basic'>
               <th onClick={() =>setSort('거래일')}>거래일</th>

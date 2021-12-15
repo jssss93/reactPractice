@@ -8,6 +8,7 @@ import useAsync from '../useAsync';
 import Paging from '../include/Paging';
 import TableData from './TableDatas';
 import common_ from '../include/common/common_js';
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 
 
@@ -115,7 +116,24 @@ function DevLogMainTable(props) {
   return (
     <>
       <div className='table_left' >Total : {common_.addComma(datas.length)} 건  </div>
-        <table className='table_className' >
+      <ReactHTMLTableToExcel
+            // id: ReactHTMLTableToExcel 컴포넌트의 ID
+            id="tableToExcelBtn"
+            // className : button의 className
+            className="download-table-xls-button"
+            // table : Mapping할 table Element의 id
+            table="data-table"
+            // filename : 엑셀 파일 명칭
+            filename="tableName"
+            // sheet : 엑셀 sheet의 명칭
+            sheet="tableSheet"
+            // buttonText : 버튼 이름
+            buttonText="엑셀 다운로드"
+
+            
+            
+      />
+        <table id='data-table' className='table_className' >
           <thead>
             <tr className='table_basic'>
               <th onClick={()=>setSort('title')}>제목</th>
@@ -142,7 +160,7 @@ function DevLogMainTable(props) {
 
         <TableData datas={datas.datas}/>    
 
-<button onClick={refetch}>다시 불러오기</button>
+{/* <button onClick={refetch}>다시 불러오기</button> */}
           
         </table>
         <Paging 
