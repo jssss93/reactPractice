@@ -5,8 +5,9 @@ import Auth from './Auth';
 import { KAKAO_AUTH_URL } from "../assets/KakaoOAuth";
 // import KakaoLogin from './KakaoLogin';
 import { useHistory } from "react-router-dom";
-import { properties } from '../include/properties';
 import { Link } from "react-router-dom";
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 // import $ from 'jquery';
 
 // import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
@@ -51,7 +52,7 @@ function LoginView() {
         }
 
         const response = await axios.post(
-            'http://localhost:8000/login/doLogin',
+            url+'/login/doLogin',
             {"id" : inputId,"pw" : inputPw}
         );
         console.log(response.data)

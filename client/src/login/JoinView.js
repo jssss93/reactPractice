@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { KAKAO_AUTH_URL } from "../assets/KakaoOAuth";
 import { Link } from "react-router-dom";
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 // import '../assets/js/kakao.js';
 // import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
@@ -82,7 +84,7 @@ function JoinView() {
         }
 
         const response = await axios.post(
-            'http://localhost:8000/login/doJoin',
+            url+'/login/doJoin',
             {"id" : inputId,"pw" : inputPw,"email":inputEmail}
         );
         console.log(response.data)
@@ -114,7 +116,7 @@ function JoinView() {
         }else{
             
             const response = await axios.post(
-                'http://localhost:8000/login/idDupleCnt',
+                url+'/login/idDupleCnt',
                 {"id" : id}
             );
 
@@ -175,7 +177,7 @@ function JoinView() {
         }else{
 
             const response = await axios.post(
-                'http://localhost:8000/login/emailDupleCnt',
+                url+'/login/emailDupleCnt',
                 {"email" : email}
             );
 

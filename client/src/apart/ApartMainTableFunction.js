@@ -9,9 +9,8 @@ import Paging from './Paging';
 import TableData from './TableDatas';
 import common_ from '../include/common/common_js';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-var domain="http://116.121.141.52";
-var port="8000";
-var url = domain+":"+port;
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
 function ApiMainTableFunction(props) {
   console.log('ApiMainTableFunction')

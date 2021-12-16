@@ -1,3 +1,6 @@
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
+
 class UploadAdapter {
     constructor(loader) {
         this.loader = loader;
@@ -13,7 +16,7 @@ class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:8000/devLog/editorImageUpload', true);
+        xhr.open('POST', url+'/devLog/editorImageUpload', true);
         xhr.responseType = 'json';
     }
 

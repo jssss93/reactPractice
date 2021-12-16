@@ -7,9 +7,8 @@ import axios from 'axios';
 import useAsyncChart from '../useAsyncChart';
 import Loading from '../include/Loading';
 
-var domain="http://116.121.141.52";
-var port="8000";
-var url = domain+":"+port;
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
 const getDatas = async (props) => {
   try {

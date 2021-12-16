@@ -10,10 +10,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DatePickerComponentOne from '../include/DatePickerComponentOne';
 import InputFiles from './InputFiles';
-
-var domain="http://116.121.141.52";
-var port="8000";
-var url = domain+":"+port;
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
 function DevLogRegister() {
   console.log('ApiMainFunction')

@@ -11,10 +11,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DatePickerComponentOne from '../include/DatePickerComponentOne';
 import InputFilesDetail from './InputFilesDetail';
 import common_ from '../include/common/common_js';
-
-var domain="http://116.121.141.52";
-var port="8000";
-var url = domain+":"+port;
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
 function DevLogDetail() {
   console.log('DevLogDetail')

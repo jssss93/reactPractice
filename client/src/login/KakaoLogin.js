@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
 
 const {Kakao} = window;

@@ -1,5 +1,5 @@
 import React ,{useState} from 'react';
-import ChartLine from './ChartLine';
+// import ChartLine from './ChartLine';
 import common_ from '../include/common/common_js';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";

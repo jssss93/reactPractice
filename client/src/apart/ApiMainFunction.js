@@ -4,9 +4,8 @@ import $ from 'jquery';
 import axios from 'axios';
 import ApartMainTableFunction from './ApartMainTableFunction';
 
-var domain="http://116.121.141.52";
-var port="8000";
-var url = domain+":"+port;
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
 var serachKeyword='';
 function ApiMainFunction() {

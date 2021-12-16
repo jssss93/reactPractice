@@ -10,11 +10,8 @@ import Paging from './Paging';
 // useAsync 에서는 Promise 의 결과를 바로 data 에 담기 때문에,
 // 요청을 한 이후 response 에서 data 추출하여 반환하는 함수를 따로 만들었습니다.
 
-
-var domain="http://116.121.141.52";
-var port="8000";
-var url = domain+":"+port;
-
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
 function setPrms(page,sortColumn){
   var prms = {};
