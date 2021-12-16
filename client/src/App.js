@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import {  Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import ScrollToTop from './include/ScrollToTop';
 
 import './assets/css/main.css';
 import './assets/css/sub.css';
 
-import Header from './main/Header';
-import Footer from './main/Footer';
-// import ApiMainClass from './apart/ApiMainClass';
-import ApiMainFunction from './apart/ApiMainFunction';
+import ScrollToTop      from './include/ScrollToTop';
+import Header           from './main/Header';
+import Footer           from './main/Footer';
+import ApiMainFunction  from './apart/ApiMainFunction';
 import HouseMainFunction from './house/HouseMainFunction';
-import LoginView from './login/LoginView';
-import JoinView from './login/JoinView';
-import NotFound from "./include/NotFound";
-import Home from "./Home";
-import Auth from './login/Auth';
-import Profile from './login/Profile';
-import DevLog from './devlog/DevLogMain';
-import DevLogRegister from './devlog/DevLogRegister';
-import DevLogDetail from './devlog/DevLogDetail';
+import LoginView        from './login/LoginView';
+import JoinView         from './login/JoinView';
+import NotFound         from "./include/NotFound";
+import Home             from "./Home";
+import Auth             from './login/Auth';
+import Profile          from './login/Profile';
+import DevLog           from './devlog/DevLogMain';
+import DevLogRegister   from './devlog/DevLogRegister';
+import DevLogDetail     from './devlog/DevLogDetail';
+import MyPageView       from './login/MyPageView';
+import Favorites        from './login/Favorites';
+
 function App() {
 
   const [isLogin, setIsLogin] = useState(false)
@@ -43,24 +45,26 @@ function App() {
       <main>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/apart" component={ApiMainFunction} />
-          <Route path="/house" component={HouseMainFunction} />
+          
           <Route path="/loginView" component={LoginView} />
           <Route path="/joinView" component={JoinView} />
-          <Route path="/loginView" component={LoginView} />
-          <Route path="/profile" component={Profile } />
-          <Route exact path="/devLog" component={DevLog } />
-          <Route path="/devLog/register" component={DevLogRegister } />
-          <Route path="/devLog/detail/:prm" component={DevLogDetail} />
-
+          <Route exact path="/myPage" component={MyPageView} />
+          <Route path="/myPage/favorites" component={Favorites} />
           
+          <Route path="/profile" component={Profile } />
           <Route path="/login/doKakaoLogin_callback">
             <Auth />
           </Route> 
 
-          <Route component={NotFound} />
+
+          <Route path="/apart" component={ApiMainFunction} />
+          <Route path="/house" component={HouseMainFunction} />
           
-           
+          <Route exact path="/devLog" component={DevLog } />
+          <Route path="/devLog/register" component={DevLogRegister } />
+          <Route path="/devLog/detail/:prm" component={DevLogDetail} />
+
+          <Route component={NotFound} />
 
         </Switch>
       </main>  

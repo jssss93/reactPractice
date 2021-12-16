@@ -11,7 +11,7 @@ module.exports = () => {
     // passReqToCallback: false,
   }, async (id, pw, done) => {
     try {
-      const exUser = await User.findOne({"user_id":id});
+      const exUser = await User.findOne({"user_id":id},{_id:0,user_id:1,social_div:1,email:1,pw:1});
       if (exUser) {
         let hashPassword = crypto.createHash("sha512").update(pw).digest("hex");
         if (hashPassword == exUser.pw) {

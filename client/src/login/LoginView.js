@@ -62,19 +62,20 @@ function LoginView() {
             setInputPw('');
             alert('계정이 존재하지 않습니다')
 
-        }else if(response.data===1){
-            alert('로그인')
-            sessionStorage.setItem('user_id', inputId)//정보저장
-           
-            // history.replace("/");
-            document.location.href = '/';
-
         }else if(response.data===98){
             alert("비밀번호가 일치하지 않습니다.")	
             setInputPw('');
 
         }else if(response.data===97){
             alert("에러발생");	
+        }else {
+            sessionStorage.setItem('user_id', response.data.user_id)//정보저장
+            sessionStorage.setItem('user_email', response.data.email)//정보저장
+            sessionStorage.setItem('user_div', response.data.social_div)//정보저장
+
+            // history.replace("/");
+            document.location.href = '/';
+
         }
 
     }

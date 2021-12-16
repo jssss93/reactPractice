@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 import { properties } from '../include/properties';
 import { Cookies } from "react-cookie"
 function HeaderLoginArea(props) {
-
-  const [inputId, setInputId] = useState(sessionStorage.getItem('user_id'))
+  console.log("sessionStorage.getItem('ss_user')")
+console.log(sessionStorage.getItem('ss_user'))
+  const [user_id, setUserId] = useState(sessionStorage.getItem('user_id'))
+  const [user_email, setUserEmail] = useState(sessionStorage.getItem('user_email'))
+  const [user_div, setUserDiv] = useState(sessionStorage.getItem('user_div'))
 
   const onClickLogOut =  () => {
     
     sessionStorage.removeItem('user_id');
+    sessionStorage.removeItem('user_email');
+    sessionStorage.removeItem('user_div');
+
     window.Kakao.init(properties.REST_API_KEY);
     console.log(window.Kakao.Auth)
     if (window.Kakao.Auth.getAccessToken()) {
@@ -16,7 +22,9 @@ function HeaderLoginArea(props) {
       window.Kakao.Auth.logout(() => {
         console.log("카카오 로그아웃 완료", window.Kakao.Auth.getAccessToken());
       });
-      confirmLogout();
+      if(user_div==='kakao'){
+        confirmLogout();
+      }
       // alert('카카오 API 완전 로그아웃을 위해 카카오톡 페이지로 이동하시겠습니까?');
       // document.location.href = 'https://accounts.kakao.com';
     }else{
@@ -64,7 +72,7 @@ function HeaderLoginArea(props) {
   if(props.isLogin){
     return (
       <>
-      <p className='p_white'>{inputId} 님 환영합니다.</p>
+      <p className='p_white'>{user_id} 님 환영합니다.</p>
       <p className='p_white'>
         <Link to="/myPage" >MYPAGE</Link>
         &nbsp;/&nbsp;

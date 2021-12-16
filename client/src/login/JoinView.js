@@ -59,25 +59,25 @@ function JoinView() {
         console.log(pwCheckFlag)
         console.log(pw2CheckFlag)
         console.log(emailCheckFlag)
-        if(inputId=="" || !idCheckFlag){
+        if(inputId==="" || !idCheckFlag){
             alert("ID를 올바르게 입력해주세요")
             inputIdRef.current.focus();
             return false;
         }
 
-        if(inputPw=="" || !pwCheckFlag){
+        if(inputPw==="" || !pwCheckFlag){
             alert("비밀번호를 올바르게 입력해주세요")
             inputPwRef.current.focus();
             return false;
         }
 
-        if(inputPw2=="" || !pw2CheckFlag){
+        if(inputPw2==="" || !pw2CheckFlag){
             alert("비밀번호를 올바르게 입력해주세요")
             inputPw2Ref.current.focus();
             return false;
         }
 
-        if(inputEmail=="" || !emailCheckFlag){
+        if(inputEmail==="" || !emailCheckFlag){
             alert("이메일을 올바르게 입력해주세요")
             inputEmailRef.current.focus();
             return false;

@@ -30,7 +30,7 @@ router.post('/doLogin',  (req, res, next) => {
     var user={};
     user.id=req.body.id;
     user.pw=req.body.pw;
-
+    
     passport.authenticate('local', (authError, user, info) => {
 
         if (authError) {
@@ -42,13 +42,17 @@ router.post('/doLogin',  (req, res, next) => {
             //98 = 비밀번호 불일치
             return res.send(info.message)
         }
-
+        //1. localStrategy.js
+        //2. passport-index.js =>
         return req.login(user, (loginError) => {
             if (loginError) {
                 return res.send("97");
             }
-        
-            return res.send("1");
+            user.pw='';
+            // delete user.pw;
+            console.log('---user')
+            console.log(user)
+            return res.send(user);
         });
         
     })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
@@ -133,9 +137,44 @@ router.get('/doKakaoLogin_callback', passport.authenticate('kakao', {
 });
 
 //Mypage
-router.get('/mypage', function(req, res, next) {
-    console.log(req.user)
-    res.render("login/mypage",{"ss_user":req.user});
+router.post('/myPage', async function(req, res) {
+    console.log(req.body)
+    const exUser = await UserModel.findOne({"user_id":req.body.user_id},{_id:0,user_id:1,email:1,social_div:1});
+    console.log(exUser)
+    res.send(exUser)
+
+});
+
+
+//changeInfo
+router.post('/changeInfo', async function(req, res) {
+    var result={};
+    console.log(req.body)
+    let hashPassword = crypto.createHash("sha512").update(req.body.pw0).digest("hex");
+    var changePw = '';
+    if(req.body.pw==''){
+        changePw=hashPassword
+    }else{
+        changePw=crypto.createHash("sha512").update(req.body.pw).digest("hex");
+    }
+    var cnt = await UserModel.count({"user_id":req.body.id,"pw":hashPassword});
+
+    if(cnt==0){
+        //비밀번호 올바르지 않음 처리.
+        result.state="99";
+    }else{
+        var rslt = await UserModel.updateOne(
+            {user_id:req.body.id},
+            {$set: {email: req.body.email,pw: changePw}}
+        ).clone();
+
+        if(rslt!=null){
+            result.state="0"
+        }
+    }
+    
+    res.send(result)
+
 });
 
 
