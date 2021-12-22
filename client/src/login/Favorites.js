@@ -1,5 +1,7 @@
 import React, {useState, useRef,useEffect} from 'react';
 import FavoritesSpotData from "./FavoritesSpotData";
+import FavoritesApartData from "./FavoritesApartData";
+
 import axios from 'axios';
 import $ from 'jquery';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,6 +31,8 @@ function Favorites() {
       MainAddrCode2:'',
       MidAddrCode2:'',
       SubAddrCode2:'',
+      datas:[],
+      inputVal:''
     });
   
     const {
@@ -44,16 +48,24 @@ function Favorites() {
       MainAddrCode2,
       MidAddrCode2,
       SubAddrCode2,
+      datas,
+      inputVal
     } = inputs;
 
     useEffect(() => {
-      
-     
       fetchMainAddr();
-      
     }, []);
 
 
+
+    function setInputVal(val){
+
+      setInputs({ //사용자지정 setState 를 setInputs 로 위에서 지정.
+        ...inputs,//객체를 복사해서
+        inputVal:val //해당하는 name,value 값을 맞춰서 업데이트처리.
+      });
+    }
+    
     const fetchMainAddr = async (e) => {
         try {
           const response = await axios.get(
@@ -75,6 +87,18 @@ function Favorites() {
         var index = e.nativeEvent.target.selectedIndex;
         var selText = e.nativeEvent.target[index].text;
 
+        if(e.target.value==='- 시도 -'){
+          setInputs({
+            ...inputs,
+            SubAddrs2:[],
+            SubAddrCode2:'',
+            MidAddrs2:[],
+            MidAddrCode2:'',
+            MainAddrCode2:''
+          });
+          return false;
+        }
+        
         try {
           const response = await axios.post(
             url+'/api/apart/getMidAddr',
@@ -128,11 +152,22 @@ function Favorites() {
     };
 
 
+
     
     const fetchMidAddr2 = async (e) => {
         var index = e.nativeEvent.target.selectedIndex;
         var selText = e.nativeEvent.target[index].text;
-
+        if(e.target.value==='- 시도 -'){
+          setInputs({
+            ...inputs,
+            SubAddrs2:[],
+            SubAddrCode2:'',
+            MidAddrs2:[],
+            MidAddrCode2:'',
+            MainAddrCode2:''
+          });
+          return false;
+        }
         try {
           const response = await axios.post(
             url+'/api/apart/getMidAddr',
@@ -185,6 +220,56 @@ function Favorites() {
         });
     };
 
+    async function addFavoriteApart(){
+      // alert(inputVal+",,"+SubAddrCode2)
+      if(inputVal===''){
+        alert("아파트명을 입력해주세요")
+        return false;
+      }
+      if(SubAddrCode2===''){
+        if(window.confirm("읍면동을 선택하지 않고 등록시 정확한 조회가 어렵습니다 \n 계속하시겠습니까?")){
+
+          
+
+        }else{
+          return false;
+        }
+      }
+      try {
+        const response = await axios.post(
+          url+'/api/apart/getCount',
+          {sub_cate:SubAddrCode2,keyword:inputVal}
+        );
+
+        if(response.data===0){
+          alert("'"+inputVal+"'아파트명의 데이터가 존재하지않습니다.")
+          return false;
+        }else{
+          const response2 = await axios.post(
+            url+'/login/addFavoriteApart',
+              {
+                addr_sub_code:SubAddrCode2,
+                apart_name:inputVal,
+                user_id : sessionStorage.getItem('user_id')
+              }
+            // {cate:$("#main_cate option:selected").text()}
+          );
+          if(response2.data===1){
+            alert("관심아파트가 등록되었습니다")
+          }else{
+              alert("error")
+          }
+        }
+
+        
+
+        console.log(response.data)
+      } catch (e) {
+      }
+      
+      
+    }
+
     async function addFavorite(){
         if(MainAddrCode===''){
             alert("시도를 선택해주세요.")
@@ -201,7 +286,7 @@ function Favorites() {
         // console.log(sessionStorage.getItem('user_id'))
         try {
             const response = await axios.post(
-              url+'/login/addFavorite',
+              url+'/login/addFavoriteSpot',
                 {
                   MidAddrCode:MidAddrCode,
                   SubAddrCode:SubAddrCode,
@@ -325,7 +410,9 @@ function Favorites() {
                                 </span> 
                             </div>
                             <div className='favor_sub_div_contents_hold'>
-                                <span className='span_contents_left'>
+                            <FavoritesApartData />
+
+                                {/* <span className='span_contents_left'>
                                     1순위 : 벽적골두산
                                     <a>+</a>
                                     <a>-</a>
@@ -342,7 +429,7 @@ function Favorites() {
                                     <a>+</a>
                                     <a>-</a>
                                     <a>*</a>
-                                </span> 
+                                </span>  */}
                             </div>
 
                             <div className='favor_sub_div'>
@@ -370,13 +457,13 @@ function Favorites() {
                                         <option key={SubAddr.동리명} value={SubAddr.동리명}>{SubAddr.동리명}</option>
 ))}
                                     </select>
-                                    <AutoComple_custom />
+                                    <AutoComple_custom setInputVal={setInputVal} SubAddrCode2={SubAddrCode2}  />
                                         
                                     {/* <input type='text' placeholder='Search By Apartment Name'/> */}
                                 </span> 
                                 
                             </div>
-                            <div className='span_contents_btn'>관심등록</div>
+                            <div onClick={addFavoriteApart} className='span_contents_btn'>관심등록</div>
                         </div>
                     </div>
                         

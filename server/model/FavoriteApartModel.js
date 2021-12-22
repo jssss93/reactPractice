@@ -11,21 +11,21 @@ autoIncrement.initialize(connection);
 
 
 
-var FavoiteSpotSchema = new mongoose.Schema({
+var FavoiteApartSchema = new mongoose.Schema({
     seq: {type:Number},
     user_id: String,
-    addr_code : String,
-    addr_name : String,
+    addr_sub_code : String,
+    apart_name : String,
     reg_date    : {type: Date, default: Date.now()},
     upt_date: String
 });
 
-FavoiteSpotSchema.plugin(autoIncrement.plugin,{
-    model : 'favorite_spot',
+FavoiteApartSchema.plugin(autoIncrement.plugin,{
+    model : 'favorite_apart',
     field : 'seq',
     startAt : 1, //시작 
     increment : 1 // 증가
 });
 
-var FavoiteSpot= mongoose.model('favorite_spot', FavoiteSpotSchema);
-module.exports = FavoiteSpot
+var FavoiteApart= mongoose.model('favorite_apart', FavoiteApartSchema);
+module.exports = FavoiteApart

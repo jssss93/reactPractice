@@ -23,7 +23,7 @@
     border: 1px solid #cecece;
     padding: 12px 15px;
     font-size: 14px;
-    width: 100%;
+    width: 80%;
   }
   
   .autocomplete-wrapper input:focus {

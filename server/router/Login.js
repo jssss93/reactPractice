@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const passport          = require('passport');
 var UserModel = require('../model/UserModel');
 var FavoriteSpotModel = require('../model/FavoriteSpotModel');
-
+var FavoriteApartModel = require('../model/FavoriteApartModel');
 
 const PropertiesReader  = require('properties-reader');
 const properties        = PropertiesReader('./properties');
@@ -180,8 +180,47 @@ router.post('/changeInfo', async function(req, res) {
 
 });
 
+
+
 //addFavorite
-router.post('/addFavorite', async function(req, res) {
+router.post('/addFavoriteApart', async function(req, res) {
+    console.log(req.body)
+    var result="0";
+    
+    var favoriteApartModel = new FavoriteApartModel();
+ 
+    favoriteApartModel.reg_date = new Date();
+    favoriteApartModel.user_id = req.body.user_id;
+    favoriteApartModel.addr_sub_code = req.body.addr_sub_code;
+    favoriteApartModel.apart_name = req.body.apart_name
+    favoriteApartModel.save(function(data){
+        console.log(data)
+        result = "1";
+        res.send(result)
+    });
+
+});
+
+
+router.post('/getFavoriteApart', async function(req, res) {
+    console.log(req.body)
+
+    FavoriteApartModel.find({"user_id":req.body.user_id},{_id:0},   function(err, datas){    
+        if(err) return res.status(500).json({error: err});
+        if(datas.length>0){
+            console.log(datas)
+            res.send(datas);
+        }else{
+            console.log('datas not found1')
+        }
+    }).sort({"reg_date":1});
+
+});
+
+
+
+//addFavorite
+router.post('/addFavoriteSpot', async function(req, res) {
     console.log(req.body)
     var result="0";
     

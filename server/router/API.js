@@ -70,22 +70,45 @@ router.post('/apart/getSubAddr',function(req,res){
     });
     
 });
-router.post('/apart/autoComplete',async function(req,res){
+
+
+
+router.post('/apart/getCount',async function(req,res){
     var match = {};
-    if(req.body.sub_cate!=null){
-        
+    console.log(req.body)
+    if(req.body.sub_cate!=''){
         match.법정동 = req.body.sub_cate;
     }
-    if(req.body.keyword!=null){
+    if(req.body.keyword!=''){
+        var subMap = { $regex:req.body.keyword };
+        match.아파트 = subMap
+    }
+
+    ApartModel.count(match, function(err, c) {
+        res.send(c+"")
+        console.log('Count is ' + c);
+   });
+});
+
+router.post('/apart/autoComplete',async function(req,res){
+    var match = {};
+    console.log(req.body)
+    if(req.body.sub_cate!=''){
+        match.법정동 = req.body.sub_cate;
+    }
+    if(req.body.keyword!=''){
         var subMap = { $regex:req.body.keyword };
         match.아파트 = subMap
     }
 
     ApartModel.aggregate([
         { $match : match },
-        { $limit : 10 }
+        { $limit : 1000 },
+        { $project:{_id:0}},
+        { $sort:{아파트:1}}
+        
     ],function(err, aparts){
-
+        console.log(aparts)
         if(err) return res.status(500).json({error: err});
         res.send(aparts);
     });

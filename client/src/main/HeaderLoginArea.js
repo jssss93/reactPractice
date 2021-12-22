@@ -74,7 +74,7 @@ console.log(sessionStorage.getItem('ss_user'))
       <>
       <p className='p_white'>{user_id} 님 환영합니다.</p>
       <p className='p_white'>
-        <Link to="/myPage" >MYPAGE</Link>
+        <Link to="/myPage" onClick={props.menuToggle} >MYPAGE</Link>
         &nbsp;/&nbsp;
         <Link to="/" onClick={props.menuToggle,onClickLogOut}>LOGOUT</Link>
       </p>
