@@ -33,7 +33,7 @@ function ApiMainFunction() {
     MainAddrs,
     MidAddrs,
     SubAddrs,
-    // MainAddrCode,
+    MainAddrCode,
     MidAddrCode,
     SubAddrCode,
     startDate,
@@ -64,9 +64,7 @@ function ApiMainFunction() {
     fetchMainAddr();
   }, []);
 
-
-
-
+  
   const fetchMainAddr = async (e) => {
     try {
       const response = await axios.get(
@@ -80,40 +78,103 @@ function ApiMainFunction() {
       
     } catch (e) {
     }
-  };
+};
 
-  const fetchMidAddr = async () => {
+
+const fetchMidAddr = async (e) => {
+    var index = e.nativeEvent.target.selectedIndex;
+    var selText = e.nativeEvent.target[index].text;
+
     try {
       const response = await axios.post(
         url+'/api/apart/getMidAddr',
-        {cate:$("#main_cate option:selected").text()}
+        {cate:selText}
+        // {cate:$("#main_cate option:selected").text()}
       );
       setInputs({
         ...inputs,
         SubAddrs:[],
+        SubAddrCode:'',
+        MidAddrCode:'',
         MidAddrs:response.data,
-        MainAddrCode : $("#main_cate option:selected").text()
+        MainAddrCode : selText
       });
     } catch (e) {
     }
-  };
+};
 
 
-  const fetchSubAddr = async () => {
+const fetchSubAddr = async (e) => {
+
+    var index = e.nativeEvent.target.selectedIndex;
+    var selText = e.nativeEvent.target[index].text;
+
     try {
       const response = await axios.post(
         url+'/api/apart/getSubAddr',
-        {cate:$("#mid_cate option:selected").text()}
+        {cate:selText}
       );
       setInputs({
         ...inputs,
-        SubAddrs:response.data
-        ,MidAddrCode : $("#mid_cate option:selected").val()
-        ,page : 1
+        SubAddrCode:'',
+        SubAddrs:response.data,
+        MidAddrCode : selText,
+        page : 1
       });
     } catch (e) {
     }
-  };
+};
+
+
+
+  // const fetchMainAddr = async (e) => {
+  //   try {
+  //     const response = await axios.get(
+  //       url+'/api/apart/getMainAddr'
+  //     );
+
+  //     setInputs({ //사용자지정 setState 를 setInputs 로 위에서 지정.
+  //       ...inputs,//객체를 복사해서
+  //       MainAddrs:response.data //해당하는 name,value 값을 맞춰서 업데이트처리.
+  //     });
+      
+  //   } catch (e) {
+  //   }
+  // };
+
+  // const fetchMidAddr = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       url+'/api/apart/getMidAddr',
+  //       {cate:$("#main_cate option:selected").text()}
+  //     );
+  //     setInputs({
+  //       ...inputs,
+  //       SubAddrs:[],
+  //       MidAddrs:response.data,
+  //       MainAddrCode : $("#main_cate option:selected").text()
+  //     });
+  //   } catch (e) {
+  //   }
+  // };
+
+
+  // const fetchSubAddr = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       url+'/api/apart/getSubAddr',
+  //       {cate:$("#mid_cate option:selected").text()}
+  //     );
+  //     setInputs({
+  //       ...inputs,
+  //       SubAddrs:response.data
+  //       ,MidAddrCode : $("#mid_cate option:selected").val()
+  //       ,page : 1
+  //     });
+  //   } catch (e) {
+  //   }
+  // };
+
   const selectSubAddr = async () => {
     setInputs({
       ...inputs

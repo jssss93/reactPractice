@@ -89,7 +89,7 @@ function JoinView() {
         );
         console.log(response.data)
 
-        if(response.data=='1'){
+        if(response.data==='1'){
             alert('회원가입완료 해당정보로 로그인해주세요')
             // sessionStorage.setItem('user_id', inputId)//정보저장
             document.location.href = '/';

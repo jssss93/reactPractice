@@ -163,7 +163,7 @@ function MyPageView() {
     function pw2CheckEvent(pw2){
         var upw = inputPw;
         var upw2 = pw2;
-        if(upw2!=upw){
+        if(upw2!==upw){
             pw2CheckFlag=false;
             $("#pw2CheckIcon").hide();
             // $("#pw2Title").css('color','#a6a6a6');
@@ -190,7 +190,7 @@ function MyPageView() {
                 {"email" : email}
             );
 
-            if(response.data=="1"){
+            if(response.data==="1"){
                 emailCheckFlag=false;
                 $("#emailCheckIcon").hide();
                 // $("#emailTitle").css('color','#a6a6a6');

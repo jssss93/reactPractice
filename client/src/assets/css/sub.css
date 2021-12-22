@@ -381,10 +381,26 @@ table td{text-align: center !important;}
 	font-size:20px;
 	font-weight: 700;
 }
+
+
+
 .span_contents{
 	width:60%;
 	float:left;
 }
+
+.span_contents_left{
+	width:70%;
+	float:left;
+}
+.span_contents_right{
+	width:30%;
+	float:right;
+}
+.span_contents_right a{
+	float:right;
+}
+
 .span_contents_btn{
 	width:30%;
 	float:right;

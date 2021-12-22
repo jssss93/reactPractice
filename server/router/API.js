@@ -38,7 +38,7 @@ router.get('/apart/getMainAddr',function(req,res){
     
 });
 router.post('/apart/getMidAddr',function(req,res){
-    // console.log(req.body.cate)
+    console.log(req.body.cate)
     AddrModel.find({"시도명":req.body.cate,"시군구명":{$ne:""},"읍면동명":""},{"시군구명":1,"지역코드":{ $substr: [ "$법정동코드", 0, 5 ] }},   function(err, addrs){    
         if(err) return res.status(500).json({error: err});
         if(addrs.length>0){

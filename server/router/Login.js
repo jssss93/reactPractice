@@ -3,6 +3,9 @@ var router  = express.Router();
 const crypto = require('crypto');
 const passport          = require('passport');
 var UserModel = require('../model/UserModel');
+var FavoriteSpotModel = require('../model/FavoriteSpotModel');
+
+
 const PropertiesReader  = require('properties-reader');
 const properties        = PropertiesReader('./properties');
 
@@ -176,6 +179,42 @@ router.post('/changeInfo', async function(req, res) {
     res.send(result)
 
 });
+
+//addFavorite
+router.post('/addFavorite', async function(req, res) {
+    console.log(req.body)
+    var result="0";
+    
+    var favoriteSpotModel = new FavoriteSpotModel();
+ 
+    favoriteSpotModel.reg_date = new Date();
+    favoriteSpotModel.user_id = req.body.user_id;
+    favoriteSpotModel.addr_name = req.body.MidAddrCode+"_"+req.body.SubAddrCode
+    favoriteSpotModel.save(function(data){
+        console.log(data)
+        result = "1";
+        res.send(result)
+    });
+
+});
+
+router.post('/getFavoriteSpot', async function(req, res) {
+    console.log(req.body)
+
+    FavoriteSpotModel.find({"user_id":req.body.user_id},{_id:0},   function(err, datas){    
+        if(err) return res.status(500).json({error: err});
+        if(datas.length>0){
+            console.log(datas)
+            res.send(datas);
+        }else{
+            console.log('datas not found1')
+        }
+    }).sort({"reg_date":1});
+
+});
+
+
+
 
 
 module.exports = router; //이 라인으로 인해 다른소스에서도 router 를 가져다 쓸 수 있다.

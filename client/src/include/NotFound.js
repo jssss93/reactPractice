@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope,faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const NotFound = () => {
-  var now = new Date();
+  // var now = new Date();
   return (
     <section id="one" className="wrapper style2">
       <div className="inner">
