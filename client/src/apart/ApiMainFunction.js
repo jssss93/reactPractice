@@ -3,7 +3,7 @@ import DatePickerComponent from '../include/DatePickerComponent';
 import $ from 'jquery';
 import axios from 'axios';
 import ApartMainTableFunction from './ApartMainTableFunction';
-
+import AutoComple_apart from './AutoComple_apart';
 import { properties } from '../include/properties';
 var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
@@ -302,6 +302,10 @@ const fetchSubAddr = async (e) => {
                     />
                     <div className='keyword_area'>
                       {/* <input type="text" className='keyword' name="keyword" id="keyword"  placeholder="ApartMent Name" onclick='autoComplete();' onkeyup='autoComplete();' /> */}
+                      <AutoComple_apart
+                        keywordChange={keywordChange}
+                        keywordPress={keywordPress}
+                      />
                       <input type="text" className='keyword' name="keyword" id="keyword" onChange={keywordChange} onKeyPress={keywordPress} placeholder="ApartMent Name" />
                       <input className='display_none' type="text" name="none" id="none" placeholder="Name" />
                     </div>

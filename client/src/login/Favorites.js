@@ -256,6 +256,7 @@ function Favorites() {
           );
           if(response2.data===1){
             alert("관심아파트가 등록되었습니다")
+            document.location.href = '/myPage/favorites';
           }else{
               alert("error")
           }
@@ -296,6 +297,7 @@ function Favorites() {
             );
             if(response.data===1){
                 alert("관심지역이 등록되었습니다")
+                document.location.href = '/myPage/favorites';
             }else{
                 alert("error")
             }
