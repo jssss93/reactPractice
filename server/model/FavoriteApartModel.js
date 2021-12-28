@@ -13,6 +13,7 @@ autoIncrement.initialize(connection);
 
 var FavoiteApartSchema = new mongoose.Schema({
     seq: {type:Number},
+    ordr : Number,
     user_id: String,
     addr_sub_code : String,
     apart_name : String,

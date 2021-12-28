@@ -188,16 +188,35 @@ router.post('/addFavoriteApart', async function(req, res) {
     var result="0";
     
     var favoriteApartModel = new FavoriteApartModel();
- 
-    favoriteApartModel.reg_date = new Date();
-    favoriteApartModel.user_id = req.body.user_id;
-    favoriteApartModel.addr_sub_code = req.body.addr_sub_code;
-    favoriteApartModel.apart_name = req.body.apart_name
-    favoriteApartModel.save(function(data){
-        console.log(data)
-        result = "1";
-        res.send(result)
-    });
+    FavoriteApartModel.find({},{},function(err,datas){
+        
+        console.log('---------')
+        console.log('---------')
+        console.log('---------')
+        console.log(datas)
+
+        
+        if(datas.length>0){
+            favoriteApartModel.ordr=datas[0].ordr+1;
+        }else{
+            favoriteApartModel.ordr=1;
+        }
+
+        console.log("favoriteApartModel.ordr==>")
+        console.log(favoriteApartModel.ordr)
+
+        favoriteApartModel.reg_date = new Date();
+        favoriteApartModel.user_id = req.body.user_id;
+        favoriteApartModel.addr_sub_code = req.body.addr_sub_code;
+        favoriteApartModel.apart_name = req.body.apart_name;
+        favoriteApartModel.save(function(data){
+            console.log(data);
+            result = "1";
+            res.send(result)
+        });
+    
+    }).sort({ordr:-1}).limit(1)
+    
 
 });
 
@@ -213,7 +232,7 @@ router.post('/getFavoriteApart', async function(req, res) {
         }else{
             console.log('datas not found1')
         }
-    }).sort({"reg_date":1});
+    }).sort({ordr:1});
 
 });
 
@@ -225,16 +244,33 @@ router.post('/addFavoriteSpot', async function(req, res) {
     var result="0";
     
     var favoriteSpotModel = new FavoriteSpotModel();
- 
-    favoriteSpotModel.reg_date = new Date();
-    favoriteSpotModel.user_id = req.body.user_id;
-    favoriteSpotModel.addr_name = req.body.MidAddrCode+"_"+req.body.SubAddrCode
-    favoriteSpotModel.save(function(data){
-        console.log(data)
-        result = "1";
-        res.send(result)
-    });
+    FavoriteSpotModel.find({},{},function(err,datas){
+        
+        console.log('---------')
+        console.log('---------')
+        console.log('---------')
+        console.log(datas)
 
+        
+        if(datas.length>0){
+            favoriteSpotModel.ordr=datas[0].ordr+1;
+        }else{
+            favoriteSpotModel.ordr=1;
+        }
+
+        console.log("favoriteSpotModel.ordr==>")
+        console.log(favoriteSpotModel.ordr)
+
+        favoriteSpotModel.reg_date = new Date();
+        favoriteSpotModel.user_id = req.body.user_id;
+        favoriteSpotModel.addr_name = req.body.MidAddrCode+"_"+req.body.SubAddrCode
+        favoriteSpotModel.save(function(data){
+            console.log(data)
+            result = "1";
+            res.send(result)
+        });
+    
+    }).sort({ordr:-1}).limit(1)
 });
 
 router.post('/getFavoriteSpot', async function(req, res) {
@@ -248,7 +284,7 @@ router.post('/getFavoriteSpot', async function(req, res) {
         }else{
             console.log('datas not found1')
         }
-    }).sort({"reg_date":1});
+    }).sort({ordr:1});
 
 });
 
