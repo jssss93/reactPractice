@@ -335,7 +335,7 @@ function Favorites() {
                 </div>
                 <div className="content">
                     <header className="align-center">
-                        <h2>관심 설정</h2>
+                        <h2>관심 설정(ordr 변경기능)</h2>
                         <br/>
                     </header>
                     <div className='favor_main_div'>

@@ -16,3 +16,6 @@ kakao.ID = 35ecd6ab60c5b6517ddb7813ae9e69dc
 ELS_host = http://127.16.0.1:9200/
 #docker port = >3001 , local port = > 3000
 node_port = 3001
+
+gmail_id = choec53@gmail.com
+gmail_app_pw = djgkhjjqjihnfidd

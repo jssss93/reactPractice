@@ -1,4 +1,4 @@
-import React  from 'react';
+import React ,{useRef}  from 'react';
 import $ from 'jquery';
 import { Line } from 'react-chartjs-2'
 import { Chart } from 'chart.js/auto' //챠트에 꼭 필요
@@ -69,7 +69,19 @@ const getDatas = async (props) => {
   }
 };
 
+
 function ChartLine(props) {
+
+  const chartRef = useRef(null);
+  async function sendChartMail(){
+    
+    const response = await axios.post(
+      url+'/api/apart/sendChartMail',
+      {href:chartRef.current.toBase64Image(),아파트:props.아파트,법정동:props.법정동,start_dt : $("#start_dt").val(),end_dt : $("#end_dt").val()}
+    );
+  }
+
+
   const [state, refetch] = useAsyncChart(props,getDatas, 
     [
       props.chartFlag
@@ -92,10 +104,11 @@ function ChartLine(props) {
       <td colSpan={5}  >
         <span className='myChart_email' >
           {/* <a  onClick="sendDataEmail('<%=idx%>');">send E-Mail</a> */}
-          <a>send E-Mail</a>
+          <a onClick={sendChartMail}>send E-Mail</a>
         </span>
         <span className='myChart_div'  >
           <Line
+          ref={chartRef}
           style={{ height: "100%" ,width:"100%" }}
           data={ chartData }
           options={ {
@@ -161,6 +174,7 @@ function ChartLine(props) {
               // 	progressing=false;
               // },
               onProgress: function(animation) {
+                // alert(toBase64Image())
                 // $("#dongName").val(dongName);
                 // $("#aptName").val(aptName);
                 // $("#href").val(myChart.toBase64Image());

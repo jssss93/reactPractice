@@ -23,7 +23,7 @@ function TableDatas(props) {
     <>
 {
 
-datas.map(data => (
+datas.map((data,idx) => (
           <tbody key={data._id} id={data._id}  >
             <tr  className='table_basic'>
               <td>{data.년}.{data.월}.{data.일} </td>
@@ -31,7 +31,7 @@ datas.map(data => (
               <td>
                 <div className='table_row' >{data.아파트} ({data.층}F)
                   <a 
-                    id='myChart_<%=idx%>' 
+                    id='myChart_'
                     // onClick={showChart}
                     onClick={() => showChart(data._id)}  
                     className="fontAwesome_a"
@@ -54,7 +54,8 @@ datas.map(data => (
               <td className='table_samll_td' colSpan={5} >
                 <span >거래일 : </span> {data.년}.{data.월}.{data.일}<br/> 
                 <span >아파트명 : </span> {data.아파트} ({data.층}F) -  {data.법정동}
-                <a id='myChart_<%=idx%>' 
+                
+                <a id='myChart_'
                   onClick={() => showChart(data._id)}  
                   // className="special icon fa-search"
                   className="fontAwesome_a"

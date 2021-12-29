@@ -9,7 +9,7 @@ var APIModel = require('../model/APIModel');
 var ApartModel = require('../model/ApartModel');
 var nodemailer = require('nodemailer');
 var fs = require('fs'); 
-// var commonjs = require('../common/common');
+var commonjs = require('../include/common_js.js');
 var querystring = require('querystring');
 
 const PropertiesReader  = require('properties-reader');
@@ -93,14 +93,14 @@ router.post('/apart/getCount',async function(req,res){
 router.post('/apart/autoComplete',async function(req,res){
     var match = {};
     console.log(req.body)
-    if(req.body.sub_cate!=''){
+    if(req.body.sub_cate!='' && req.body.sub_cate!=null){
         match.법정동 = req.body.sub_cate;
     }
     if(req.body.keyword!=''){
         var subMap = { $regex:req.body.keyword };
         match.아파트 = subMap
     }
-
+    console.log(match)
     ApartModel.aggregate([
         { $match : match },
         { $limit : 1000 },
@@ -108,7 +108,7 @@ router.post('/apart/autoComplete',async function(req,res){
         { $sort:{아파트:1}}
         
     ],function(err, aparts){
-        console.log(aparts)
+        console.log(aparts[0])
         if(err) return res.status(500).json({error: err});
         res.send(aparts);
     });
@@ -671,28 +671,29 @@ router.post('/apart/getChartData', function(req,res){
 
 
 router.post('/apart/sendChartMail', async function(req,res){
+    console.log(req.body)
     var uri = req.body.href.split(',')[1];
-    var imgName = req.body.imgDown;
+    var imgName = "["+req.body.법정동+"]"+req.body.아파트+"_실거래 내역"+'.png';
     var filePath = "public/data/chartImg/"+imgName;
     var subquery2={};
     subquery2.$gte = (req.body.start_dt+"").replace(/\./gi, "");
     subquery2.$lte = (req.body.end_dt+"").replace(/\./gi, "");
 
     APIModel.aggregate([
-        { $match :{"아파트":req.body.aptName,"법정동":req.body.dongName,"거래일":subquery2}},
+        { $match :{"아파트":req.body.아파트,"법정동":req.body.법정동,"거래일":subquery2}},
         { $project : {"거래금액":1,"거래일":1,"법정동":1,"전용면적":1,"층":1}},
         { $sort : {"거래일":-1} }
         
     ]).exec().then( async (result,err) => {
         var str ="<style> th{text-align:right;width:10%;} </style>"
-        str += "<h2>["+req.body.dongName+"]"+req.body.aptName+"_실거래 내역 ("+result.length+"건)</h2>";
+        str += "<h2>["+req.body.법정동+"]"+req.body.아파트+"_실거래 내역 ("+result.length+"건)</h2>";
         str+="<table style='border:1px solid black; width:20%;'>"
         str+="<th>거래일</th><th>거래금액(평)</th><th>층</th>";
         // ;
         for(var i=0;i<result.length;i++){
             str+="<tr>";
-            // str+="<td >"+commonjs.changeDate(result[i].거래일)+"</td>";
-            // str+="<td style='text-align:risght;'>"+commonjs.addComma(result[i].거래금액)+"₩ ("+(result[i].전용면적/3.3).toFixed(0)+"P)</td>";
+            str+="<td >"+commonjs.changeDate(result[i].거래일)+"</td>";
+            str+="<td style='text-align:risght;'>"+commonjs.addComma(result[i].거래금액)+"₩ ("+(result[i].전용면적/3.3).toFixed(0)+"P)</td>";
             str+="<td style='text-align:right;'>"+result[i].층+"F</td>";
             str+="</tr>";
         }
@@ -706,15 +707,15 @@ router.post('/apart/sendChartMail', async function(req,res){
                 var transporter = nodemailer.createTransport({
                     service:'gmail',
                     auth: {
-                        user : 'choec53@gmail.com',
-                        pass : '1q2w3e4r#'
+                        user : properties.get("gmail_id"),
+                        pass : properties.get("gmail_app_pw")
                     }
                 });
                 
                 var mailOption = {
                     from: 'choec53@gmail.com',
                     to: 'choec53@gmail.com',
-                    subject: "["+req.body.dongName+"]"+req.body.aptName+"_실거래 내역"+".",
+                    subject: "["+req.body.법정동+"]"+req.body.아파트+"_실거래 내역"+".",
                     html: str,
                     attachments:[
                         {
@@ -754,13 +755,16 @@ router.post('/sendMail2', async function(req,res){
     var transporter = nodemailer.createTransport({
         service:'gmail',
         auth: {
-            user : 'choec53@gmail.com',
-            pass : '1q2w3e4r#'
+            // user : 'choec53@gmail.com',
+            // pass : 'djgkhjjqjihnfidd'
+            user : properties.get("gmail_id"),
+            pass : properties.get("gmail_app_pw")
+            
         }
     });
 
     var mailOption = {
-        from: 'choec53@gmail.com',
+        from: req.body.email,
         to: 'choec53@gmail.com',
         subject:  '문의입니다. ',
         text: 'tel : '+req.body.tel+'\n email : '+req.body.email+'\n message : '+req.body.message 

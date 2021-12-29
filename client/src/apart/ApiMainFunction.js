@@ -232,7 +232,12 @@ const fetchSubAddr = async (e) => {
   }
   
   const keywordChange = async (e) =>{
+    alert(e.target.value)
     serachKeyword=e.target.value;
+  }
+  const keywordChangeVal = async (val) =>{
+    // alert(val)
+    serachKeyword=val;
   }
 
   const keywordPress = async(e) =>{
@@ -301,12 +306,12 @@ const fetchSubAddr = async (e) => {
                       setParentEndDate={setParentEndDate}
                     />
                     <div className='keyword_area'>
+                      <input type='hidden' id='keyword_hidden' value={keyword}/>
                       {/* <input type="text" className='keyword' name="keyword" id="keyword"  placeholder="ApartMent Name" onclick='autoComplete();' onkeyup='autoComplete();' /> */}
                       <AutoComple_apart
-                        keywordChange={keywordChange}
-                        keywordPress={keywordPress}
+                        keywordChangeVal={keywordChangeVal}
                       />
-                      <input type="text" className='keyword' name="keyword" id="keyword" onChange={keywordChange} onKeyPress={keywordPress} placeholder="ApartMent Name" />
+                      {/* <input type="text" className='keyword' name="keyword" id="keyword" onChange={keywordChange} onKeyPress={keywordPress} placeholder="ApartMent Name" /> */}
                       <input className='display_none' type="text" name="none" id="none" placeholder="Name" />
                     </div>
                     <div className='btn_div'>

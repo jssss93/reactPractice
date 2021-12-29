@@ -10,7 +10,7 @@
   } */
   
   .autocomplete-wrapper {
-    width: 350px;
+    width: 100% !important;
     position: relative;
     display: inline-block;
   }
@@ -20,10 +20,14 @@
   }
   
   .autocomplete-wrapper input {
+
     border: 1px solid #cecece;
     padding: 12px 15px;
     font-size: 14px;
-    width: 80%;
+    width: 100% !important;
+    background: rgba(0, 0, 0, 0.075);
+    border-color: rgba(0, 0, 0, 0.15);
+	  border-radius: 4px;
   }
   
   .autocomplete-wrapper input:focus {

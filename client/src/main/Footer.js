@@ -1,6 +1,7 @@
-import React, { useState  } from 'react';
-import $ from 'jquery';
-
+import React, { useState ,useRef } from 'react';
+import axios from "axios";
+import { properties } from '../include/properties';
+var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 function Footer() {
 
   const [inputs, setInputs] = useState({
@@ -11,6 +12,10 @@ function Footer() {
 
   const { tel, email,message } = inputs; // 비구조화 할당을 통해 값 추출
 
+  const telRef = useRef();
+  const emailRef = useRef();
+  const messageRef = useRef();
+  
   const setValue = (e) =>{
     const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
     // alert(value)
@@ -20,46 +25,59 @@ function Footer() {
     });
   };
 
-  const sendMail = (e) => {
-    if($("#tel").val()===""){
+  const sendMail = async (e) => {
+    if(tel===""){
       alert("연락처를 입력해주세요")
-      $("#tel").focus();
+      telRef.current.focus();
       return false;
     }
 
-    if($("#email").val()===""){
+    if(email===""){
       alert("이메일을 입력해주세요");
-      $("#email").focus();
+      emailRef.current.focus();
       return false;
     }
 
-    if($("#message").val()===""){
+    if(message===""){
       alert("내용을 입력해주세요");
-      $("#message").focus();
+      messageRef.current.focus();
       return false;
     }
     console.log(inputs)
 
-    $.ajax({
-      url: "/api/sendMail",
-      type: "POST",
-      cache: false,
-      async:false,
-      dataType: "json",
-      data: {
-        tel : $("#tel").val(),
-        email : $("#email").val(),
-        message : $("#message").val()
-      },
-      success: function(data){
-        alert(data.msg)
-      },
-      error: function (request, status, error){
-      var msg = "ERROR : " + request.status + "<br>"
-      msg += + "내용 : " + request.responseText + "<br>" + error;
-      console.log(msg);
-      }
-    });
+
+    try {
+      const response = await axios.post(
+        url+'/api/sendMail2',
+        {tel : tel,
+        email : email,
+        message : message}
+      );
+      alert(response.data.msg)
+    } catch (e) {
+      // dispatch({ type: 'ERROR', error: e });
+    }
+
+    // $.ajax({
+    //   url: "/api/sendMail2",
+    //   type: "POST",
+    //   cache: false,
+    //   async:false,
+    //   dataType: "json",
+    //   data: {
+    //     tel : $("#tel").val(),
+    //     email : $("#email").val(),
+    //     message : $("#message").val()
+    //   },
+    //   success: function(data){
+    //     alert(data.msg)
+    //   },
+    //   error: function (request, status, error){
+    //   var msg = "ERROR : " + request.status + "<br>"
+    //   msg += + "내용 : " + request.responseText + "<br>" + error;
+    //   console.log(msg);
+    //   }
+    // });
   };
 
 
@@ -75,15 +93,15 @@ function Footer() {
                 <form action="#" method="post">
                   <div className="field half first">
                     <label >Tel</label>
-                    <input name="tel" id="tel" type="text" onChange={setValue} value={tel} placeholder="Tel"/>
+                    <input name="tel" id="tel" type="text" onChange={setValue} value={tel} ref={telRef} placeholder="Tel"/>
                   </div>
                   <div className="field half">
                     <label >Email</label>
-                    <input name="email" id="email" type="email" onChange={setValue} value={email} placeholder="Email"/>
+                    <input name="email" id="email" type="email" onChange={setValue} value={email} ref={emailRef} placeholder="Email"/>
                   </div>
                   <div className="field">
                     <label >Message</label>
-                    <textarea name="message" id="message" rows="6" onChange={setValue} value={message} placeholder="Message"></textarea>
+                    <textarea name="message" id="message" rows="6" onChange={setValue} value={message} ref={messageRef} placeholder="Message"></textarea>
                   </div>
                   <ul className="actions align-center">
                     <li><input value="Send Message" className="button special" type="" onClick={sendMail} readOnly /></li>

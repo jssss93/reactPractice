@@ -16,8 +16,9 @@ function AutoComple_apart(props) {
     }, [props.SubAddrCode2,input]);
 
     function setInputFunc(val){
+        props.keywordChangeVal(val.val)
         setInput(val);
-        props.setInputVal(val.val)
+        // props.setInputVal(val.val)
 
     }
     const fetchAuto = async (e) => {
@@ -77,7 +78,7 @@ function AutoComple_apart(props) {
                 {item.아파트}({item.법정동})
                 </div>
             }
-            onChange={(event, val) => setInputFunc({ val })}
+            onChange={props,(event, val) => setInputFunc({ val })}
             onSelect={(val,item) => setInputFunc({ val })}
             />
         </div>

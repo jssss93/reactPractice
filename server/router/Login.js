@@ -290,6 +290,32 @@ router.post('/getFavoriteSpot', async function(req, res) {
 
 
 
+router.post('/deleteFavoriteSpot', async function(req, res) {
+    console.log(req.body)
+    var result="0";
+    FavoriteSpotModel.deleteOne({"user_id":req.body.user_id,seq:req.body.seq}, {},  function(err, datas){    
+        if(err==null){
+            result="1";
+        }else{
+            result="2";
+        }
+        res.send(result)
+    })
+});
+
+router.post('/deleteFavoriteApart', async function(req, res) {
+    console.log(req.body)
+    var result="0";
+    FavoriteApartModel.deleteOne({"user_id":req.body.user_id,seq:req.body.seq}, {},  function(err, datas){    
+        if(err==null){
+            result="1";
+        }else{
+            result="2";
+        }
+        res.send(result)
+    })
+});
+
 
 
 module.exports = router; //이 라인으로 인해 다른소스에서도 router 를 가져다 쓸 수 있다.

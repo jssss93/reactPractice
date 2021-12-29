@@ -37,6 +37,29 @@ function FavoritesApartData() {
         }
     };
 
+    async function deleteFavoriteApart(seq){
+      if(window.confirm("삭제하시겠습니까?")){
+        try {
+          const response = await axios.post(
+            url+'/login/deleteFavoriteApart',
+            {user_id:sessionStorage.getItem('user_id'),seq:seq}
+          );
+          if(response.data=='1'){
+            alert("삭제되었습니다")
+            document.location.href = '/myPage/favorites';
+          }else{
+            alert('error')
+          }
+            console.log(response.data)
+          // setInputs({ //사용자지정 setState 를 setInputs 로 위에서 지정.
+          //   ...inputs,//객체를 복사해서
+          //   Favorites_spot_arr:response.data //해당하는 name,value 값을 맞춰서 업데이트처리.
+          // });
+          
+        } catch (e) {
+        }
+      }
+    }
  
 
     return (
@@ -49,7 +72,7 @@ function FavoritesApartData() {
                 <span className='span_contents_right'>
                     <a>↑</a>
                     <a>↓</a>
-                    <a>d</a>
+                    <a onClick={() => deleteFavoriteApart(fs.seq) }>d</a>
                 </span>
                 </>
             ))}
