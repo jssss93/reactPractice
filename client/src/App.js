@@ -20,6 +20,7 @@ import DevLogRegister   from './devlog/DevLogRegister';
 import DevLogDetail     from './devlog/DevLogDetail';
 import MyPageView       from './login/MyPageView';
 import Favorites        from './login/Favorites';
+import ChargLineAuto    from './apart/ChartLineAuto';
 
 function App() {
 
@@ -57,7 +58,8 @@ function App() {
           </Route> 
 
 
-          <Route path="/apart" component={ApiMainFunction} />
+          <Route exact path="/apart" component={ApiMainFunction} />
+          <Route path="/apart/:apartName" component={ApiMainFunction} />
           <Route path="/house" component={HouseMainFunction} />
           
           <Route exact path="/devLog" component={DevLog } />

@@ -68,6 +68,24 @@ module.exports.getDate = function(date){
     return yyyy+'.'+mm+'.'+dd;
 }
 
+module.exports.getDateBasic = function(date){
+    var yyyy = date.getFullYear();
+    var mm = date.getMonth()+1;
+    var dd = '';
+    if(mm<10){
+        mm='0'+mm;
+    }
+    if(mm===13){
+        mm='01';
+    }
+    if(dd<10){
+        dd='0'+dd;
+    }
+    dd = date.getDate();
+
+    return yyyy+''+mm+''+dd;
+}
+
 module.exports.changeDate = function(value){
     return (value.substr(0,4)+"."+value.substr(4,2)+"."+value.substr(6,2));
 }

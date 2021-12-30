@@ -8,7 +8,17 @@ import { properties } from '../include/properties';
 var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
 var serachKeyword='';
-function ApiMainFunction() {
+function ApiMainFunction(match) {
+
+  //##AutoSendMail.js  Params Setting
+  console.log(match.match.params.apartName)
+  var apartName = "";
+  var dongName = "";
+  if(match.match.params.apartName!=undefined){
+    apartName = match.match.params.apartName.split('__')[0];
+    dongName = match.match.params.apartName.split('__')[1];
+  }
+  
   console.log('ApiMainFunction')
   const [inputs, setInputs] = useState({
     MainAddrs:[],
@@ -16,7 +26,7 @@ function ApiMainFunction() {
     SubAddrs:[],
     MainAddrCode:'',
     MidAddrCode:'',
-    SubAddrCode:'',
+    SubAddrCode:dongName,
     startDate:new Date().getTime() - 6 * 30 * 24 * 60 * 60 * 1000,
     endDate:new Date(),
     limits:[10,100,500,1000],
@@ -26,7 +36,7 @@ function ApiMainFunction() {
     아파트:'',
     법정동:'',
     page:1,
-    keyword:''
+    keyword:apartName
   });
 
   const {
