@@ -1,12 +1,12 @@
 var mongoose    = require('mongoose');
 const PropertiesReader = require('properties-reader');
 const properties = PropertiesReader('../properties');
-var commonjs = require('../common/common');
+// var commonjs = require('../common/common');
 // const kafkajs = require('./kafka.js');
-// const elastic = require('elasticsearch');
-// const elasticClient = elastic.Client({host:'localhost:9200'});
+const elastic = require('elasticsearch');
+const elasticClient = elastic.Client({host:'116.121.141.52:9200'});
 require('events').EventEmitter.defaultMaxListeners = Infinity;
-// const kafka = require('kafka-node');
+const kafka = require('kafka-node');
 
 //#####################################
 //#####################################
@@ -81,13 +81,14 @@ function findAllCode(){
                     console.log('---------------------date :: '+date+'  START---------------------');
                     
                     //ElasticData 해당 년,월 삭제
-                    // await deleteElasticData(date);
+                    await deleteElasticData(date);
 
                     //MongoData 해당 년,월 삭제
                     await deleteMongoData(date);
                     
                     //이런식의 코드면 위 두개에 대한 함수간 동기화는 보장 안됨.
 
+                    // for(var i=0;i<5;i++){
                     for(var i=0;i<result.length;i++){
                         var code = result[i].법정동코드;
                         await callAPI(code,date,i);
@@ -149,12 +150,12 @@ function findAllCode(){
 function deleteElasticData(date){
     console.log("ElasticData삭제요청")
 
-    const client = new elasticsearch.Client({
-        hosts: ["http://localhost:9200"]
-    });
+    // const client = new elasticsearch.Client({
+    //     hosts: ["http://localhost:9200"]
+    // });
 
     try { 
-        client.deleteByQuery({
+        elasticClient.deleteByQuery({
             index: 'apis',
             body: {
                 "query": {
@@ -214,9 +215,9 @@ function deleteMongoData(date){
 }
 
 function insertData(body,code,idx){
-    // Producer = kafka.Producer,
-    // client = new kafka.KafkaClient({kafkaHost: '127.0.0.1:9092,127.0.0.1:9093,127.0.0.1:9094'}),
-    // producer = new Producer(client);
+    Producer = kafka.Producer,
+    client = new kafka.KafkaClient({kafkaHost: '116.121.141.52:9092,116.121.141.52:9093,116.121.141.52:9094'}),
+    producer = new Producer(client);
     //console.log(idx+'insertData START')
     return new Promise( function(resolve, reject) {
 
@@ -306,12 +307,38 @@ function insertData(body,code,idx){
                     apiModel.해제사유발생일  =dataList[i].해제사유발생일._text;
     */
 
-                        
-                    // callProducer(apiModel,producer)
-                    apiModel.save(function(err){ 
-                        if(err) return console.error(err);
-                    });  
+                        // console.log(apiModel.거래일+""+apiModel.아파트+""+apiModel._id.toString())
+                    callProducer(apiModel,producer)
+                    // var elsPrm = {};
+                    // elsPrm.거래금액=apiModel.거래금액;
+                    // elsPrm.건축년도=apiModel.건축년도;
+                    // elsPrm.년=apiModel.년;
+                    // elsPrm.월=apiModel.월;
+                    // elsPrm.일=apiModel.일;
+                    // elsPrm.법정동=apiModel.법정동;
+                    // elsPrm.아파트=apiModel.아파트;
+                    // elsPrm.지번=apiModel.지번;
+                    // elsPrm.층=apiModel.층;
+                    // elsPrm.해제여부=apiModel.해제여부;
+                    // elsPrm.해제사유발생일=apiModel.해제사유발생일;
+                    // elsPrm.거래일 = apiModel.거래일;
+                    // console.log(i+"----------------------------")
+                    
 
+                    // insertElasticData(elsPrm,apiModel._id.toString());    
+
+                    apiModel.save( function(err){ 
+                       
+
+                        // console.log(apiModel)
+                        if(err){ 
+                            return console.error(err)
+                        }else{
+                            
+                        }
+
+                    });  
+                    
                     
                     }catch(err){
                         console.log("-----------error_-------------")
@@ -333,37 +360,69 @@ function insertData(body,code,idx){
     
 }
 
-function callProducer(apiModel,producer){
+function insertElasticData(data,id){
+    // console.log("ElasticData입력요청")
+    // console.log(data.거래일+""+data.아파트+""+id)
+    // const client = new elasticsearch.Client({
+    //     hosts: ["http://localhost:9200"]
+    // });
+
+    try { 
+        elasticClient.index({
+            index: 'apis',
+            type: 'doc',
+            id: id,
+            body: data
+        }, function (error, response) {
+            return new Promise( function(resolve, reject) {
+                if(error){
+                    console.log(error)
+                    reject()
+                }else{
+                    // console.log("ElasticData입력완료 :: ")
+                    resolve()
+                }
+            });
+        });
+    
+    } catch (err) {
+        console.error(err);
+    }        
+        
+        
+
+}
+
+async function sendProducer(producer,payloads){
+    await producer.send(payloads, async function (err, data) {
+        // console.log('send');
+        // console.log(payloads)
+        // await producer.close(function() { //꼭 닫아줘야한다.
+        //     console.log('close produce'); 
+        //     // console.log("끝")
+        //     // resolve();
+        // });
+
+    });
+}
+async function callProducer(apiModel,producer){
     // return new Promise((resolve) => {
-    // console.log("call producer")
-
-        
-
-        
-        payloads = [
-            { topic: 'logs-topic', messages: JSON.stringify(apiModel._doc)}
-        ];
-
-        
-
-        producer.on('ready', function () {
-            // console.log('Connected');
-                producer.send(payloads, function (err, data) {
-                    // console.log(payloads)
-                    // console.log(payloads);
-                    // producer.close(function() { //꼭 닫아줘야한다.
-                        // console.log('close produce'); 
-                        // console.log("끝")
-                        // resolve();
-                    // });
-
-                });
-        });
-
-        producer.on('error', function (err) {
-            console.error('Error occurred:', err);
-            // resolve();
-        });
        
+    // payloads = [{ topic: 'logs-topic', messages: JSON.stringify(apiModel._doc)}];
+    // console.log(payloads)
+    await sendProducer(producer,[{ topic: 'logs-topic', messages: JSON.stringify(apiModel._doc)}])
+
+        // producer.on('ready', async function () {
+            
+            // console.log(apiModel.거래일+""+apiModel.아파트+""+apiModel._id.toString())
+            // console.log('Connected');
+                
+        // });
+
+        // producer.on('error', function (err) {
+        //     console.error('Error occurred:', err);
+            // resolve();
+        // });
+        // resolve();
     // });
 }
