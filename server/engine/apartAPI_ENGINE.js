@@ -88,7 +88,7 @@ function findAllCode(){
                     
                     //이런식의 코드면 위 두개에 대한 함수간 동기화는 보장 안됨.
 
-                    // for(var i=0;i<5;i++){
+                    // for(var i=0;i<10;i++){
                     for(var i=0;i<result.length;i++){
                         var code = result[i].법정동코드;
                         await callAPI(code,date,i);
@@ -405,12 +405,36 @@ async function sendProducer(producer,payloads){
 
     });
 }
+var partition = 0;
 async function callProducer(apiModel,producer){
     // return new Promise((resolve) => {
        
     // payloads = [{ topic: 'logs-topic', messages: JSON.stringify(apiModel._doc)}];
     // console.log(payloads)
-    await sendProducer(producer,[{ topic: 'logs-topic', messages: JSON.stringify(apiModel._doc)}])
+    // await sendProducer(producer,
+    //     [
+    //         { 
+    //             topic: 'logs-topic',
+    //             messages: JSON.stringify(apiModel._doc),
+    //             partition: 0
+    //         }
+    //     ]
+    // )
+    await producer.send([
+        { 
+            // group_id:'cjs',
+            // topic: 'partitioned',
+            topic: 'logs-topic',
+            
+            messages: JSON.stringify(apiModel._doc),
+            // partition: (++partition==3) ? 0 : partition
+            partition: 0
+        }
+    ], function (err, data) {
+        // res.json(data);
+        console.log(err)
+        console.log(data);
+    });
 
         // producer.on('ready', async function () {
             
