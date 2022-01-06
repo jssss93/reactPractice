@@ -88,7 +88,7 @@ function findAllCode(){
                     
                     //이런식의 코드면 위 두개에 대한 함수간 동기화는 보장 안됨.
 
-                    // for(var i=0;i<10;i++){
+                    // for(var i=0;i<5;i++){
                     for(var i=0;i<result.length;i++){
                         var code = result[i].법정동코드;
                         await callAPI(code,date,i);
@@ -307,8 +307,8 @@ function insertData(body,code,idx){
                     apiModel.해제사유발생일  =dataList[i].해제사유발생일._text;
     */
 
-                        // console.log(apiModel.거래일+""+apiModel.아파트+""+apiModel._id.toString())
-                    callProducer(apiModel,producer)
+                        console.log(apiModel.거래일+""+apiModel.아파트+""+apiModel._id.toString())
+                    
                     // var elsPrm = {};
                     // elsPrm.거래금액=apiModel.거래금액;
                     // elsPrm.건축년도=apiModel.건축년도;
@@ -326,9 +326,9 @@ function insertData(body,code,idx){
                     
 
                     // insertElasticData(elsPrm,apiModel._id.toString());    
-
+                    callProducer(apiModel,producer,partition++)
                     apiModel.save( function(err){ 
-                       
+                        
 
                         // console.log(apiModel)
                         if(err){ 
@@ -406,7 +406,7 @@ async function sendProducer(producer,payloads){
     });
 }
 var partition = 0;
-async function callProducer(apiModel,producer){
+async function callProducer(apiModel,producer,partition){
     // return new Promise((resolve) => {
        
     // payloads = [{ topic: 'logs-topic', messages: JSON.stringify(apiModel._doc)}];
@@ -420,17 +420,25 @@ async function callProducer(apiModel,producer){
     //         }
     //     ]
     // )
-    await producer.send([
+
+
+    //elstopic 이라는 토픽을 구독하는 partitions 컨슈머그룹을 위한 프로듀서 니까 elstopic 으로 전달.각파티션에따라 파티션 0~2으로 3개 로구성
+    await producer.send([   
         { 
-            // group_id:'cjs',
-            // topic: 'partitioned',
-            topic: 'logs-topic',
             
+            // group_id:'cjs',
+            // topic: 'logs-topic',
+            // group_id:'grouptest',
+            topic: 'elstopic',
+            // group_id:'partitions',
+            // topic: 'partitions',
             messages: JSON.stringify(apiModel._doc),
             // partition: (++partition==3) ? 0 : partition
-            partition: 0
+            // partition: 2
+            partition:partition%3
         }
     ], function (err, data) {
+        // console.log(partition)
         // res.json(data);
         console.log(err)
         console.log(data);
