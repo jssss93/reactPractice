@@ -27,7 +27,12 @@ db.once('open', function(){
 // mongoose.connect('mongodb://'+mongo_info+'/test',{ useNewUrlParser: true });
 //20211112 =>     "mongoose": "^4.1.12"  =>     "mongoose": "^6.0.10",,
 const uri = properties.get("mongoURI");
-mongoose.connect(uri,{ useNewUrlParser: true });
+var mongo_info = process.env.ENV_MONGO_INFO == undefined ? properties.get("mongo-db.ip")+':'+properties.get("mongo-db.port") : process.env.ENV_MONGO_INFO
+var mongo_user_info = properties.get("mongo-db.user")+':'+properties.get("mongo-db.password")
+// mongoose.connect('mongodb://username:password@host:port/database?options...', {useNewUrlParser: true});
+// console.log(mongo_user_info)
+mongoose.connect('mongodb://'+mongo_user_info+'@'+mongo_info+'/test',{ useNewUrlParser: true });
+// mongoose.connect(uri,{ useNewUrlParser: true });
 var request = require('request-promise');
 var format = require('xml-formatter');
 const convert = require('xml-js');
@@ -54,7 +59,7 @@ function findAllCode(){
             var startYY = 2021;
             var endYY   = 2021;
 
-            var startMM = 6;
+            var startMM = 10;
             var endMM = 12;
 
             //node apartAPI_ENGINE.js 2021 3
@@ -78,6 +83,7 @@ function findAllCode(){
                         ret_mm='0'+mm;
                     }
                     date = yyyy+''+ret_mm+'';
+
                     console.log('---------------------date :: '+date+'  START---------------------');
                     
                     //ElasticData 해당 년,월 삭제
@@ -213,11 +219,11 @@ function deleteMongoData(date){
        
     });
 }
-
+Producer = kafka.Producer,
+client = new kafka.KafkaClient({kafkaHost: '116.121.141.52:9092,116.121.141.52:9093,116.121.141.52:9094'}),
+producer = new Producer(client);
 function insertData(body,code,idx){
-    Producer = kafka.Producer,
-    client = new kafka.KafkaClient({kafkaHost: '116.121.141.52:9092,116.121.141.52:9093,116.121.141.52:9094'}),
-    producer = new Producer(client);
+
     //console.log(idx+'insertData START')
     return new Promise( function(resolve, reject) {
 
@@ -307,7 +313,7 @@ function insertData(body,code,idx){
                     apiModel.해제사유발생일  =dataList[i].해제사유발생일._text;
     */
 
-                        console.log(apiModel.거래일+""+apiModel.아파트+""+apiModel._id.toString())
+                        // console.log(apiModel.거래일+""+apiModel.아파트+""+apiModel._id.toString())
                     
                     // var elsPrm = {};
                     // elsPrm.거래금액=apiModel.거래금액;
@@ -440,8 +446,8 @@ async function callProducer(apiModel,producer,partition){
     ], function (err, data) {
         // console.log(partition)
         // res.json(data);
-        console.log(err)
-        console.log(data);
+        // console.log(err)
+        // console.log(data);
     });
 
         // producer.on('ready', async function () {

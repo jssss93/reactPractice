@@ -1,15 +1,20 @@
 
-mongoURI    = mongodb+srv://cjs:T2PZIQDHSPBLPzIL@cluster0.jx8xx.mongodb.net/test?retryWrites=true
+mongoURI    = 
+#mongodb+srv://cjs:T2PZIQDHSPBLPzIL@cluster0.jx8xx.mongodb.net/test?retryWrites=true
+#mongo --host 116.121.141.52:27017 -u cjs -p 1q2w3e4r#
 
 
+mongodb+srv://cjs:116.121.141.52/test
 
 file_path   = upload_folder
 
 
 #---------서버용--------------#
-mongo-db.ip = 192.168.10.122
+mongo-db.ip = 116.121.141.52
 #mongo-db.ip = 172.16.0.3
 mongo-db.port = 27017
+mongo-db.user = cjs
+mongo-db.password = 1q2w3e4r
 
 kakao.ID = 35ecd6ab60c5b6517ddb7813ae9e69dc
 
