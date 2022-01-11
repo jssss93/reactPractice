@@ -1,8 +1,11 @@
 
-mongoURI    = 
+#ATLAS CLOUD DB
+#mongoURI    = mongodb+srv://cjs:T2PZIQDHSPBLPzIL@cluster0.jx8xx.mongodb.net/test?retryWrites=true
+#HOME DB
+mongoURI    = mongodb://cjs:1q2w3e4r@116.121.141.52:27017/test
 #mongodb+srv://cjs:T2PZIQDHSPBLPzIL@cluster0.jx8xx.mongodb.net/test?retryWrites=true
-#mongo --host 116.121.141.52:27017 -u cjs -p 1q2w3e4r#
-
+#mongo --host 116.121.141.52:27017 -u cjs -p 1q2w3e4r
+#mongodb://cjs:1q2w3e4r@116.121.141.52:27017/test
 
 mongodb+srv://cjs:116.121.141.52/test
 

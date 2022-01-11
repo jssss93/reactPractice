@@ -56,10 +56,10 @@ function findAllCode(){
         
         if(result.length>0){
             
-            var startYY = 2021;
-            var endYY   = 2021;
+            var startYY = 2020;
+            var endYY   = 2020;
 
-            var startMM = 10;
+            var startMM = 1;
             var endMM = 12;
 
             //node apartAPI_ENGINE.js 2021 3
@@ -413,54 +413,18 @@ async function sendProducer(producer,payloads){
 }
 var partition = 0;
 async function callProducer(apiModel,producer,partition){
-    // return new Promise((resolve) => {
-       
-    // payloads = [{ topic: 'logs-topic', messages: JSON.stringify(apiModel._doc)}];
-    // console.log(payloads)
-    // await sendProducer(producer,
-    //     [
-    //         { 
-    //             topic: 'logs-topic',
-    //             messages: JSON.stringify(apiModel._doc),
-    //             partition: 0
-    //         }
-    //     ]
-    // )
-
 
     //elstopic 이라는 토픽을 구독하는 partitions 컨슈머그룹을 위한 프로듀서 니까 elstopic 으로 전달.각파티션에따라 파티션 0~2으로 3개 로구성
     await producer.send([   
         { 
             
-            // group_id:'cjs',
-            // topic: 'logs-topic',
-            // group_id:'grouptest',
             topic: 'elstopic',
-            // group_id:'partitions',
-            // topic: 'partitions',
             messages: JSON.stringify(apiModel._doc),
-            // partition: (++partition==3) ? 0 : partition
-            // partition: 2
             partition:partition%3
         }
     ], function (err, data) {
-        // console.log(partition)
-        // res.json(data);
         // console.log(err)
         // console.log(data);
     });
 
-        // producer.on('ready', async function () {
-            
-            // console.log(apiModel.거래일+""+apiModel.아파트+""+apiModel._id.toString())
-            // console.log('Connected');
-                
-        // });
-
-        // producer.on('error', function (err) {
-        //     console.error('Error occurred:', err);
-            // resolve();
-        // });
-        // resolve();
-    // });
 }
