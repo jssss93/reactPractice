@@ -26,6 +26,7 @@ function ApiMainFunction(match) {
     SubAddrs:[],
     MainAddrCode:'',
     MidAddrCode:'',
+    MidAddrCodeNum:'',
     SubAddrCode:dongName,
     startDate:new Date().getTime() - 6 * 30 * 24 * 60 * 60 * 1000,
     endDate:new Date(),
@@ -45,6 +46,7 @@ function ApiMainFunction(match) {
     SubAddrs,
     MainAddrCode,
     MidAddrCode,
+    MidAddrCodeNum,
     SubAddrCode,
     startDate,
     endDate,
@@ -101,6 +103,7 @@ const fetchMidAddr = async (e) => {
         {cate:selText}
         // {cate:$("#main_cate option:selected").text()}
       );
+      
       setInputs({
         ...inputs,
         SubAddrs:[],
@@ -118,6 +121,7 @@ const fetchSubAddr = async (e) => {
 
     var index = e.nativeEvent.target.selectedIndex;
     var selText = e.nativeEvent.target[index].text;
+    var selValue = e.target.value;
 
     try {
       const response = await axios.post(
@@ -129,6 +133,7 @@ const fetchSubAddr = async (e) => {
         SubAddrCode:'',
         SubAddrs:response.data,
         MidAddrCode : selText,
+        MidAddrCodeNum : selValue,
         page : 1
       });
     } catch (e) {
@@ -355,6 +360,7 @@ const fetchSubAddr = async (e) => {
                     </div>
                     <ApartMainTableFunction 
                       MidAddrCode={MidAddrCode} 
+                      MidAddrCodeNum = {MidAddrCodeNum}
                       SubAddrCode={SubAddrCode}
                       startDate={startDate}
                       endDate={endDate}

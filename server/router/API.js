@@ -491,6 +491,7 @@ function callELSTotCnt(req,url,params){
 //     });
 // }
 router.post('/apart/getAPIData',async function(req,res){
+    var start_time = (new Date()).getTime();
     var query={};
     var query2 ={};
     var subQuery="";
@@ -605,7 +606,7 @@ router.post('/apart/getAPIData',async function(req,res){
     sort[sortColumn + ''] = sortAlign;
 
     console.log(query)
-
+    console.log(sort)
 
   
 
@@ -624,6 +625,8 @@ router.post('/apart/getAPIData',async function(req,res){
             console.log('data not found')
             addrs = [];
         }
+        var timeDiff = (new Date()).getTime() - start_time;
+console.log("[mongoose_module] insert time : " + timeDiff);
         // res.render('api/table', {
         //     addrs:addrs,
         //     currentPage:page,

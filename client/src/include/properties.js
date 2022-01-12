@@ -8,7 +8,7 @@ export const properties = {
     
     
     ,
-    // SERVER_DOMAIN : "http://116.121.141.52",
+    //SERVER_DOMAIN : "http://116.121.141.52",
     SERVER_DOMAIN : "http://localhost",
     RSERVER_PORT : "8000"
 };

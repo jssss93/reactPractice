@@ -39,3 +39,7 @@ var APISchema = new mongoose.Schema({
 });
 var Apis= mongoose.model('api', APISchema);
 module.exports =Apis
+
+//db.apis.getIndexes()
+// db.apis.createIndex( { 년: 1, 월: 1} );
+// db.apis.createIndex( { 거래일: -1} );

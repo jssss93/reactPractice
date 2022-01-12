@@ -43,8 +43,10 @@ const elasticsearch = require("elasticsearch");
 
 var tot_cnt = 0;
 findAllCode();
-
+var start_time;
+var timeDiff;
 function findAllCode(){
+    start_time = (new Date()).getTime();
     console.log("시작")
     AddrModel.aggregate([
         { $project:{법정동코드: { $substr: [ "$법정동코드", 0, 5 ] }} },
@@ -56,8 +58,8 @@ function findAllCode(){
         
         if(result.length>0){
             
-            var startYY = 2020;
-            var endYY   = 2020;
+            var startYY = 2016;
+            var endYY   = 2016;
 
             var startMM = 1;
             var endMM = 12;
@@ -137,7 +139,7 @@ function findAllCode(){
                 
                     if (response.statusCode == 200) {
                         console.log(code+" 요청완료,   statusCode :: "+response.statusCode);
-                        insertData(body,code,i);
+                        insertData(body,code,i,date);
                     }else{
                         console.log(code+" 에러발생,   statusCode :: "+response.statusCode);
                         callAPI(code,date,i);
@@ -222,7 +224,7 @@ function deleteMongoData(date){
 Producer = kafka.Producer,
 client = new kafka.KafkaClient({kafkaHost: '116.121.141.52:9092,116.121.141.52:9093,116.121.141.52:9094'}),
 producer = new Producer(client);
-function insertData(body,code,idx){
+function insertData(body,code,idx,date){
 
     //console.log(idx+'insertData START')
     return new Promise( function(resolve, reject) {
@@ -353,10 +355,11 @@ function insertData(body,code,idx){
                         console.log(err.message)
                     }
                 }
-                console.log("index :: "+idx+"/291  code :: "+code+"   insert count :: "+dataList.length +" ////// total count :: "+tot_cnt);
+                timeDiff = (new Date()).getTime() - start_time;
+                console.log(date+"  index :: "+idx+"/291  code :: "+code+"   insert count :: "+dataList.length +" ////// total count :: "+tot_cnt+" average : "+(tot_cnt/timeDiff));
                 
             }else{
-                console.log("index :: "+idx+"/291  code :: "+code+"데이터없음")
+                console.log(date+"  index :: "+idx+"/291  code :: "+code+"데이터없음")
             }
         
     
