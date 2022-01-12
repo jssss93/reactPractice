@@ -41,5 +41,17 @@ var Apis= mongoose.model('api', APISchema);
 module.exports =Apis
 
 //db.apis.getIndexes()
+
+// 엔진 인덱스
 // db.apis.createIndex( { 년: 1, 월: 1} );
+// 검색 인덱스
 // db.apis.createIndex( { 거래일: -1} );
+// 차트 인덱스
+// db.apis.createIndex( { 아파트:1,법정동:1, 거래일: -1} ); 
+
+// 엔진 인덱스
+// db.house.createIndex( { 년: 1, 월: 1} );
+// 검색 인덱스
+// db.apis.createIndex( { 거래일: -1} );
+// 차트 인덱스
+// db.apis.createIndex( { 아파트:1,법정동:1, 거래일: -1} ); 
