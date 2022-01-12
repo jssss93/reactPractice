@@ -37,6 +37,14 @@ const getDatas = async (props) => {
       labels:labelArr,
       datasets: [
         {
+          label: '최대거래금액',
+          backgroundColor: '#FF9F40',
+          borderColor: '#FF9F40',
+          data: dataMAXArr,
+          fill: false,
+          tension: 0.1
+          },
+        {
         label: '평균거래금액',
         backgroundColor: '#FF6384',
         borderColor: '#FF6384',
@@ -51,15 +59,8 @@ const getDatas = async (props) => {
         data: dataMINArr,
         fill: false,
         tension: 0.1
-        },
-        {
-        label: '최대거래금액',
-        backgroundColor: '#FF9F40',
-        borderColor: '#FF9F40',
-        data: dataMAXArr,
-        fill: false,
-        tension: 0.1
         }
+
       ]
     }
     console.log(chartData)

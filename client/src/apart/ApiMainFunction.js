@@ -28,7 +28,7 @@ function ApiMainFunction(match) {
     MidAddrCode:'',
     MidAddrCodeNum:'',
     SubAddrCode:dongName,
-    startDate:new Date().getTime() - 6 * 30 * 24 * 60 * 60 * 1000,
+    startDate:new Date().getTime() - 365 * 24 * 60 * 60 * 1000,
     endDate:new Date(),
     limits:[10,100,500,1000],
     limit:10,

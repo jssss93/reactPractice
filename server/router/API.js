@@ -4,7 +4,7 @@ var path    = require('path');
 var request = require('request-promise');
 var format = require('xml-formatter');
 const convert = require('xml-js');
-var AddrModel = require('../model/AddrModel');
+var AddrModel = require('../model/ShowAddrModel');
 var APIModel = require('../model/APIModel');
 var ApartModel = require('../model/ApartModel');
 var nodemailer = require('nodemailer');
@@ -20,7 +20,7 @@ router.get('/apart/getMainAddr',function(req,res){
         // {$match:{"시군구명":"12314"}},
         // { $match : {$and:[{"시군구명":"","읍면동명":"","시도명":{$nin:["동해출장소","북부출장소","제주특별자치도"]}}]} },
         { $group: {_id: "$시도명",시도명: {$first: "$시도명"},법정동코드: {$first: "$법정동코드"}} },
-        { $match : {$and:[{"시도명":{$nin:["동해출장소","북부출장소","제주특별자치도"],$not:/직할시/}}]} },
+        { $match : {$and:[{"시도명":{$nin:["동해출장소","북부출장소"],$not:/직할시/}}]} },
         { $project : {"시도명":1,"지역코드":{ $substr: [ "$법정동코드", 0, 5 ] }} },
         { $sort : {"시도명":1}}
         
@@ -39,15 +39,36 @@ router.get('/apart/getMainAddr',function(req,res){
 });
 router.post('/apart/getMidAddr',function(req,res){
     console.log(req.body.cate)
-    AddrModel.find({"시도명":req.body.cate,"시군구명":{$ne:""},"읍면동명":""},{"시군구명":1,"지역코드":{ $substr: [ "$법정동코드", 0, 5 ] }},   function(err, addrs){    
+    //addrs 컬렉션용
+    // AddrModel.find({"시도명":req.body.cate},{"시군구명":1,"지역코드":{ $substr: [ "$법정동코드", 0, 5 ] }},   function(err, addrs){    
+    //     if(err) return res.status(500).json({error: err});
+    //     if(addrs.length>0){
+    //         console.log(addrs)
+    //         res.send(addrs);
+    //     }else{
+    //         console.log('addr not found1')
+    //     }
+    // }).sort({"시군구명":1});
+    //show_addrs 컬렉션용
+
+    AddrModel.aggregate([
+        { $match : {"시도명":req.body.cate} },
+        { $group: {_id: "$시군구명",시군구명: {$first: "$시군구명"},법정동코드: {$first: "$법정동코드"}} },
+        { $project : {"시군구명":1,"지역코드":{ $substr: [ "$법정동코드", 0, 5 ] } }},
+        { $sort : {"시군구명":1}}
+        
+    ],function(err, addrs){
+
+    
         if(err) return res.status(500).json({error: err});
         if(addrs.length>0){
-            console.log(addrs)
             res.send(addrs);
         }else{
             console.log('addr not found1')
         }
-    }).sort({"시군구명":1});
+    });
+    
+    
     
 });
 
@@ -108,7 +129,7 @@ router.post('/apart/autoComplete',async function(req,res){
         { $sort:{아파트:1}}
         
     ],function(err, aparts){
-        console.log(aparts[0])
+        // console.log(aparts[0])
         if(err) return res.status(500).json({error: err});
         res.send(aparts);
     });
@@ -606,7 +627,7 @@ router.post('/apart/getAPIData',async function(req,res){
     sort[sortColumn + ''] = sortAlign;
 
     console.log(query)
-    console.log(sort)
+    // console.log(sort)
 
   
 
@@ -618,15 +639,14 @@ router.post('/apart/getAPIData',async function(req,res){
             return res.status(500).json({error: err});
         }
         if(addrs.length>0){
-            console.log(addrs[0])
-            console.log(addrs.length)
+            // console.log(addrs[0])
+            // console.log(addrs.length)
             
         }else{
             console.log('data not found')
             addrs = [];
         }
-        var timeDiff = (new Date()).getTime() - start_time;
-console.log("[mongoose_module] insert time : " + timeDiff);
+        console.log("[mongoose_module] elapsed time : " + ( (((new Date()).getTime() - start_time)/1000).toFixed(5)));
         // res.render('api/table', {
         //     addrs:addrs,
         //     currentPage:page,
@@ -641,13 +661,13 @@ console.log("[mongoose_module] insert time : " + timeDiff);
     
 });
 router.post('/apart/getChartData', function(req,res){
-
+    var start_time = (new Date()).getTime();
     //날짜조건
     var start_dt = req.body.start_dt;
     var end_dt = req.body.end_dt;
     var subquery2={};
 
-    subquery2.$gte = (req.body.start_dt+"").replace(/\./gi, "");
+    subquery2.$gte = (start_dt+"").replace(/\./gi, "");
     subquery2.$lte = (end_dt+"").replace(/\./gi, "");
     console.log(req.body.아파트)
     console.log(req.body.법정동)
@@ -668,6 +688,7 @@ router.post('/apart/getChartData', function(req,res){
         }else{
             console.log('result not found')
         }
+        console.log("[mongoose_module] elapsed time : " + ( (((new Date()).getTime() - start_time)/1000).toFixed(5)));
 
     });
 });

@@ -58,11 +58,11 @@ function findAllCode(){
         
         if(result.length>0){
             
-            var startYY = 2016;
-            var endYY   = 2016;
+            var startYY = 2022;
+            var endYY   = 2022;
 
             var startMM = 1;
-            var endMM = 12;
+            var endMM = 1;
 
             //node apartAPI_ENGINE.js 2021 3
             if(process.argv[2]!=null){
@@ -356,7 +356,7 @@ function insertData(body,code,idx,date){
                     }
                 }
                 timeDiff = (new Date()).getTime() - start_time;
-                console.log(date+"  index :: "+idx+"/291  code :: "+code+"   insert count :: "+dataList.length +" ////// total count :: "+tot_cnt+" average : "+(tot_cnt/timeDiff));
+                console.log(date+"  index :: "+idx+"/291  code :: "+code+"   insert count :: "+dataList.length +" ////// total count :: "+tot_cnt+" average : "+(tot_cnt/timeDiff*1000).toFixed(5));
                 
             }else{
                 console.log(date+"  index :: "+idx+"/291  code :: "+code+"데이터없음")
