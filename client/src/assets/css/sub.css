@@ -293,50 +293,7 @@ table td{text-align: center !important;}
 
 
 
- @media screen and (max-width: 1024px) {
-	.register_left_div{
-		width:20%;
-	}
-	
-	.register_right_div{
-		width:80%;
-	}
-	
-	.register_right_div_editor{
-		width:80%;
-	}
-	.register_right_div_date{
-		width:50%;
-	}
-
-}
-
-@media screen and (max-width: 750px) {
-	.register_left_div{
-		width:25%;
-	}
-	
-	.register_right_div{
-		width:75%;
-	}
-	
-	.register_right_div_editor{
-		width:75%;
-	}
-	.select_cjs_custom{
-		width:30%;
-	}
-	.datepic_el_board{
-		width:50%;
-	}
-	.register_right_div_date{
-		width:80%;
-	}
-	.fileDiv{
-		width:100%;
-	}
-}
-
+ 
 
 .favor_main_div{
 	width:100%;
@@ -422,4 +379,56 @@ table td{text-align: center !important;}
 	/* width:55%; */
 	margin-bottom:10px;
 	height:35px;
+}
+
+
+ @media screen and (max-width: 1024px) {
+	.register_left_div{
+		width:20%;
+	}
+	
+	.register_right_div{
+		width:80%;
+	}
+	
+	.register_right_div_editor{
+		width:80%;
+	}
+	.register_right_div_date{
+		width:50%;
+	}
+
+}
+
+@media screen and (max-width: 750px) {
+	.register_left_div{
+		width:25%;
+	}
+	
+	.register_right_div{
+		width:75%;
+	}
+	
+	.register_right_div_editor{
+		width:75%;
+	}
+	.select_cjs_custom{
+		width:30%;
+	}
+	.datepic_el_board{
+		width:50%;
+	}
+	.register_right_div_date{
+		width:80%;
+	}
+	.fileDiv{
+		width:100%;
+	}
+
+	.favor_main_div{
+		height:1300px;
+	}
+	.favor_mid_div{
+		width:100%;
+	}
 }

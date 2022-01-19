@@ -2,9 +2,8 @@ import React, {useState, useRef,useEffect} from 'react';
 import axios from 'axios';
 import $ from 'jquery';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { KAKAO_AUTH_URL } from "../assets/KakaoOAuth";
-import { Link } from "react-router-dom";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+
 import { properties } from '../include/properties';
 var url = properties.SERVER_DOMAIN+":"+properties.RSERVER_PORT;
 
@@ -67,12 +66,12 @@ function FavoritesApartData() {
             {Favorites_apart_arr.map((fs,idx) => (
                 <>
                 <span key={fs.seq} className='span_contents_left'>
-                    {idx+1}순위 : {fs.apart_name}({fs.addr_sub_code})
+                    {idx+1}. {fs.apart_name}({fs.addr_sub_code})
                 </span> 
                 <span className='span_contents_right'>
-                    <a>↑</a>
-                    <a>↓</a>
-                    <a onClick={() => deleteFavoriteApart(fs.seq) }>d</a>
+                    <a onClick={() => deleteFavoriteApart(fs.seq) }>
+                    <FontAwesomeIcon color='#e07474' icon={faTrashAlt} className="search" />
+                    </a>
                 </span>
                 </>
             ))}

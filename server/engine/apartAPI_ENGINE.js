@@ -58,11 +58,11 @@ function findAllCode(){
         
         if(result.length>0){
             
-            var startYY = 2022;
-            var endYY   = 2022;
+            var startYY = 2021;
+            var endYY   = 2021;
 
-            var startMM = 1;
-            var endMM = 1;
+            var startMM = 12;
+            var endMM = 12;
 
             //node apartAPI_ENGINE.js 2021 3
             if(process.argv[2]!=null){

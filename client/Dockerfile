@@ -8,7 +8,7 @@ MAINTAINER CJS <choec53@gmail.com>
 
 RUN npm install -g serve
 
-RUN npm run build
+#RUN npm run build 로컬에서 빌드후 도커파일 생성.
 
 RUN mkdir ./build
 
@@ -27,9 +27,6 @@ ENTRYPOINT ["serve", "-s", "build"]
 
 #docker build 명령어는 Dockerfile 이 위치한 명령어를 파라미터로 준다.
 #docker build -t cjs0533/saso:1.0 C:\saso
-#docker build -t cjs0533/react_client:0.3 .
+#docker build -t cjs0533/react_client:0.5 .
 
-#docker build -t cjs0533/saso:1.0 C:\Users\cjs\Desktop\saso\saso
-#docker run -i -t -p 3099:3099 --name saso cjs0533/saso:1.0 /bin/bash
-#docker run -d -p 3090:3090 --name saso cjs0533/saso:1.0 
-#docker run -d -p 3001:3000 --name react_client cjs0533/react_client:0.3
+#docker run -d -p 3001:3000 --name react_client cjs0533/react_client:0.5
