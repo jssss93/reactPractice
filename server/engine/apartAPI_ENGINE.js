@@ -138,7 +138,7 @@ function findAllCode(){
 
                 
                     if (response.statusCode == 200) {
-                        console.log(code+" 요청완료,   statusCode :: "+response.statusCode);
+                        // console.log(code+" 요청완료,   statusCode :: "+response.statusCode);
                         insertData(body,code,i,date);
                     }else{
                         console.log(code+" 에러발생,   statusCode :: "+response.statusCode);
@@ -157,49 +157,50 @@ function findAllCode(){
 //
 function deleteElasticData(date){
     console.log("ElasticData삭제요청")
+    return new Promise( function(resolve, reject) {
+        // const client = new elasticsearch.Client({
+        //     hosts: ["http://localhost:9200"]
+        // });
 
-    // const client = new elasticsearch.Client({
-    //     hosts: ["http://localhost:9200"]
-    // });
-
-    try { 
-        elasticClient.deleteByQuery({
-            index: 'apis',
-            body: {
-                "query": {
-                  "bool": {
-                    "must": [
-                      {
-                        "match": {
-                          "년": date.substring(0,4)
+        try { 
+            elasticClient.deleteByQuery({
+                index: 'apis',
+                body: {
+                    "query": {
+                    "bool": {
+                        "must": [
+                        {
+                            "match": {
+                            "년": date.substring(0,4)
+                            }
+                        },
+                        {
+                            "match": {
+                            "월": date.substring(4,6)
+                            }
                         }
-                      },
-                      {
-                        "match": {
-                          "월": date.substring(4,6)
-                        }
-                      }
-                    ]
-                  }
+                        ]
+                    }
+                    }
                 }
-            }
-        }, function (error, response) {
-            return new Promise( function(resolve, reject) {
-                if(error){
-                    console.log(error)
-                    reject()
-                }else{
-                    console.log("ElasticData삭제완료 :: "+response.deleted+"건")
-                    resolve()
-                }
+            }, function (error, response) {
+                resolve();
+                return new Promise( function(resolve, reject) {
+                    if(error){
+                        console.log(error)
+                        reject()
+                    }else{
+                        console.log("ElasticData삭제완료 :: "+response.deleted+"건")
+                        resolve()
+                    }
+                });
             });
-        });
-    
-    } catch (err) {
-        console.error(err);
-    }        
         
-        
+        } catch (err) {
+            console.error(err);
+        }        
+            
+    });
 
 }
 
