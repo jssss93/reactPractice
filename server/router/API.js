@@ -546,13 +546,14 @@ router.post('/apart/getAPIData',async function(req,res){
     var now = new Date();	// 현재 날짜 및 시간
     var start_dt = req.body.start_dt;
     var end_dt = req.body.end_dt;
+    
     var subquery2={};
 
 
     function getDate(date){
         var yyyy = date.getFullYear();
         var mm = date.getMonth()+1;
-        var dd = '';
+        var dd = date.getDate();
         if(mm<10){
             mm='0'+mm;
         }
@@ -562,7 +563,7 @@ router.post('/apart/getAPIData',async function(req,res){
         if(dd<10){
             dd='0'+dd;
         }
-        dd = date.getDate();
+        // dd = date.getDate();
     
         return yyyy+''+mm+''+dd;
     }
