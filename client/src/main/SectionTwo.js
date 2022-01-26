@@ -28,7 +28,7 @@ function SectionTwo(props) {
 				</div>
 				<div>
 					<header>
-						<h3>건물 가격 확인하기</h3>
+						<h3>단독/다가구 주택 가격 확인하기</h3>
 					</header>
 					<p>
 						Node JS(14.16v) - Express<br/>

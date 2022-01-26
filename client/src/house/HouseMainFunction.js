@@ -201,7 +201,7 @@ function HouseMainFunction() {
               </div>
               <div className="content">
                 <header className="align-center">
-                  <h2>건물 가격 확인하기</h2>
+                  <h2>단독/다가구 주택 가격 확인하기</h2>
                   <br/>
                 </header>
                 <form method="post" action="#" onKeyPress={onCheckEnter}>
